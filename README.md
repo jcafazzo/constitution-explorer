@@ -17,7 +17,8 @@ The new vessels are in `dist/assets/fleet/ships.json`; the original Constitution
 
 Provide these assets using the same id:
 
-- `assets/fleet/<id>.stl`: viewer model, oriented with fore/aft along Y and up along Z, millimetres at 1:1000.
+- `assets/detail/<id>.glb`: detailed display model.
+- `assets/fleet/<id>.stl`: original fabrication reference, oriented with fore/aft along Y and up along Z, millimetres at 1:1000.
 - `assets/fleet/<id>-100mm.stl`: a validated binary STL with exactly 100 mm length along Y. Export rescales this file in the browser; normals remain unchanged under positive uniform scaling.
 - `<id>-plate.webp`: reviewed source page, with its PDF page recorded in the data.
 - `<id>-plan.webp`: a plan-view excerpt for browsing.
@@ -29,8 +30,17 @@ Every new model must have a separate geometry report, dimensional checks, and an
 
 Source: user-supplied *Star Trek Star Fleet Technical Manual*, Franz Joseph, scanned 160-page PDF. Selected PDF pages: Constitution 75, Saladin 77, Hermes 79, Ptolemy 81, Federation 88. These are PDF page indices, not invented book pagination. The website follows the book's restrained black technical linework, white sheets, thin borders, expanded headings, drawing codes and red cover accent. Typography is an approximation. It is an unofficial fan companion.
 
-The four new vessels are simplified dimension-led interpretations. The original Constitution is the previous detailed reconstruction. New models and their generator, Blender studies, renderings and checks are in the task's `outputs/manual-fleet/` directory. The full PDF is not bundled with the site.
+All five display vessels now carry detailed saucer, registry, window, impulse and propulsion geometry. Printable STL files remain separate simplified fabrication meshes. New models and their generator, Blender studies, renderings and checks are in the task's `outputs/manual-fleet/` directory. The full PDF is not bundled with the site.
 
 ## Verification for this edition
 
-JavaScript syntax, referenced assets, binary STL exports, model dimensions, closed meshes and connected components are checked locally. Blender renderings provide model inspection. Browser UI automation was blocked by the browser tool's URL policy; desktop/mobile layout and end-to-end browser interactions remain unverified for this edition. Publication is verified separately through Sites deployment status.
+JavaScript syntax, referenced assets, binary STL exports, model dimensions, closed meshes and connected components are checked locally. Blender renderings provide model inspection. Browser interaction and publication checks are recorded separately from model validation in the task artifacts.
+
+
+## Detailed systems edition
+
+The existing page layout is retained. A compact Explore selector switches between full ship, SW40 main propulsion and IP186 impulse engine. Constitution also includes an open-roof bridge and MK-IX hangar cutaway. The Technical plate tab follows the selected study and offers each relevant source page. Close orbit, zoom, camera presets, finishes, fullscreen and a GLB download apply to the selected display study.
+
+Sources: bridge PDF 94–95; impulse PDF 143; propulsion PDF 144; MK-IX hangar PDF 149–150. Exact component counts and the bridge's 36-degree command-axis offset are grounded in these sheets. Interior depths, fine controls, hidden surfaces, material finishes and door poses are reconstructions. The hangar is explicitly MK-IX and is not assigned to other classes. GLB files use the viewer's Z-up, front-negative-Y coordinates; geometry is in approximate metres. Downloads intended for fabrication remain the original STL files, with their own validation requirements.
+
+Nine display GLBs are validated by parsing them with the same Three.js loader as the website, checking finite coordinates and bounding boxes, and confirming source assets. Materials are batched into 7–14 meshes per study. Blender renders are used to inspect geometry and text placement. Display studies are not claimed watertight or print-ready.

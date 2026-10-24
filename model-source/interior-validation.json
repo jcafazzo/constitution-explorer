@@ -1,0 +1,73 @@
+[
+  {
+    "file": "bridge.glb",
+    "bytes": 1163632,
+    "meshes": 10,
+    "vertices": 40510,
+    "triangles": 30284,
+    "bounds": [
+      [
+        -7.900000095367432,
+        -7.900000095367432,
+        -0.5299999713897705
+      ],
+      [
+        7.900000095367432,
+        9.34000015258789,
+        2.9000000953674316
+      ]
+    ],
+    "description": "Open-roof bridge reconstruction from deck plan and cross-sections. Offset command axis, sunken well, perimeter stations, service ring and aft turbolift; approximate metre scale.",
+    "sourcePages": [
+      94,
+      95
+    ]
+  },
+  {
+    "file": "hangar.glb",
+    "bytes": 586340,
+    "meshes": 14,
+    "vertices": 19416,
+    "triangles": 17788,
+    "bounds": [
+      [
+        -10.550000190734863,
+        -18.190000534057617,
+        -2.7750000953674316
+      ],
+      [
+        10.550000190734863,
+        18.549999237060547,
+        7.284999847412109
+      ]
+    ],
+    "description": "MK-IX hangar dollhouse from Deck 19 plan and port elevation. Six clamshell segments, galleries, paired control towers, landing target, elevator turntable and Deck 20 shop section. Approximate dimensions; doors posed partly open.",
+    "sourcePages": [
+      149,
+      150
+    ]
+  },
+  {
+    "file": "impulse.glb",
+    "bytes": 588300,
+    "meshes": 7,
+    "vertices": 19432,
+    "triangles": 19188,
+    "bounds": [
+      [
+        -2.25,
+        -2.5999999046325684,
+        5.364417798858767e-9
+      ],
+      [
+        2.25,
+        2.5999999046325684,
+        2.799999952316284
+      ]
+    ],
+    "description": "Impulse power unit IP186E/2-IR reconstructed from three views. Stated envelope 5.2 × 4.5 × 2.8 m; twelve circulation tubes, twin firing chambers, feed chute and five heat-exchanger connections. Undimensioned recess depths are interpreted.",
+    "sourcePages": [
+      143
+    ]
+  }
+]
