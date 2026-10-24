@@ -17,7 +17,7 @@ export function studiesFor(ship){
 }
 
 export function mountViewer(host,ship,onStudy){
- let disposed=false,request=0,model=null,observer,renderer,controls,scene,camera,radius=1,active,finish='Ivory';
+ let disposed=false,request=0,model=null,observer,renderer,controls,scene,camera,radius=1,halfSize=new THREE.Vector3(1,1,1),active,finish='Ivory';
  const loading=host.querySelector('.loading'),$=s=>document.querySelector(s);
  const studies=studiesFor(ship),selector=$('#study-select');
  const release=root=>{const gs=new Set(),ms=new Set();root?.traverse(o=>{if(o.geometry)gs.add(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])ms.add(m);});gs.forEach(g=>g.dispose());ms.forEach(m=>m.dispose());};
@@ -25,8 +25,9 @@ export function mountViewer(host,ship,onStudy){
  function view(name='3D'){
   if(!model)return;controls.autoRotate=false;$('#turn').setAttribute('aria-pressed','false');controls.target.set(0,0,0);camera.up.set(0,0,1);
   const vectors={'3D':active.id==='bridge'||active.id==='hangar'?[.8,-1,1.4]:[.8,-1,.85],Top:[0,-.0001,1],Side:[1,0,0],Front:[0,-1,0]};
-  const fov=THREE.MathUtils.degToRad(camera.fov),hfov=2*Math.atan(Math.tan(fov/2)*camera.aspect),d=radius/Math.sin(Math.min(fov,hfov)/2)*1.08;
-  camera.position.copy(new THREE.Vector3(...vectors[name]).normalize().multiplyScalar(d));controls.update();
+  const fov=THREE.MathUtils.degToRad(camera.fov),tanV=Math.tan(fov/2),tanH=tanV*camera.aspect,dir=new THREE.Vector3(...vectors[name]).normalize(),right=new THREE.Vector3().crossVectors(camera.up,dir).normalize(),up=new THREE.Vector3().crossVectors(dir,right);let d=0;
+  for(const x of [-1,1])for(const y of [-1,1])for(const z of [-1,1]){const corner=halfSize.clone().multiply(new THREE.Vector3(x,y,z)),depth=corner.dot(dir);d=Math.max(d,Math.abs(corner.dot(right))/(tanH*.88)+depth,Math.abs(corner.dot(up))/(tanV*.88)+depth);}
+  camera.position.copy(dir.multiplyScalar(d));controls.update();
   $('#view-name').textContent=`${name==='3D'?'PERSPECTIVE':name.toUpperCase()} / ${active.title.toUpperCase()}`;
   document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===name);b.setAttribute('aria-pressed',String(b.dataset.view===name));});
  }
@@ -38,8 +39,8 @@ export function mountViewer(host,ship,onStudy){
   try{
    const result=await new GLTFLoader().loadAsync(active.file);
    if(disposed||own!==request){release(result.scene);return;}
-   model=result.scene;const bounds=new THREE.Box3().setFromObject(model);model.position.sub(bounds.getCenter(new THREE.Vector3()));radius=bounds.getBoundingSphere(new THREE.Sphere()).radius;
-   camera.near=Math.max(radius/2000,.001);camera.far=radius*40;controls.minDistance=radius*.08;controls.maxDistance=radius*15;camera.updateProjectionMatrix();scene.add(model);applyFinish();loading.hidden=true;resize();view();
+   model=result.scene;const bounds=new THREE.Box3().setFromObject(model);model.position.sub(bounds.getCenter(new THREE.Vector3()));radius=bounds.getBoundingSphere(new THREE.Sphere()).radius;bounds.getSize(halfSize).multiplyScalar(.5);
+   camera.near=Math.max(radius*.04,.01);camera.far=radius*20;controls.minDistance=radius*.08;controls.maxDistance=radius*15;camera.updateProjectionMatrix();scene.add(model);applyFinish();loading.hidden=true;resize();view();
   }catch(e){if(disposed||own!==request)return;console.error(e);loading.hidden=false;loading.textContent='This study could not load. Choose another study or open its technical plate.';}
  }
  try{
