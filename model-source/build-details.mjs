@@ -63,9 +63,9 @@ function saucerDetails(g,s,cy,cz,bulge=1){
  const radius=s.width/2,scale=radius/63.55;
  const top=r=>{const rs=[0,18,25,45,59,63.55],zs=[23.4,23.4,22.1,19.6,17.8,17.2];let i=1;while(i<rs.length-1&&r/scale>rs[i])i++;const q=(r/scale-rs[i-1])/(rs[i]-rs[i-1]);return ((zs[i-1]+q*(zs[i]-zs[i-1]))-17)*bulge+17+cz;};
  // Fine dark engraved rings and radial divisions retain the manual's panel layout.
- if(s.id==='constitution'){for(const r0 of [20,27,34,41,48,55,61])ring(g,r0*scale,.055,[0,cy,top(r0*scale)+.035],'seam');
+ if(s.id==='constitution'){for(const r0 of [20,27,34,41,48,55,61])ring(g,r0*scale,.07,[0,cy,top(r0*scale)+.16],'seam');
  for(let a=0;a<Math.PI*2;a+=Math.PI/12){
-  const points=[];for(let r=20*scale;r<=radius-.5;r+=1.8)points.push([r*Math.sin(a),cy-r*Math.cos(a),top(r)+.04]);pipe(g,points,.05,'seam','Radial saucer division');
+  const points=[];for(let r=20*scale;r<=radius-.5;r+=1.8)points.push([r*Math.sin(a),cy-r*Math.cos(a),top(r)+.16]);pipe(g,points,.07,'seam','Radial saucer division');
  }
  }
  ring(g,radius-.22,.16,[0,cy,cz+12.6],'panel');ring(g,radius-.3,.07,[0,cy,cz+16.1],'dark');

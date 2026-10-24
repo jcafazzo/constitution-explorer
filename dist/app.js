@@ -1,4 +1,4 @@
-import {mountViewer,studiesFor} from './detail-viewer.js';
+import {mountViewer,studiesFor} from './detail-viewer.js?v=detail3';
 import {scaleBinarySTL} from './stl-export.js';
 const main=document.querySelector('#main');
 const first={id:'constitution',name:'Constitution',registry:'NCC-1700',role:'Heavy cruiser',page:75,plate:'01:04:10',length:288.6,width:127.1,height:72.6,nacelles:2,crew:430,status:'Printable exterior mesh',model:'assets/constitution.stl',description:'The original heavy cruiser: a broad primary hull, a suspended engineering hull and paired warp nacelles. The starting point for this collection.'};

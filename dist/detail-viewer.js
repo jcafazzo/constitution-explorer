@@ -26,7 +26,7 @@ export function mountViewer(host,ship,onStudy){
   if(!model)return;controls.autoRotate=false;$('#turn').setAttribute('aria-pressed','false');controls.target.set(0,0,0);camera.up.set(0,0,1);
   const vectors={'3D':active.id==='bridge'||active.id==='hangar'?[.8,-1,1.4]:[.8,-1,.85],Top:[0,-.0001,1],Side:[1,0,0],Front:[0,-1,0]};
   const fov=THREE.MathUtils.degToRad(camera.fov),tanV=Math.tan(fov/2),tanH=tanV*camera.aspect,dir=new THREE.Vector3(...vectors[name]).normalize(),right=new THREE.Vector3().crossVectors(camera.up,dir).normalize(),up=new THREE.Vector3().crossVectors(dir,right);let d=0;
-  for(const x of [-1,1])for(const y of [-1,1])for(const z of [-1,1]){const corner=halfSize.clone().multiply(new THREE.Vector3(x,y,z)),depth=corner.dot(dir);d=Math.max(d,Math.abs(corner.dot(right))/(tanH*.88)+depth,Math.abs(corner.dot(up))/(tanV*.88)+depth);}
+  model.updateMatrixWorld(true);const point=new THREE.Vector3();model.traverse(o=>{if(!o.isMesh)return;const positions=o.geometry.attributes.position;for(let i=0;i<positions.count;i++){point.fromBufferAttribute(positions,i).applyMatrix4(o.matrixWorld);const depth=point.dot(dir);d=Math.max(d,Math.abs(point.dot(right))/(tanH*.88)+depth,Math.abs(point.dot(up))/(tanV*.88)+depth);}});
   camera.position.copy(dir.multiplyScalar(d));controls.update();
   $('#view-name').textContent=`${name==='3D'?'PERSPECTIVE':name.toUpperCase()} / ${active.title.toUpperCase()}`;
   document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===name);b.setAttribute('aria-pressed',String(b.dataset.view===name));});
@@ -37,7 +37,7 @@ export function mountViewer(host,ship,onStudy){
   const own=++request;active=studies.find(x=>x.id===id)||studies[0];onStudy(active);loading.hidden=false;loading.textContent='Preparing the detailed study…';
   if(model){scene.remove(model);release(model);model=null;}
   try{
-   const result=await new GLTFLoader().loadAsync(active.file);
+   const result=await new GLTFLoader().loadAsync(active.file+'?v=detail3');
    if(disposed||own!==request){release(result.scene);return;}
    model=result.scene;const bounds=new THREE.Box3().setFromObject(model);model.position.sub(bounds.getCenter(new THREE.Vector3()));radius=bounds.getBoundingSphere(new THREE.Sphere()).radius;bounds.getSize(halfSize).multiplyScalar(.5);
    camera.near=Math.max(radius*.04,.01);camera.far=radius*20;controls.minDistance=radius*.08;controls.maxDistance=radius*15;camera.updateProjectionMatrix();scene.add(model);applyFinish();loading.hidden=true;resize();view();
