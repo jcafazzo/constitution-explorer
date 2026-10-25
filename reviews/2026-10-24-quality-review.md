@@ -33,3 +33,5 @@ Geometry repair and numerical attachment checks are described in the model-sourc
 - Actual OrbitControls event tests verify orbit/pan inertia is cleared before fitting.
 - Port and starboard renders confirm upright outward registry text and continuous hull stripes. Three-quarter renders confirm the repaired pylon grilles stay on their supports.
 - Existing colour-gallery and detail/source-sheet DOM checks pass.
+
+Live WebGL review caught precision loss after reducing the near plane: fine surface layers flickered. Enabled the bundled Three.js logarithmic depth buffer to preserve detail separation across near/far inspection distances. Offline Cycles rendering did not expose this WebGL-specific defect.

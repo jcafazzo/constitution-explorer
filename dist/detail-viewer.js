@@ -38,14 +38,14 @@ export function mountViewer(host,ship,onStudy){
   const own=++request;active=studies.find(x=>x.id===id)||studies[0];onStudy(active);loading.hidden=false;loading.textContent='Preparing the detailed study…';
   if(model){scene.remove(model);release(model);model=null;}
   try{
-   const result=await new GLTFLoader().loadAsync(active.file+'?v=quality4');
+   const result=await new GLTFLoader().loadAsync(active.file+'?v=quality5');
    if(disposed||own!==request){release(result.scene);return;}
    model=result.scene;const bounds=new THREE.Box3().setFromObject(model);model.position.sub(bounds.getCenter(new THREE.Vector3()));radius=bounds.getBoundingSphere(new THREE.Sphere()).radius;bounds.getSize(halfSize).multiplyScalar(.5);
    camera.near=Math.max(radius*.0005,.001);camera.far=radius*20;controls.minDistance=radius*.18;controls.maxDistance=radius*15;camera.updateProjectionMatrix();scene.add(model);applyFinish();loading.hidden=true;resize();view();
   }catch(e){if(disposed||own!==request)return;console.error(e);loading.hidden=false;loading.textContent='This study could not load. Choose another study or open its technical plate.';}
  }
  try{
-  renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;host.append(renderer.domElement);
+  renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,logarithmicDepthBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;host.append(renderer.domElement);
   scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(34,1,.01,4000);camera.up.set(0,0,1);
   controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.autoRotateSpeed=.6;controls.addEventListener('start',markInteractive);
   scene.add(new THREE.HemisphereLight(0xffffff,0x73746d,1.5));
