@@ -17,13 +17,13 @@ export function studiesFor(ship){
 }
 
 export function mountViewer(host,ship,onStudy){
- let disposed=false,request=0,model=null,observer,renderer,controls,scene,camera,radius=1,halfSize=new THREE.Vector3(1,1,1),active,finish='Ivory';
+ let disposed=false,request=0,model=null,observer,renderer,controls,scene,camera,radius=1,halfSize=new THREE.Vector3(1,1,1),active,finish='Ivory',framed=true,currentView='3D';
  const loading=host.querySelector('.loading'),$=s=>document.querySelector(s);
  const studies=studiesFor(ship),selector=$('#study-select');
  const release=root=>{const gs=new Set(),ms=new Set();root?.traverse(o=>{if(o.geometry)gs.add(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])ms.add(m);});gs.forEach(g=>g.dispose());ms.forEach(m=>m.dispose());};
- function resize(){const w=host.clientWidth,h=host.clientHeight;if(!w||!h||!renderer)return;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();}
+ function resize(){const w=host.clientWidth,h=host.clientHeight;if(!w||!h||!renderer)return;renderer.setSize(w,h);const changed=Math.abs(camera.aspect-w/h)>.001;camera.aspect=w/h;camera.updateProjectionMatrix();if(changed&&model&&framed)view(currentView);}
  function view(name='3D'){
-  if(!model)return;controls.autoRotate=false;$('#turn').setAttribute('aria-pressed','false');controls.target.set(0,0,0);camera.up.set(0,0,1);
+  if(!model)return;currentView=name;framed=true;controls.autoRotate=false;const damping=controls.enableDamping;controls.enableDamping=false;controls.update();controls.enableDamping=damping;$('#turn').setAttribute('aria-pressed','false');controls.target.set(0,0,0);camera.up.set(0,0,1);
   const vectors={'3D':active.id==='bridge'||active.id==='hangar'?[.8,-1,1.4]:[.8,-1,.85],Top:[0,-.0001,1],Side:[1,0,0],Front:[0,-1,0]};
   const fov=THREE.MathUtils.degToRad(camera.fov),tanV=Math.tan(fov/2),tanH=tanV*camera.aspect,dir=new THREE.Vector3(...vectors[name]).normalize(),right=new THREE.Vector3().crossVectors(camera.up,dir).normalize(),up=new THREE.Vector3().crossVectors(dir,right);let d=0;
   model.updateMatrixWorld(true);const point=new THREE.Vector3();model.traverse(o=>{if(!o.isMesh)return;const positions=o.geometry.attributes.position;for(let i=0;i<positions.count;i++){point.fromBufferAttribute(positions,i).applyMatrix4(o.matrixWorld);const depth=point.dot(dir);d=Math.max(d,Math.abs(point.dot(right))/(tanH*.88)+depth,Math.abs(point.dot(up))/(tanV*.88)+depth);}});
@@ -31,29 +31,30 @@ export function mountViewer(host,ship,onStudy){
   $('#view-name').textContent=`${name==='3D'?'PERSPECTIVE':name.toUpperCase()} / ${active.title.toUpperCase()}`;
   document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===name);b.setAttribute('aria-pressed',String(b.dataset.view===name));});
  }
- function zoom(f){if(!model)return;const offset=camera.position.clone().sub(controls.target);offset.setLength(THREE.MathUtils.clamp(offset.length()*f,controls.minDistance,controls.maxDistance));camera.position.copy(offset.add(controls.target));controls.update();}
+ function markInteractive(){framed=false;if(!active)return;$('#view-name').textContent=`INTERACTIVE / ${active.title.toUpperCase()}`;document.querySelectorAll('[data-view]').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});}
+ function zoom(f){if(!model)return;markInteractive();const offset=camera.position.clone().sub(controls.target);offset.setLength(THREE.MathUtils.clamp(offset.length()*f,controls.minDistance,controls.maxDistance));camera.position.copy(offset.add(controls.target));controls.update();}
  function applyFinish(){model?.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material]){if(!m.userData.originalColor)m.userData.originalColor=m.color.clone();m.color.copy(m.userData.originalColor);m.wireframe=finish==='Mesh';if(finish==='Blueprint')m.color.lerp(new THREE.Color(0x397993),.78);if(finish==='Mesh')m.color.set(0x4e6259);}});}
  async function select(id){
   const own=++request;active=studies.find(x=>x.id===id)||studies[0];onStudy(active);loading.hidden=false;loading.textContent='Preparing the detailed study…';
   if(model){scene.remove(model);release(model);model=null;}
   try{
-   const result=await new GLTFLoader().loadAsync(active.file+'?v=detail3');
+   const result=await new GLTFLoader().loadAsync(active.file+'?v=quality4');
    if(disposed||own!==request){release(result.scene);return;}
    model=result.scene;const bounds=new THREE.Box3().setFromObject(model);model.position.sub(bounds.getCenter(new THREE.Vector3()));radius=bounds.getBoundingSphere(new THREE.Sphere()).radius;bounds.getSize(halfSize).multiplyScalar(.5);
-   camera.near=Math.max(radius*.04,.01);camera.far=radius*20;controls.minDistance=radius*.08;controls.maxDistance=radius*15;camera.updateProjectionMatrix();scene.add(model);applyFinish();loading.hidden=true;resize();view();
+   camera.near=Math.max(radius*.0005,.001);camera.far=radius*20;controls.minDistance=radius*.18;controls.maxDistance=radius*15;camera.updateProjectionMatrix();scene.add(model);applyFinish();loading.hidden=true;resize();view();
   }catch(e){if(disposed||own!==request)return;console.error(e);loading.hidden=false;loading.textContent='This study could not load. Choose another study or open its technical plate.';}
  }
  try{
-  renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;host.append(renderer.domElement);
+  renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;host.append(renderer.domElement);
   scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(34,1,.01,4000);camera.up.set(0,0,1);
-  controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.autoRotateSpeed=.6;
-  scene.add(new THREE.HemisphereLight(0xffffff,0x73746d,2));
-  for(const [pos,power] of [[[80,-200,300],2.8],[[-150,60,120],1.5]]){const l=new THREE.DirectionalLight(0xffffff,power);l.position.set(...pos);scene.add(l);}
+  controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.autoRotateSpeed=.6;controls.addEventListener('start',markInteractive);
+  scene.add(new THREE.HemisphereLight(0xffffff,0x73746d,1.5));
+  for(const [pos,power] of [[[80,-200,300],2.3],[[-150,60,120],1.1]]){const l=new THREE.DirectionalLight(0xffffff,power);l.position.set(...pos);scene.add(l);}
   observer=new ResizeObserver(resize);observer.observe(host);resize();selector.onchange=()=>select(selector.value);
   document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>view(b.dataset.view));$('#reset').onclick=()=>view();$('#zoom-in').onclick=()=>zoom(.8);$('#zoom-out').onclick=()=>zoom(1.25);
-  $('#turn').onclick=e=>{controls.autoRotate=!controls.autoRotate;e.currentTarget.setAttribute('aria-pressed',String(controls.autoRotate));};
+  $('#turn').onclick=e=>{markInteractive();controls.autoRotate=!controls.autoRotate;e.currentTarget.setAttribute('aria-pressed',String(controls.autoRotate));};
   document.querySelectorAll('[data-finish]').forEach(b=>b.onclick=()=>{finish=b.dataset.finish;applyFinish();document.querySelectorAll('[data-finish]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b));});});
-  host.onkeydown=e=>{if(!model||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-'].includes(e.key))return;e.preventDefault();if(e.key==='+'||e.key==='=')zoom(.9);else if(e.key==='-')zoom(1.1);else{const v=camera.position.clone().sub(controls.target),horizontal=['ArrowLeft','ArrowRight'].includes(e.key);const axis=horizontal?new THREE.Vector3(0,0,1):new THREE.Vector3().crossVectors(v,camera.up).normalize();v.applyAxisAngle(axis,['ArrowLeft','ArrowUp'].includes(e.key)?.12:-.12);camera.position.copy(v.add(controls.target));controls.update();}};
+  host.onkeydown=e=>{if(!model||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-'].includes(e.key))return;e.preventDefault();if(e.key==='+'||e.key==='=')zoom(.9);else if(e.key==='-')zoom(1.1);else{markInteractive();const v=camera.position.clone().sub(controls.target),horizontal=['ArrowLeft','ArrowRight'].includes(e.key);const axis=horizontal?new THREE.Vector3(0,0,1):new THREE.Vector3().crossVectors(v,camera.up).normalize();v.applyAxisAngle(axis,['ArrowLeft','ArrowUp'].includes(e.key)?.12:-.12);camera.position.copy(v.add(controls.target));controls.update();}};
   renderer.setAnimationLoop(()=>{if(!document.hidden&&!$('#model-panel')?.hidden){controls.update();renderer.render(scene,camera);}});
   renderer.domElement.addEventListener('webglcontextlost',()=>{if(!disposed){loading.hidden=false;loading.textContent='3D display interrupted. Reload or open the technical plate.';}});
   select('ship');

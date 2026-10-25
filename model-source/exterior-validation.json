@@ -1,10 +1,10 @@
 [
   {
     "file": "constitution.glb",
-    "bytes": 6283156,
+    "bytes": 4091224,
     "meshes": 7,
-    "vertices": 200428,
-    "triangles": 196276,
+    "vertices": 116931,
+    "triangles": 211383,
     "bounds": [
       [
         -63.54999923706055,
@@ -16,52 +16,1312 @@
         144.3000030517578,
         36.40999984741211
       ]
-    ]
+    ],
+    "surfaceValidation": {
+      "method": "Exact barycentric projection onto intended STL face; bounded axial region prevents cross-hull attachment; unsupported triangles omitted. Surface offsets are in source metres.",
+      "normalMethod": "36 degree crease-aware vertex normals; original STL face-normal splits removed before smoothing.",
+      "features": {
+        "Saucer concentric panel seam": {
+          "objects": 7,
+          "vertices": 1351,
+          "attached": 1351,
+          "rejected": 0,
+          "triangles": 32424,
+          "maxSurfaceOffset": 0.015,
+          "maxSeedCorrection": 0.0000010482936829703249
+        },
+        "Radial saucer division": {
+          "objects": 25,
+          "vertices": 900,
+          "attached": 900,
+          "rejected": 0,
+          "triangles": 21600,
+          "maxSurfaceOffset": 0.015,
+          "maxSeedCorrection": 8.989120310332055e-7
+        },
+        "Saucer rim cabin window": {
+          "objects": 60,
+          "vertices": 2160,
+          "attached": 2016,
+          "rejected": 144,
+          "triangles": 672,
+          "maxSurfaceOffset": 0.02500000000001408,
+          "maxSeedCorrection": 0.16470136441326844
+        },
+        "Bridge module window": {
+          "objects": 16,
+          "vertices": 384,
+          "attached": 384,
+          "rejected": 0,
+          "triangles": 128,
+          "maxSurfaceOffset": 0.025000000000005042,
+          "maxSeedCorrection": 0.4988561213536542
+        },
+        "Rim service access hatch": {
+          "objects": 4,
+          "vertices": 288,
+          "attached": 288,
+          "rejected": 0,
+          "triangles": 96,
+          "maxSurfaceOffset": 0.025000000000002225,
+          "maxSeedCorrection": 0.15596947841257958
+        },
+        "Saucer registry": {
+          "objects": 9,
+          "vertices": 8136,
+          "attached": 8136,
+          "rejected": 0,
+          "triangles": 2712,
+          "maxSurfaceOffset": 0.03500000000000349,
+          "maxSeedCorrection": 0.6955643827165403
+        },
+        "Impulse exhaust housing": {
+          "objects": 1,
+          "vertices": 1548,
+          "attached": 1548,
+          "rejected": 0,
+          "triangles": 516,
+          "maxSurfaceOffset": 0.025000000000000355,
+          "maxSeedCorrection": 0.75
+        },
+        "Impulse exhaust": {
+          "objects": 2,
+          "vertices": 864,
+          "attached": 864,
+          "rejected": 0,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.03999999999999915,
+          "maxSeedCorrection": 0.75
+        },
+        "Impulse exhaust louvre": {
+          "objects": 20,
+          "vertices": 960,
+          "attached": 960,
+          "rejected": 0,
+          "triangles": 320,
+          "maxSurfaceOffset": 0.0600000000000005,
+          "maxSeedCorrection": 0.75
+        },
+        "Impulse upper cooling fin": {
+          "objects": 14,
+          "vertices": 1512,
+          "attached": 1512,
+          "rejected": 0,
+          "triangles": 504,
+          "maxSurfaceOffset": 0.025000000000001976,
+          "maxSeedCorrection": 0.766115184115364
+        },
+        "Ventral sensor ring": {
+          "objects": 5,
+          "vertices": 645,
+          "attached": 645,
+          "rejected": 0,
+          "triangles": 15480,
+          "maxSurfaceOffset": 0.015,
+          "maxSeedCorrection": 1.6520769549206609
+        },
+        "Lower sensor array port": {
+          "objects": 16,
+          "vertices": 384,
+          "attached": 384,
+          "rejected": 0,
+          "triangles": 128,
+          "maxSurfaceOffset": 0.025000000000002902,
+          "maxSeedCorrection": 1.1825332620866043
+        },
+        "Long inset flux chiller channel": {
+          "objects": 2,
+          "vertices": 11640,
+          "attached": 11640,
+          "rejected": 0,
+          "triangles": 3880,
+          "maxSurfaceOffset": 0.01800000000000403,
+          "maxSeedCorrection": 0.5029379421632285
+        },
+        "Power-stage chiller 1": {
+          "objects": 2,
+          "vertices": 864,
+          "attached": 864,
+          "rejected": 0,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.035000000000003674,
+          "maxSeedCorrection": 0.5668395238784143
+        },
+        "Power-stage chiller 1 rib": {
+          "objects": 28,
+          "vertices": 1176,
+          "attached": 1176,
+          "rejected": 0,
+          "triangles": 392,
+          "maxSurfaceOffset": 0.055000000000003615,
+          "maxSeedCorrection": 0.6242945491487433
+        },
+        "Chiller border": {
+          "objects": 32,
+          "vertices": 8352,
+          "attached": 8352,
+          "rejected": 0,
+          "triangles": 2784,
+          "maxSurfaceOffset": 0.0650000000000039,
+          "maxSeedCorrection": 0.3127011467173375
+        },
+        "Power-stage chiller 2": {
+          "objects": 2,
+          "vertices": 864,
+          "attached": 864,
+          "rejected": 0,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.03500000000000359,
+          "maxSeedCorrection": 0.5668395238784143
+        },
+        "Power-stage chiller 2 rib": {
+          "objects": 28,
+          "vertices": 1176,
+          "attached": 1176,
+          "rejected": 0,
+          "triangles": 392,
+          "maxSurfaceOffset": 0.05500000000000377,
+          "maxSeedCorrection": 0.6242945491487433
+        },
+        "Power-stage chiller 3": {
+          "objects": 2,
+          "vertices": 864,
+          "attached": 864,
+          "rejected": 0,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.035000000000003445,
+          "maxSeedCorrection": 0.5668395238784143
+        },
+        "Power-stage chiller 3 rib": {
+          "objects": 28,
+          "vertices": 1176,
+          "attached": 1176,
+          "rejected": 0,
+          "triangles": 392,
+          "maxSurfaceOffset": 0.055000000000003546,
+          "maxSeedCorrection": 0.6242945491487433
+        },
+        "Main-stage chiller 1": {
+          "objects": 2,
+          "vertices": 1152,
+          "attached": 1152,
+          "rejected": 0,
+          "triangles": 384,
+          "maxSurfaceOffset": 0.03500000000000366,
+          "maxSeedCorrection": 0.5668395238784143
+        },
+        "Main-stage chiller 1 rib": {
+          "objects": 40,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.055000000000003636,
+          "maxSeedCorrection": 0.6242945491487433
+        },
+        "Main-stage chiller 2": {
+          "objects": 2,
+          "vertices": 1152,
+          "attached": 1152,
+          "rejected": 0,
+          "triangles": 384,
+          "maxSurfaceOffset": 0.035000000000003605,
+          "maxSeedCorrection": 0.5668395238784143
+        },
+        "Main-stage chiller 2 rib": {
+          "objects": 40,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.05500000000000362,
+          "maxSeedCorrection": 0.6242945491487433
+        },
+        "Main-stage chiller 3": {
+          "objects": 2,
+          "vertices": 1152,
+          "attached": 1152,
+          "rejected": 0,
+          "triangles": 384,
+          "maxSurfaceOffset": 0.03500000000000375,
+          "maxSeedCorrection": 0.5668395238784143
+        },
+        "Main-stage chiller 3 rib": {
+          "objects": 40,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.055000000000003844,
+          "maxSeedCorrection": 0.6242945491487433
+        },
+        "Main-stage chiller 4": {
+          "objects": 2,
+          "vertices": 1152,
+          "attached": 1152,
+          "rejected": 0,
+          "triangles": 384,
+          "maxSurfaceOffset": 0.03500000000000381,
+          "maxSeedCorrection": 0.5668395238784143
+        },
+        "Main-stage chiller 4 rib": {
+          "objects": 40,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.05500000000000389,
+          "maxSeedCorrection": 0.6242945491487433
+        },
+        "Main-stage chiller 5": {
+          "objects": 2,
+          "vertices": 1152,
+          "attached": 1152,
+          "rejected": 0,
+          "triangles": 384,
+          "maxSurfaceOffset": 0.0350000000000036,
+          "maxSeedCorrection": 0.10299923588950577
+        },
+        "Main-stage chiller 5 rib": {
+          "objects": 40,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.05500000000000359,
+          "maxSeedCorrection": 0.16398081658084607
+        },
+        "Final-stage flux chiller": {
+          "objects": 4,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.03500000000000418,
+          "maxSeedCorrection": 0.8189971602846242
+        },
+        "Final chiller rib": {
+          "objects": 56,
+          "vertices": 2016,
+          "attached": 2016,
+          "rejected": 0,
+          "triangles": 672,
+          "maxSurfaceOffset": 0.05500000000000447,
+          "maxSeedCorrection": 0.8743626524575703
+        },
+        "Half-wrap restoration cowl": {
+          "objects": 2,
+          "vertices": 3528,
+          "attached": 3528,
+          "rejected": 0,
+          "triangles": 1176,
+          "maxSurfaceOffset": 0.03500000000000942,
+          "maxSeedCorrection": 3.5703654203026645
+        },
+        "Nacelle pennant forward": {
+          "objects": 2,
+          "vertices": 1488,
+          "attached": 1488,
+          "rejected": 0,
+          "triangles": 496,
+          "maxSurfaceOffset": 0.03500000000000367,
+          "maxSeedCorrection": 0.10126098617904233
+        },
+        "Nacelle pennant aft": {
+          "objects": 2,
+          "vertices": 528,
+          "attached": 528,
+          "rejected": 0,
+          "triangles": 176,
+          "maxSurfaceOffset": 0.035000000000003584,
+          "maxSeedCorrection": 0.10126098617904233
+        },
+        "Outboard nacelle registry port": {
+          "objects": 1,
+          "vertices": 1575,
+          "attached": 1575,
+          "rejected": 0,
+          "triangles": 525,
+          "maxSurfaceOffset": 0.0450000000000036,
+          "maxSeedCorrection": 0.21285698761130334
+        },
+        "Pylon grille": {
+          "objects": 8,
+          "vertices": 1344,
+          "attached": 1344,
+          "rejected": 0,
+          "triangles": 448,
+          "maxSurfaceOffset": 0.02499999999999858,
+          "maxSeedCorrection": 3.552713678800501e-15
+        },
+        "Pylon grille rib": {
+          "objects": 40,
+          "vertices": 3360,
+          "attached": 3360,
+          "rejected": 0,
+          "triangles": 1120,
+          "maxSurfaceOffset": 0.045000000000001705,
+          "maxSeedCorrection": 3.552713678800501e-15
+        },
+        "Outboard nacelle registry starboard": {
+          "objects": 1,
+          "vertices": 1575,
+          "attached": 1575,
+          "rejected": 0,
+          "triangles": 525,
+          "maxSurfaceOffset": 0.04500000000000361,
+          "maxSeedCorrection": 0.21285698761130334
+        },
+        "Engineering hull window": {
+          "objects": 108,
+          "vertices": 3888,
+          "attached": 3888,
+          "rejected": 0,
+          "triangles": 1296,
+          "maxSurfaceOffset": 0.025000000000001955,
+          "maxSeedCorrection": 6.530533996915997
+        },
+        "Engineering pennant": {
+          "objects": 2,
+          "vertices": 1272,
+          "attached": 1272,
+          "rejected": 0,
+          "triangles": 424,
+          "maxSurfaceOffset": 0.025000000000001917,
+          "maxSeedCorrection": 1.0190817641017702
+        },
+        "Neck cabin window": {
+          "objects": 42,
+          "vertices": 1512,
+          "attached": 1293,
+          "rejected": 219,
+          "triangles": 429,
+          "maxSurfaceOffset": 0.02499999999999991,
+          "maxSeedCorrection": 8.881784197001252e-16
+        },
+        "Deflector concentric ridge": {
+          "objects": 6,
+          "vertices": 774,
+          "attached": 774,
+          "rejected": 0,
+          "triangles": 18576,
+          "maxSurfaceOffset": 0.015,
+          "maxSeedCorrection": 1.8000000000000043
+        },
+        "Hangar clamshell segment 1": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 362,
+          "rejected": 4,
+          "triangles": 115,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 2.89150385782564
+        },
+        "Hangar clamshell segment 2": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 366,
+          "rejected": 0,
+          "triangles": 122,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 1.4210854715202004e-14
+        },
+        "Hangar clamshell segment 3": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 366,
+          "rejected": 0,
+          "triangles": 122,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 1.4210854715202004e-14
+        },
+        "Hangar clamshell segment 4": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 366,
+          "rejected": 0,
+          "triangles": 122,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 1.4210854715202004e-14
+        },
+        "Hangar clamshell segment 5": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 366,
+          "rejected": 0,
+          "triangles": 122,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 1.4210854715202004e-14
+        },
+        "Hangar clamshell segment 6": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 361,
+          "rejected": 5,
+          "triangles": 117,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 2.891504395394918
+        },
+        "Hangar observation window strip": {
+          "objects": 1,
+          "vertices": 156,
+          "attached": 156,
+          "rejected": 0,
+          "triangles": 52,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 1.4210854715202004e-14
+        }
+      },
+      "registryOrientation": [
+        {
+          "feature": "Registry orientation",
+          "surface": "constitution",
+          "text": "NCC-1700",
+          "side": -1,
+          "minimumOutwardNormal": 0.9861840009689331,
+          "baseline": [
+            0,
+            -1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            -1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        },
+        {
+          "feature": "Registry orientation",
+          "surface": "constitution",
+          "text": "NCC-1700",
+          "side": 1,
+          "minimumOutwardNormal": 0.9862525463104248,
+          "baseline": [
+            0,
+            1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        }
+      ]
+    }
   },
   {
     "file": "saladin.glb",
-    "bytes": 2201520,
+    "bytes": 1707532,
     "meshes": 6,
-    "vertices": 73007,
-    "triangles": 73932,
+    "vertices": 50989,
+    "triangles": 78463,
     "bounds": [
       [
         -63.55000305175781,
         -121.25,
-        -32.61051559448242
+        -32.54106903076172
       ],
       [
         63.55000305175781,
         121.25,
-        30.200000762939453
+        30.25
       ]
-    ]
+    ],
+    "surfaceValidation": {
+      "method": "Exact barycentric projection onto intended STL face; bounded axial region prevents cross-hull attachment; unsupported triangles omitted. Surface offsets are in source metres.",
+      "normalMethod": "36 degree crease-aware vertex normals; original STL face-normal splits removed before smoothing.",
+      "features": {
+        "Saucer rim cabin window": {
+          "objects": 60,
+          "vertices": 2160,
+          "attached": 2016,
+          "rejected": 144,
+          "triangles": 672,
+          "maxSurfaceOffset": 0.025000000000006982,
+          "maxSeedCorrection": 0.1836440861256392
+        },
+        "Bridge module window": {
+          "objects": 16,
+          "vertices": 384,
+          "attached": 384,
+          "rejected": 0,
+          "triangles": 128,
+          "maxSurfaceOffset": 0.025000000000004474,
+          "maxSeedCorrection": 0.5087062593807303
+        },
+        "Rim service access hatch": {
+          "objects": 4,
+          "vertices": 288,
+          "attached": 288,
+          "rejected": 0,
+          "triangles": 96,
+          "maxSurfaceOffset": 0.025000000000001996,
+          "maxSeedCorrection": 0.7042859110841775
+        },
+        "Saucer registry": {
+          "objects": 8,
+          "vertices": 7263,
+          "attached": 7263,
+          "rejected": 0,
+          "triangles": 2421,
+          "maxSurfaceOffset": 0.03500000000000255,
+          "maxSeedCorrection": 0.6944990284886856
+        },
+        "Impulse exhaust housing": {
+          "objects": 1,
+          "vertices": 1548,
+          "attached": 1548,
+          "rejected": 0,
+          "triangles": 516,
+          "maxSurfaceOffset": 0.025000000000000355,
+          "maxSeedCorrection": 9.536743181826068e-7
+        },
+        "Impulse exhaust": {
+          "objects": 2,
+          "vertices": 864,
+          "attached": 864,
+          "rejected": 0,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.03999999999999915,
+          "maxSeedCorrection": 9.5367431640625e-7
+        },
+        "Impulse exhaust louvre": {
+          "objects": 20,
+          "vertices": 960,
+          "attached": 960,
+          "rejected": 0,
+          "triangles": 320,
+          "maxSurfaceOffset": 0.0600000000000005,
+          "maxSeedCorrection": 9.536743181826068e-7
+        },
+        "Impulse upper cooling fin": {
+          "objects": 14,
+          "vertices": 1512,
+          "attached": 1509,
+          "rejected": 3,
+          "triangles": 501,
+          "maxSurfaceOffset": 0.025000000000000886,
+          "maxSeedCorrection": 0.7644434317074342
+        },
+        "Ventral sensor ring": {
+          "objects": 5,
+          "vertices": 645,
+          "attached": 645,
+          "rejected": 0,
+          "triangles": 15480,
+          "maxSurfaceOffset": 0.015,
+          "maxSeedCorrection": 1.6583058541714282
+        },
+        "Lower sensor array port": {
+          "objects": 16,
+          "vertices": 384,
+          "attached": 384,
+          "rejected": 0,
+          "triangles": 128,
+          "maxSurfaceOffset": 0.025000000000002784,
+          "maxSeedCorrection": 1.1858790349674195
+        },
+        "Long inset flux chiller channel": {
+          "objects": 1,
+          "vertices": 5820,
+          "attached": 5820,
+          "rejected": 0,
+          "triangles": 1940,
+          "maxSurfaceOffset": 0.01800000000000198,
+          "maxSeedCorrection": 0.5059949550664058
+        },
+        "Power-stage chiller 1": {
+          "objects": 1,
+          "vertices": 432,
+          "attached": 432,
+          "rejected": 0,
+          "triangles": 144,
+          "maxSurfaceOffset": 0.035000000000001696,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Power-stage chiller 1 rib": {
+          "objects": 14,
+          "vertices": 588,
+          "attached": 588,
+          "rejected": 0,
+          "triangles": 196,
+          "maxSurfaceOffset": 0.05500000000000176,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Chiller border": {
+          "objects": 16,
+          "vertices": 4176,
+          "attached": 4176,
+          "rejected": 0,
+          "triangles": 1392,
+          "maxSurfaceOffset": 0.06500000000000178,
+          "maxSeedCorrection": 0.31501878059754773
+        },
+        "Power-stage chiller 2": {
+          "objects": 1,
+          "vertices": 432,
+          "attached": 432,
+          "rejected": 0,
+          "triangles": 144,
+          "maxSurfaceOffset": 0.03500000000000175,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Power-stage chiller 2 rib": {
+          "objects": 14,
+          "vertices": 588,
+          "attached": 588,
+          "rejected": 0,
+          "triangles": 196,
+          "maxSurfaceOffset": 0.05500000000000177,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Power-stage chiller 3": {
+          "objects": 1,
+          "vertices": 432,
+          "attached": 432,
+          "rejected": 0,
+          "triangles": 144,
+          "maxSurfaceOffset": 0.03500000000000173,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Power-stage chiller 3 rib": {
+          "objects": 14,
+          "vertices": 588,
+          "attached": 588,
+          "rejected": 0,
+          "triangles": 196,
+          "maxSurfaceOffset": 0.055000000000001756,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Main-stage chiller 1": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.03500000000000173,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Main-stage chiller 1 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.05500000000000178,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Main-stage chiller 2": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.035000000000001696,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Main-stage chiller 2 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.055000000000001735,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Main-stage chiller 3": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.035000000000001745,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Main-stage chiller 3 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.055000000000001825,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Main-stage chiller 4": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.03500000000000198,
+          "maxSeedCorrection": 0.5692595050234139
+        },
+        "Main-stage chiller 4 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.055000000000002,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Main-stage chiller 5": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.035000000000001856,
+          "maxSeedCorrection": 0.10743703638837587
+        },
+        "Main-stage chiller 5 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.0550000000000018,
+          "maxSeedCorrection": 0.16485888182855035
+        },
+        "Final-stage flux chiller": {
+          "objects": 2,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.03500000000000178,
+          "maxSeedCorrection": 0.7898145170868176
+        },
+        "Final chiller rib": {
+          "objects": 28,
+          "vertices": 1008,
+          "attached": 1008,
+          "rejected": 0,
+          "triangles": 336,
+          "maxSurfaceOffset": 0.055000000000002124,
+          "maxSeedCorrection": 0.841976651054793
+        },
+        "Half-wrap restoration cowl": {
+          "objects": 1,
+          "vertices": 1764,
+          "attached": 1764,
+          "rejected": 0,
+          "triangles": 588,
+          "maxSurfaceOffset": 0.035000000000004805,
+          "maxSeedCorrection": 3.556733481232143
+        },
+        "Nacelle pennant forward": {
+          "objects": 2,
+          "vertices": 1488,
+          "attached": 1488,
+          "rejected": 0,
+          "triangles": 496,
+          "maxSurfaceOffset": 0.03500000000000091,
+          "maxSeedCorrection": 0.10434555033035231
+        },
+        "Nacelle pennant aft": {
+          "objects": 2,
+          "vertices": 528,
+          "attached": 528,
+          "rejected": 0,
+          "triangles": 176,
+          "maxSurfaceOffset": 0.03500000000000117,
+          "maxSeedCorrection": 0.10434555033035231
+        },
+        "Outboard nacelle registry starboard": {
+          "objects": 1,
+          "vertices": 1662,
+          "attached": 1662,
+          "rejected": 0,
+          "triangles": 554,
+          "maxSurfaceOffset": 0.045000000000001074,
+          "maxSeedCorrection": 0.21699707174756
+        },
+        "Outboard nacelle registry port": {
+          "objects": 1,
+          "vertices": 1662,
+          "attached": 1662,
+          "rejected": 0,
+          "triangles": 554,
+          "maxSurfaceOffset": 0.04500000000000109,
+          "maxSeedCorrection": 0.21699707174756
+        },
+        "Neck window": {
+          "objects": 48,
+          "vertices": 1728,
+          "attached": 1314,
+          "rejected": 414,
+          "triangles": 433,
+          "maxSurfaceOffset": 0.02499999999999991,
+          "maxSeedCorrection": 2.384185795456517e-7
+        }
+      },
+      "registryOrientation": [
+        {
+          "feature": "Registry orientation",
+          "surface": "saladin",
+          "text": "NCC-500",
+          "side": 1,
+          "minimumOutwardNormal": 0.9862188100814819,
+          "baseline": [
+            0,
+            1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        },
+        {
+          "feature": "Registry orientation",
+          "surface": "saladin",
+          "text": "NCC-500",
+          "side": -1,
+          "minimumOutwardNormal": 0.9861654043197632,
+          "baseline": [
+            0,
+            -1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            -1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        }
+      ]
+    }
   },
   {
     "file": "hermes.glb",
-    "bytes": 2178096,
+    "bytes": 1643312,
     "meshes": 6,
-    "vertices": 72701,
-    "triangles": 71254,
+    "vertices": 49156,
+    "triangles": 75090,
     "bounds": [
       [
         -63.55000305175781,
         -121.25,
-        -32.61051559448242
+        -32.54106903076172
       ],
       [
         63.55000305175781,
         121.25,
-        30.200000762939453
+        30.25
       ]
-    ]
+    ],
+    "surfaceValidation": {
+      "method": "Exact barycentric projection onto intended STL face; bounded axial region prevents cross-hull attachment; unsupported triangles omitted. Surface offsets are in source metres.",
+      "normalMethod": "36 degree crease-aware vertex normals; original STL face-normal splits removed before smoothing.",
+      "features": {
+        "Saucer rim cabin window": {
+          "objects": 60,
+          "vertices": 2160,
+          "attached": 2016,
+          "rejected": 144,
+          "triangles": 672,
+          "maxSurfaceOffset": 0.025000000000006982,
+          "maxSeedCorrection": 0.1836440861256392
+        },
+        "Bridge module window": {
+          "objects": 16,
+          "vertices": 384,
+          "attached": 384,
+          "rejected": 0,
+          "triangles": 128,
+          "maxSurfaceOffset": 0.025000000000004474,
+          "maxSeedCorrection": 0.5087062593807303
+        },
+        "Rim service access hatch": {
+          "objects": 4,
+          "vertices": 288,
+          "attached": 288,
+          "rejected": 0,
+          "triangles": 96,
+          "maxSurfaceOffset": 0.025000000000001996,
+          "maxSeedCorrection": 0.7042859110841775
+        },
+        "Saucer registry": {
+          "objects": 8,
+          "vertices": 7602,
+          "attached": 7602,
+          "rejected": 0,
+          "triangles": 2534,
+          "maxSurfaceOffset": 0.0350000000000025,
+          "maxSeedCorrection": 0.6944990284886856
+        },
+        "Impulse exhaust housing": {
+          "objects": 1,
+          "vertices": 1548,
+          "attached": 1548,
+          "rejected": 0,
+          "triangles": 516,
+          "maxSurfaceOffset": 0.025000000000000355,
+          "maxSeedCorrection": 9.536743181826068e-7
+        },
+        "Impulse exhaust": {
+          "objects": 2,
+          "vertices": 864,
+          "attached": 864,
+          "rejected": 0,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.03999999999999915,
+          "maxSeedCorrection": 9.5367431640625e-7
+        },
+        "Impulse exhaust louvre": {
+          "objects": 20,
+          "vertices": 960,
+          "attached": 960,
+          "rejected": 0,
+          "triangles": 320,
+          "maxSurfaceOffset": 0.0600000000000005,
+          "maxSeedCorrection": 9.536743181826068e-7
+        },
+        "Impulse upper cooling fin": {
+          "objects": 14,
+          "vertices": 1512,
+          "attached": 1509,
+          "rejected": 3,
+          "triangles": 501,
+          "maxSurfaceOffset": 0.025000000000000886,
+          "maxSeedCorrection": 0.7644434317074342
+        },
+        "Ventral sensor ring": {
+          "objects": 5,
+          "vertices": 645,
+          "attached": 645,
+          "rejected": 0,
+          "triangles": 15480,
+          "maxSurfaceOffset": 0.015,
+          "maxSeedCorrection": 1.6583058541714282
+        },
+        "Lower sensor array port": {
+          "objects": 16,
+          "vertices": 384,
+          "attached": 384,
+          "rejected": 0,
+          "triangles": 128,
+          "maxSurfaceOffset": 0.025000000000002784,
+          "maxSeedCorrection": 1.1858790349674195
+        },
+        "Long inset flux chiller channel": {
+          "objects": 1,
+          "vertices": 5820,
+          "attached": 5820,
+          "rejected": 0,
+          "triangles": 1940,
+          "maxSurfaceOffset": 0.01800000000000198,
+          "maxSeedCorrection": 0.5059949550664058
+        },
+        "Power-stage chiller 1": {
+          "objects": 1,
+          "vertices": 432,
+          "attached": 432,
+          "rejected": 0,
+          "triangles": 144,
+          "maxSurfaceOffset": 0.035000000000001696,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Power-stage chiller 1 rib": {
+          "objects": 14,
+          "vertices": 588,
+          "attached": 588,
+          "rejected": 0,
+          "triangles": 196,
+          "maxSurfaceOffset": 0.05500000000000176,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Chiller border": {
+          "objects": 16,
+          "vertices": 4176,
+          "attached": 4176,
+          "rejected": 0,
+          "triangles": 1392,
+          "maxSurfaceOffset": 0.06500000000000178,
+          "maxSeedCorrection": 0.31501878059754773
+        },
+        "Power-stage chiller 2": {
+          "objects": 1,
+          "vertices": 432,
+          "attached": 432,
+          "rejected": 0,
+          "triangles": 144,
+          "maxSurfaceOffset": 0.03500000000000175,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Power-stage chiller 2 rib": {
+          "objects": 14,
+          "vertices": 588,
+          "attached": 588,
+          "rejected": 0,
+          "triangles": 196,
+          "maxSurfaceOffset": 0.05500000000000177,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Power-stage chiller 3": {
+          "objects": 1,
+          "vertices": 432,
+          "attached": 432,
+          "rejected": 0,
+          "triangles": 144,
+          "maxSurfaceOffset": 0.03500000000000173,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Power-stage chiller 3 rib": {
+          "objects": 14,
+          "vertices": 588,
+          "attached": 588,
+          "rejected": 0,
+          "triangles": 196,
+          "maxSurfaceOffset": 0.055000000000001756,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Main-stage chiller 1": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.03500000000000173,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Main-stage chiller 1 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.05500000000000178,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Main-stage chiller 2": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.035000000000001696,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Main-stage chiller 2 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.055000000000001735,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Main-stage chiller 3": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.035000000000001745,
+          "maxSeedCorrection": 0.5692595050234175
+        },
+        "Main-stage chiller 3 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.055000000000001825,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Main-stage chiller 4": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.03500000000000198,
+          "maxSeedCorrection": 0.5692595050234139
+        },
+        "Main-stage chiller 4 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.055000000000002,
+          "maxSeedCorrection": 0.6266815269888824
+        },
+        "Main-stage chiller 5": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.035000000000001856,
+          "maxSeedCorrection": 0.10743703638837587
+        },
+        "Main-stage chiller 5 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.0550000000000018,
+          "maxSeedCorrection": 0.16485888182855035
+        },
+        "Final-stage flux chiller": {
+          "objects": 2,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.03500000000000178,
+          "maxSeedCorrection": 0.7898145170868176
+        },
+        "Final chiller rib": {
+          "objects": 28,
+          "vertices": 1008,
+          "attached": 1008,
+          "rejected": 0,
+          "triangles": 336,
+          "maxSurfaceOffset": 0.055000000000002124,
+          "maxSeedCorrection": 0.841976651054793
+        },
+        "Half-wrap restoration cowl": {
+          "objects": 1,
+          "vertices": 1764,
+          "attached": 1764,
+          "rejected": 0,
+          "triangles": 588,
+          "maxSurfaceOffset": 0.035000000000004805,
+          "maxSeedCorrection": 3.556733481232143
+        },
+        "Nacelle pennant forward": {
+          "objects": 2,
+          "vertices": 1488,
+          "attached": 1488,
+          "rejected": 0,
+          "triangles": 496,
+          "maxSurfaceOffset": 0.03500000000000091,
+          "maxSeedCorrection": 0.10434555033035231
+        },
+        "Nacelle pennant aft": {
+          "objects": 2,
+          "vertices": 528,
+          "attached": 528,
+          "rejected": 0,
+          "triangles": 176,
+          "maxSurfaceOffset": 0.03500000000000117,
+          "maxSeedCorrection": 0.10434555033035231
+        },
+        "Outboard nacelle registry starboard": {
+          "objects": 1,
+          "vertices": 1908,
+          "attached": 1908,
+          "rejected": 0,
+          "triangles": 636,
+          "maxSurfaceOffset": 0.04500000000000114,
+          "maxSeedCorrection": 0.21699707174756
+        },
+        "Outboard nacelle registry port": {
+          "objects": 1,
+          "vertices": 1908,
+          "attached": 1908,
+          "rejected": 0,
+          "triangles": 636,
+          "maxSurfaceOffset": 0.04500000000000109,
+          "maxSeedCorrection": 0.21699707174756
+        },
+        "Neck window": {
+          "objects": 48,
+          "vertices": 1728,
+          "attached": 1314,
+          "rejected": 414,
+          "triangles": 433,
+          "maxSurfaceOffset": 0.02499999999999991,
+          "maxSeedCorrection": 2.384185795456517e-7
+        }
+      },
+      "registryOrientation": [
+        {
+          "feature": "Registry orientation",
+          "surface": "hermes",
+          "text": "NCC-585",
+          "side": 1,
+          "minimumOutwardNormal": 0.9862191081047058,
+          "baseline": [
+            0,
+            1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        },
+        {
+          "feature": "Registry orientation",
+          "surface": "hermes",
+          "text": "NCC-585",
+          "side": -1,
+          "minimumOutwardNormal": 0.9861649870872498,
+          "baseline": [
+            0,
+            -1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            -1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        }
+      ]
+    }
   },
   {
     "file": "ptolemy.glb",
-    "bytes": 3098916,
+    "bytes": 2332088,
     "meshes": 6,
-    "vertices": 102549,
-    "triangles": 105334,
+    "vertices": 69360,
+    "triangles": 109033,
     "bounds": [
       [
         -63.54999923706055,
@@ -71,16 +1331,403 @@
       [
         63.54999923706055,
         111,
-        33.20000076293945
+        33.25
       ]
-    ]
+    ],
+    "surfaceValidation": {
+      "method": "Exact barycentric projection onto intended STL face; bounded axial region prevents cross-hull attachment; unsupported triangles omitted. Surface offsets are in source metres.",
+      "normalMethod": "36 degree crease-aware vertex normals; original STL face-normal splits removed before smoothing.",
+      "features": {
+        "Saucer rim cabin window": {
+          "objects": 60,
+          "vertices": 2160,
+          "attached": 2016,
+          "rejected": 144,
+          "triangles": 672,
+          "maxSurfaceOffset": 0.02500000000000664,
+          "maxSeedCorrection": 0.18364415780002474
+        },
+        "Bridge module window": {
+          "objects": 16,
+          "vertices": 384,
+          "attached": 384,
+          "rejected": 0,
+          "triangles": 128,
+          "maxSurfaceOffset": 0.025000000000002867,
+          "maxSeedCorrection": 0.5087111058680023
+        },
+        "Rim service access hatch": {
+          "objects": 4,
+          "vertices": 288,
+          "attached": 288,
+          "rejected": 0,
+          "triangles": 96,
+          "maxSurfaceOffset": 0.025000000000002014,
+          "maxSeedCorrection": 0.7042858237154555
+        },
+        "Saucer registry": {
+          "objects": 9,
+          "vertices": 7869,
+          "attached": 7869,
+          "rejected": 0,
+          "triangles": 2623,
+          "maxSurfaceOffset": 0.035000000000002626,
+          "maxSeedCorrection": 0.6931258733620602
+        },
+        "Impulse exhaust housing": {
+          "objects": 1,
+          "vertices": 1548,
+          "attached": 1548,
+          "rejected": 0,
+          "triangles": 516,
+          "maxSurfaceOffset": 0.02499999999999858,
+          "maxSeedCorrection": 0.000003814697269177714
+        },
+        "Impulse exhaust": {
+          "objects": 2,
+          "vertices": 864,
+          "attached": 864,
+          "rejected": 0,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.03999999999999915,
+          "maxSeedCorrection": 0.000003814697269177714
+        },
+        "Impulse exhaust louvre": {
+          "objects": 20,
+          "vertices": 960,
+          "attached": 960,
+          "rejected": 0,
+          "triangles": 320,
+          "maxSurfaceOffset": 0.05999999999999872,
+          "maxSeedCorrection": 0.000003814697269177714
+        },
+        "Impulse upper cooling fin": {
+          "objects": 14,
+          "vertices": 1512,
+          "attached": 1509,
+          "rejected": 3,
+          "triangles": 501,
+          "maxSurfaceOffset": 0.025000000000001802,
+          "maxSeedCorrection": 0.7644419408896859
+        },
+        "Ventral sensor ring": {
+          "objects": 5,
+          "vertices": 645,
+          "attached": 645,
+          "rejected": 0,
+          "triangles": 15480,
+          "maxSurfaceOffset": 0.015,
+          "maxSeedCorrection": 1.658305079809554
+        },
+        "Lower sensor array port": {
+          "objects": 16,
+          "vertices": 384,
+          "attached": 384,
+          "rejected": 0,
+          "triangles": 128,
+          "maxSurfaceOffset": 0.025000000000001726,
+          "maxSeedCorrection": 1.185880943776703
+        },
+        "Long inset flux chiller channel": {
+          "objects": 2,
+          "vertices": 11640,
+          "attached": 11640,
+          "rejected": 0,
+          "triangles": 3880,
+          "maxSurfaceOffset": 0.01800000000000381,
+          "maxSeedCorrection": 0.5059948831385412
+        },
+        "Power-stage chiller 1": {
+          "objects": 2,
+          "vertices": 864,
+          "attached": 864,
+          "rejected": 0,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.03500000000000357,
+          "maxSeedCorrection": 0.5692590031446798
+        },
+        "Power-stage chiller 1 rib": {
+          "objects": 28,
+          "vertices": 1176,
+          "attached": 1176,
+          "rejected": 0,
+          "triangles": 392,
+          "maxSurfaceOffset": 0.05500000000000372,
+          "maxSeedCorrection": 0.6266801474902692
+        },
+        "Chiller border": {
+          "objects": 32,
+          "vertices": 8352,
+          "attached": 8352,
+          "rejected": 0,
+          "triangles": 2784,
+          "maxSurfaceOffset": 0.0650000000000038,
+          "maxSeedCorrection": 0.3150203814436736
+        },
+        "Power-stage chiller 2": {
+          "objects": 2,
+          "vertices": 864,
+          "attached": 864,
+          "rejected": 0,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.03500000000000354,
+          "maxSeedCorrection": 0.5692590031446798
+        },
+        "Power-stage chiller 2 rib": {
+          "objects": 28,
+          "vertices": 1176,
+          "attached": 1176,
+          "rejected": 0,
+          "triangles": 392,
+          "maxSurfaceOffset": 0.05500000000000381,
+          "maxSeedCorrection": 0.6266801474902692
+        },
+        "Power-stage chiller 3": {
+          "objects": 2,
+          "vertices": 864,
+          "attached": 864,
+          "rejected": 0,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.03500000000000357,
+          "maxSeedCorrection": 0.5692590031446798
+        },
+        "Power-stage chiller 3 rib": {
+          "objects": 28,
+          "vertices": 1176,
+          "attached": 1176,
+          "rejected": 0,
+          "triangles": 392,
+          "maxSurfaceOffset": 0.055000000000003796,
+          "maxSeedCorrection": 0.6266801474902692
+        },
+        "Main-stage chiller 1": {
+          "objects": 2,
+          "vertices": 1152,
+          "attached": 1152,
+          "rejected": 0,
+          "triangles": 384,
+          "maxSurfaceOffset": 0.03500000000000379,
+          "maxSeedCorrection": 0.5692590031446798
+        },
+        "Main-stage chiller 1 rib": {
+          "objects": 40,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.055000000000003664,
+          "maxSeedCorrection": 0.6266801474902692
+        },
+        "Main-stage chiller 2": {
+          "objects": 2,
+          "vertices": 1152,
+          "attached": 1152,
+          "rejected": 0,
+          "triangles": 384,
+          "maxSurfaceOffset": 0.03500000000000371,
+          "maxSeedCorrection": 0.5692590031446798
+        },
+        "Main-stage chiller 2 rib": {
+          "objects": 40,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.0550000000000038,
+          "maxSeedCorrection": 0.6266801474902692
+        },
+        "Main-stage chiller 3": {
+          "objects": 2,
+          "vertices": 1152,
+          "attached": 1152,
+          "rejected": 0,
+          "triangles": 384,
+          "maxSurfaceOffset": 0.03500000000000381,
+          "maxSeedCorrection": 0.5692590031446798
+        },
+        "Main-stage chiller 3 rib": {
+          "objects": 40,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.0550000000000039,
+          "maxSeedCorrection": 0.6266801474902692
+        },
+        "Main-stage chiller 4": {
+          "objects": 2,
+          "vertices": 1152,
+          "attached": 1152,
+          "rejected": 0,
+          "triangles": 384,
+          "maxSurfaceOffset": 0.03500000000000392,
+          "maxSeedCorrection": 0.5692590031446798
+        },
+        "Main-stage chiller 4 rib": {
+          "objects": 40,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.05500000000000376,
+          "maxSeedCorrection": 0.6266801474902692
+        },
+        "Main-stage chiller 5": {
+          "objects": 2,
+          "vertices": 1152,
+          "attached": 1152,
+          "rejected": 0,
+          "triangles": 384,
+          "maxSurfaceOffset": 0.035000000000003806,
+          "maxSeedCorrection": 0.10743629888888506
+        },
+        "Main-stage chiller 5 rib": {
+          "objects": 40,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.055000000000003754,
+          "maxSeedCorrection": 0.16485719105050123
+        },
+        "Final-stage flux chiller": {
+          "objects": 4,
+          "vertices": 1680,
+          "attached": 1680,
+          "rejected": 0,
+          "triangles": 560,
+          "maxSurfaceOffset": 0.03500000000000396,
+          "maxSeedCorrection": 0.7898150104155519
+        },
+        "Final chiller rib": {
+          "objects": 56,
+          "vertices": 2016,
+          "attached": 2016,
+          "rejected": 0,
+          "triangles": 672,
+          "maxSurfaceOffset": 0.05500000000000402,
+          "maxSeedCorrection": 0.8419735752775779
+        },
+        "Half-wrap restoration cowl": {
+          "objects": 2,
+          "vertices": 3528,
+          "attached": 3528,
+          "rejected": 0,
+          "triangles": 1176,
+          "maxSurfaceOffset": 0.035000000000005645,
+          "maxSeedCorrection": 3.55673154392975
+        },
+        "Nacelle pennant forward": {
+          "objects": 2,
+          "vertices": 1488,
+          "attached": 1488,
+          "rejected": 0,
+          "triangles": 496,
+          "maxSurfaceOffset": 0.03500000000000357,
+          "maxSeedCorrection": 0.10434686574075869
+        },
+        "Nacelle pennant aft": {
+          "objects": 2,
+          "vertices": 528,
+          "attached": 528,
+          "rejected": 0,
+          "triangles": 176,
+          "maxSurfaceOffset": 0.03500000000000352,
+          "maxSeedCorrection": 0.10434686574075158
+        },
+        "Outboard nacelle registry port": {
+          "objects": 1,
+          "vertices": 2073,
+          "attached": 2073,
+          "rejected": 0,
+          "triangles": 691,
+          "maxSurfaceOffset": 0.045000000000003586,
+          "maxSeedCorrection": 0.2169982717917236
+        },
+        "Tug pylon access grille": {
+          "objects": 8,
+          "vertices": 1344,
+          "attached": 1329,
+          "rejected": 15,
+          "triangles": 437,
+          "maxSurfaceOffset": 0.025000000000000355,
+          "maxSeedCorrection": 9.536743181826068e-7
+        },
+        "Tug pylon access grille rib": {
+          "objects": 40,
+          "vertices": 3360,
+          "attached": 3336,
+          "rejected": 24,
+          "triangles": 1104,
+          "maxSurfaceOffset": 0.04499999999999993,
+          "maxSeedCorrection": 9.536743181826068e-7
+        },
+        "Outboard nacelle registry starboard": {
+          "objects": 1,
+          "vertices": 2073,
+          "attached": 2073,
+          "rejected": 0,
+          "triangles": 691,
+          "maxSurfaceOffset": 0.04500000000000362,
+          "maxSeedCorrection": 0.2169982717917236
+        }
+      },
+      "registryOrientation": [
+        {
+          "feature": "Registry orientation",
+          "surface": "ptolemy",
+          "text": "NCC-3801",
+          "side": -1,
+          "minimumOutwardNormal": 0.9861528277397156,
+          "baseline": [
+            0,
+            -1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            -1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        },
+        {
+          "feature": "Registry orientation",
+          "surface": "ptolemy",
+          "text": "NCC-3801",
+          "side": 1,
+          "minimumOutwardNormal": 0.9862261414527893,
+          "baseline": [
+            0,
+            1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        }
+      ]
+    }
   },
   {
     "file": "federation.glb",
-    "bytes": 4176112,
+    "bytes": 3216700,
     "meshes": 6,
-    "vertices": 137092,
-    "triangles": 146700,
+    "vertices": 94824,
+    "triangles": 154292,
     "bounds": [
       [
         -70,
@@ -90,27 +1737,788 @@
       [
         70,
         160,
-        43.61000061035156
+        46.04106903076172
       ]
-    ]
+    ],
+    "surfaceValidation": {
+      "method": "Exact barycentric projection onto intended STL face; bounded axial region prevents cross-hull attachment; unsupported triangles omitted. Surface offsets are in source metres.",
+      "normalMethod": "36 degree crease-aware vertex normals; original STL face-normal splits removed before smoothing.",
+      "features": {
+        "Saucer rim cabin window": {
+          "objects": 60,
+          "vertices": 2160,
+          "attached": 2022,
+          "rejected": 138,
+          "triangles": 672,
+          "maxSurfaceOffset": 0.025000000000013817,
+          "maxSeedCorrection": 0.07517481501229639
+        },
+        "Bridge module window": {
+          "objects": 16,
+          "vertices": 384,
+          "attached": 384,
+          "rejected": 0,
+          "triangles": 128,
+          "maxSurfaceOffset": 0.025000000000004498,
+          "maxSeedCorrection": 0.488812054827207
+        },
+        "Rim service access hatch": {
+          "objects": 4,
+          "vertices": 288,
+          "attached": 288,
+          "rejected": 0,
+          "triangles": 96,
+          "maxSurfaceOffset": 0.02500000000000231,
+          "maxSeedCorrection": 0.7601040496545082
+        },
+        "Saucer registry": {
+          "objects": 9,
+          "vertices": 9288,
+          "attached": 9288,
+          "rejected": 0,
+          "triangles": 3096,
+          "maxSurfaceOffset": 0.03500000000000399,
+          "maxSeedCorrection": 1.039685798820667
+        },
+        "Impulse exhaust housing": {
+          "objects": 1,
+          "vertices": 1548,
+          "attached": 1548,
+          "rejected": 0,
+          "triangles": 516,
+          "maxSurfaceOffset": 0.02499999999999858,
+          "maxSeedCorrection": 0.40597534179687855
+        },
+        "Impulse exhaust": {
+          "objects": 2,
+          "vertices": 864,
+          "attached": 864,
+          "rejected": 0,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.03999999999999915,
+          "maxSeedCorrection": 0.40597534179687855
+        },
+        "Impulse exhaust louvre": {
+          "objects": 20,
+          "vertices": 960,
+          "attached": 960,
+          "rejected": 0,
+          "triangles": 320,
+          "maxSurfaceOffset": 0.05999999999999872,
+          "maxSeedCorrection": 0.40597534179687855
+        },
+        "Impulse upper cooling fin": {
+          "objects": 14,
+          "vertices": 1512,
+          "attached": 1512,
+          "rejected": 0,
+          "triangles": 504,
+          "maxSurfaceOffset": 0.025000000000001955,
+          "maxSeedCorrection": 1.0969004660492132
+        },
+        "Ventral sensor ring": {
+          "objects": 5,
+          "vertices": 645,
+          "attached": 645,
+          "rejected": 0,
+          "triangles": 15480,
+          "maxSurfaceOffset": 0.015,
+          "maxSeedCorrection": 8.249999809265137
+        },
+        "Lower sensor array port": {
+          "objects": 16,
+          "vertices": 384,
+          "attached": 384,
+          "rejected": 0,
+          "triangles": 128,
+          "maxSurfaceOffset": 0.025000000000003297,
+          "maxSeedCorrection": 8.347281580262
+        },
+        "Long inset flux chiller channel": {
+          "objects": 3,
+          "vertices": 17460,
+          "attached": 16410,
+          "rejected": 1050,
+          "triangles": 5460,
+          "maxSurfaceOffset": 0.018000000000003777,
+          "maxSeedCorrection": 0.5059962301140644
+        },
+        "Power-stage chiller 1": {
+          "objects": 3,
+          "vertices": 1296,
+          "attached": 864,
+          "rejected": 432,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.035000000000003584,
+          "maxSeedCorrection": 0.5692605710289911
+        },
+        "Power-stage chiller 1 rib": {
+          "objects": 42,
+          "vertices": 1764,
+          "attached": 1176,
+          "rejected": 588,
+          "triangles": 392,
+          "maxSurfaceOffset": 0.05500000000000366,
+          "maxSeedCorrection": 0.6266796972891413
+        },
+        "Chiller border": {
+          "objects": 48,
+          "vertices": 12528,
+          "attached": 11664,
+          "rejected": 864,
+          "triangles": 3888,
+          "maxSurfaceOffset": 0.06500000000000364,
+          "maxSeedCorrection": 0.31501735777157336
+        },
+        "Power-stage chiller 2": {
+          "objects": 3,
+          "vertices": 1296,
+          "attached": 864,
+          "rejected": 432,
+          "triangles": 288,
+          "maxSurfaceOffset": 0.03500000000000358,
+          "maxSeedCorrection": 0.5692605710289911
+        },
+        "Power-stage chiller 2 rib": {
+          "objects": 42,
+          "vertices": 1764,
+          "attached": 1176,
+          "rejected": 588,
+          "triangles": 392,
+          "maxSurfaceOffset": 0.05500000000000358,
+          "maxSeedCorrection": 0.6266796972891413
+        },
+        "Power-stage chiller 3": {
+          "objects": 3,
+          "vertices": 1296,
+          "attached": 1296,
+          "rejected": 0,
+          "triangles": 432,
+          "maxSurfaceOffset": 0.03500000000000348,
+          "maxSeedCorrection": 0.5692605710289911
+        },
+        "Power-stage chiller 3 rib": {
+          "objects": 42,
+          "vertices": 1764,
+          "attached": 1764,
+          "rejected": 0,
+          "triangles": 588,
+          "maxSurfaceOffset": 0.05500000000000355,
+          "maxSeedCorrection": 0.6266810204783084
+        },
+        "Main-stage chiller 1": {
+          "objects": 3,
+          "vertices": 1728,
+          "attached": 1728,
+          "rejected": 0,
+          "triangles": 576,
+          "maxSurfaceOffset": 0.035000000000003556,
+          "maxSeedCorrection": 0.5692605710289911
+        },
+        "Main-stage chiller 1 rib": {
+          "objects": 60,
+          "vertices": 2520,
+          "attached": 2520,
+          "rejected": 0,
+          "triangles": 840,
+          "maxSurfaceOffset": 0.05500000000000358,
+          "maxSeedCorrection": 0.6266810204783084
+        },
+        "Main-stage chiller 2": {
+          "objects": 3,
+          "vertices": 1728,
+          "attached": 1728,
+          "rejected": 0,
+          "triangles": 576,
+          "maxSurfaceOffset": 0.035000000000003584,
+          "maxSeedCorrection": 0.5692605710289911
+        },
+        "Main-stage chiller 2 rib": {
+          "objects": 60,
+          "vertices": 2520,
+          "attached": 2520,
+          "rejected": 0,
+          "triangles": 840,
+          "maxSurfaceOffset": 0.055000000000003525,
+          "maxSeedCorrection": 0.6266810204783084
+        },
+        "Main-stage chiller 3": {
+          "objects": 3,
+          "vertices": 1728,
+          "attached": 1728,
+          "rejected": 0,
+          "triangles": 576,
+          "maxSurfaceOffset": 0.035000000000003494,
+          "maxSeedCorrection": 0.5692605710289911
+        },
+        "Main-stage chiller 3 rib": {
+          "objects": 60,
+          "vertices": 2520,
+          "attached": 2520,
+          "rejected": 0,
+          "triangles": 840,
+          "maxSurfaceOffset": 0.05500000000000379,
+          "maxSeedCorrection": 0.6266810204783084
+        },
+        "Main-stage chiller 4": {
+          "objects": 3,
+          "vertices": 1728,
+          "attached": 1728,
+          "rejected": 0,
+          "triangles": 576,
+          "maxSurfaceOffset": 0.03500000000000372,
+          "maxSeedCorrection": 0.5692605710289911
+        },
+        "Main-stage chiller 4 rib": {
+          "objects": 60,
+          "vertices": 2520,
+          "attached": 2520,
+          "rejected": 0,
+          "triangles": 840,
+          "maxSurfaceOffset": 0.055000000000003775,
+          "maxSeedCorrection": 0.6266810204783084
+        },
+        "Main-stage chiller 5": {
+          "objects": 3,
+          "vertices": 1728,
+          "attached": 1728,
+          "rejected": 0,
+          "triangles": 576,
+          "maxSurfaceOffset": 0.03500000000000354,
+          "maxSeedCorrection": 0.10743841288264377
+        },
+        "Main-stage chiller 5 rib": {
+          "objects": 60,
+          "vertices": 2520,
+          "attached": 2520,
+          "rejected": 0,
+          "triangles": 840,
+          "maxSurfaceOffset": 0.055000000000003726,
+          "maxSeedCorrection": 0.16485689994015473
+        },
+        "Final-stage flux chiller": {
+          "objects": 6,
+          "vertices": 2520,
+          "attached": 2520,
+          "rejected": 0,
+          "triangles": 840,
+          "maxSurfaceOffset": 0.03500000000000459,
+          "maxSeedCorrection": 0.7898143228322994
+        },
+        "Final chiller rib": {
+          "objects": 84,
+          "vertices": 3024,
+          "attached": 3024,
+          "rejected": 0,
+          "triangles": 1008,
+          "maxSurfaceOffset": 0.05500000000000454,
+          "maxSeedCorrection": 0.8419806483031564
+        },
+        "Half-wrap restoration cowl": {
+          "objects": 3,
+          "vertices": 5292,
+          "attached": 5292,
+          "rejected": 0,
+          "triangles": 1764,
+          "maxSurfaceOffset": 0.03500000000000855,
+          "maxSeedCorrection": 3.556730357635878
+        },
+        "Nacelle pennant forward": {
+          "objects": 4,
+          "vertices": 2976,
+          "attached": 2976,
+          "rejected": 0,
+          "triangles": 992,
+          "maxSurfaceOffset": 0.03500000000000358,
+          "maxSeedCorrection": 0.10434558670386807
+        },
+        "Nacelle pennant aft": {
+          "objects": 4,
+          "vertices": 1056,
+          "attached": 1056,
+          "rejected": 0,
+          "triangles": 352,
+          "maxSurfaceOffset": 0.03500000000000351,
+          "maxSeedCorrection": 0.10434558670386807
+        },
+        "Outboard nacelle registry port": {
+          "objects": 2,
+          "vertices": 3468,
+          "attached": 3468,
+          "rejected": 0,
+          "triangles": 1156,
+          "maxSurfaceOffset": 0.045000000000003613,
+          "maxSeedCorrection": 0.2169985866882982
+        },
+        "Outboard nacelle registry starboard": {
+          "objects": 2,
+          "vertices": 3468,
+          "attached": 3468,
+          "rejected": 0,
+          "triangles": 1156,
+          "maxSurfaceOffset": 0.04500000000000357,
+          "maxSeedCorrection": 0.2169985866882982
+        },
+        "Engineering hull window": {
+          "objects": 108,
+          "vertices": 3888,
+          "attached": 3888,
+          "rejected": 0,
+          "triangles": 1296,
+          "maxSurfaceOffset": 0.02500000000000149,
+          "maxSeedCorrection": 4.876798997028013
+        },
+        "Engineering pennant": {
+          "objects": 2,
+          "vertices": 1272,
+          "attached": 1272,
+          "rejected": 0,
+          "triangles": 424,
+          "maxSurfaceOffset": 0.02500000000000093,
+          "maxSeedCorrection": 1.1600448054176695
+        },
+        "Neck cabin window": {
+          "objects": 42,
+          "vertices": 1512,
+          "attached": 1200,
+          "rejected": 312,
+          "triangles": 390,
+          "maxSurfaceOffset": 0.02499999999999991,
+          "maxSeedCorrection": 0.5000000000000004
+        },
+        "Deflector concentric ridge": {
+          "objects": 3,
+          "vertices": 387,
+          "attached": 387,
+          "rejected": 0,
+          "triangles": 9288,
+          "maxSurfaceOffset": 0.015,
+          "maxSeedCorrection": 2.000000000000007
+        },
+        "Hangar clamshell segment 1": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 354,
+          "rejected": 12,
+          "triangles": 110,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 2
+        },
+        "Hangar clamshell segment 2": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 343,
+          "rejected": 23,
+          "triangles": 101,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 2
+        },
+        "Hangar clamshell segment 3": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 342,
+          "rejected": 24,
+          "triangles": 98,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 2
+        },
+        "Hangar clamshell segment 4": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 341,
+          "rejected": 25,
+          "triangles": 97,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 2
+        },
+        "Hangar clamshell segment 5": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 354,
+          "rejected": 12,
+          "triangles": 110,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 2
+        },
+        "Hangar clamshell segment 6": {
+          "objects": 1,
+          "vertices": 366,
+          "attached": 357,
+          "rejected": 9,
+          "triangles": 113,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 2
+        },
+        "Hangar observation window strip": {
+          "objects": 1,
+          "vertices": 156,
+          "attached": 153,
+          "rejected": 3,
+          "triangles": 49,
+          "maxSurfaceOffset": 0.025000000000005684,
+          "maxSeedCorrection": 2
+        }
+      },
+      "registryOrientation": [
+        {
+          "feature": "Registry orientation",
+          "surface": "federation",
+          "text": "NCC-2100",
+          "side": -1,
+          "minimumOutwardNormal": 0.9861499667167664,
+          "baseline": [
+            0,
+            -1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            -1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        },
+        {
+          "feature": "Registry orientation",
+          "surface": "federation",
+          "text": "NCC-2100",
+          "side": 1,
+          "minimumOutwardNormal": 0.986227810382843,
+          "baseline": [
+            0,
+            1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        },
+        {
+          "feature": "Registry orientation",
+          "surface": "federation",
+          "text": "NCC-2100",
+          "side": 1,
+          "minimumOutwardNormal": 0.9862275123596191,
+          "baseline": [
+            0,
+            1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        },
+        {
+          "feature": "Registry orientation",
+          "surface": "federation",
+          "text": "NCC-2100",
+          "side": -1,
+          "minimumOutwardNormal": 0.9861497282981873,
+          "baseline": [
+            0,
+            -1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            -1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        }
+      ]
+    }
   },
   {
     "file": "nacelle.glb",
-    "bytes": 660404,
+    "bytes": 748716,
     "meshes": 5,
-    "vertices": 19761,
-    "triangles": 30228,
+    "vertices": 21391,
+    "triangles": 37573,
     "bounds": [
       [
-        -11.260514259338379,
+        -11.191069602966309,
         -0.0399995818734169,
-        -8.760000228881836
+        -8.75999927520752
       ],
       [
-        11.260514259338379,
+        11.191069602966309,
         153.60000610351562,
-        8.760000228881836
+        8.75999927520752
       ]
-    ]
+    ],
+    "surfaceValidation": {
+      "method": "Exact barycentric projection onto intended STL face; bounded axial region prevents cross-hull attachment; unsupported triangles omitted. Surface offsets are in source metres.",
+      "normalMethod": "36 degree crease-aware vertex normals; original STL face-normal splits removed before smoothing.",
+      "features": {
+        "Long inset flux chiller channel": {
+          "objects": 1,
+          "vertices": 5820,
+          "attached": 5820,
+          "rejected": 0,
+          "triangles": 1940,
+          "maxSurfaceOffset": 0.018000000000001095,
+          "maxSeedCorrection": 0.5037092313549589
+        },
+        "Power-stage chiller 1": {
+          "objects": 1,
+          "vertices": 432,
+          "attached": 432,
+          "rejected": 0,
+          "triangles": 144,
+          "maxSurfaceOffset": 0.03500000000000085,
+          "maxSeedCorrection": 0.5659635363656976
+        },
+        "Power-stage chiller 1 rib": {
+          "objects": 14,
+          "vertices": 588,
+          "attached": 588,
+          "rejected": 0,
+          "triangles": 196,
+          "maxSurfaceOffset": 0.05500000000000087,
+          "maxSeedCorrection": 0.6254859893585696
+        },
+        "Chiller border": {
+          "objects": 16,
+          "vertices": 4176,
+          "attached": 4176,
+          "rejected": 0,
+          "triangles": 1392,
+          "maxSurfaceOffset": 0.06500000000000089,
+          "maxSeedCorrection": 0.31382489793999024
+        },
+        "Power-stage chiller 2": {
+          "objects": 1,
+          "vertices": 432,
+          "attached": 432,
+          "rejected": 0,
+          "triangles": 144,
+          "maxSurfaceOffset": 0.03500000000000087,
+          "maxSeedCorrection": 0.5659635363656976
+        },
+        "Power-stage chiller 2 rib": {
+          "objects": 14,
+          "vertices": 588,
+          "attached": 588,
+          "rejected": 0,
+          "triangles": 196,
+          "maxSurfaceOffset": 0.055000000000000854,
+          "maxSeedCorrection": 0.6254859893585696
+        },
+        "Power-stage chiller 3": {
+          "objects": 1,
+          "vertices": 432,
+          "attached": 432,
+          "rejected": 0,
+          "triangles": 144,
+          "maxSurfaceOffset": 0.03500000000000084,
+          "maxSeedCorrection": 0.5659635363656976
+        },
+        "Power-stage chiller 3 rib": {
+          "objects": 14,
+          "vertices": 588,
+          "attached": 588,
+          "rejected": 0,
+          "triangles": 196,
+          "maxSurfaceOffset": 0.05500000000000087,
+          "maxSeedCorrection": 0.6254859893585696
+        },
+        "Main-stage chiller 1": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.03500000000000088,
+          "maxSeedCorrection": 0.5659635363656976
+        },
+        "Main-stage chiller 1 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.05500000000000088,
+          "maxSeedCorrection": 0.6254859893585696
+        },
+        "Main-stage chiller 2": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.0350000000000009,
+          "maxSeedCorrection": 0.5659635363656976
+        },
+        "Main-stage chiller 2 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.05500000000000088,
+          "maxSeedCorrection": 0.6254859893585696
+        },
+        "Main-stage chiller 3": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.03500000000000088,
+          "maxSeedCorrection": 0.5659635363656976
+        },
+        "Main-stage chiller 3 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.055000000000000895,
+          "maxSeedCorrection": 0.6254859893585696
+        },
+        "Main-stage chiller 4": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.03500000000000095,
+          "maxSeedCorrection": 0.5659635363656976
+        },
+        "Main-stage chiller 4 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.05500000000000088,
+          "maxSeedCorrection": 0.6254859893585696
+        },
+        "Main-stage chiller 5": {
+          "objects": 1,
+          "vertices": 576,
+          "attached": 576,
+          "rejected": 0,
+          "triangles": 192,
+          "maxSurfaceOffset": 0.035000000000000905,
+          "maxSeedCorrection": 0.10489629368210274
+        },
+        "Main-stage chiller 5 rib": {
+          "objects": 20,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.055000000000000854,
+          "maxSeedCorrection": 0.164418973579453
+        },
+        "Final-stage flux chiller": {
+          "objects": 2,
+          "vertices": 840,
+          "attached": 840,
+          "rejected": 0,
+          "triangles": 280,
+          "maxSurfaceOffset": 0.035000000000001384,
+          "maxSeedCorrection": 0.7886232467201975
+        },
+        "Final chiller rib": {
+          "objects": 28,
+          "vertices": 1008,
+          "attached": 1008,
+          "rejected": 0,
+          "triangles": 336,
+          "maxSurfaceOffset": 0.05500000000000164,
+          "maxSeedCorrection": 0.8414485611540687
+        },
+        "Half-wrap restoration cowl": {
+          "objects": 1,
+          "vertices": 1764,
+          "attached": 1764,
+          "rejected": 0,
+          "triangles": 588,
+          "maxSurfaceOffset": 0.035000000000006894,
+          "maxSeedCorrection": 3.5285187651943066
+        },
+        "Nacelle pennant forward": {
+          "objects": 1,
+          "vertices": 744,
+          "attached": 744,
+          "rejected": 0,
+          "triangles": 248,
+          "maxSurfaceOffset": 0.035000000000000885,
+          "maxSeedCorrection": 0.10273672950867763
+        },
+        "Nacelle pennant aft": {
+          "objects": 1,
+          "vertices": 264,
+          "attached": 264,
+          "rejected": 0,
+          "triangles": 88,
+          "maxSurfaceOffset": 0.03500000000000088,
+          "maxSeedCorrection": 0.10273672950867585
+        },
+        "Outboard nacelle registry port": {
+          "objects": 1,
+          "vertices": 1575,
+          "attached": 1575,
+          "rejected": 0,
+          "triangles": 525,
+          "maxSurfaceOffset": 0.0450000000000009,
+          "maxSeedCorrection": 0.21492964916935975
+        }
+      },
+      "registryOrientation": [
+        {
+          "feature": "Registry orientation",
+          "surface": "nacelle",
+          "text": "NCC-1700",
+          "side": -1,
+          "minimumOutwardNormal": 0.9858108758926392,
+          "baseline": [
+            0,
+            -1,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "outward": [
+            -1,
+            0,
+            0
+          ],
+          "rightHanded": true
+        }
+      ]
+    }
   }
 ]

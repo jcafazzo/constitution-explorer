@@ -1,0 +1,30 @@
+{
+  "results": [
+    {
+      "mode": "orbit",
+      "flush": false,
+      "positionDrift": 151.6279548716288,
+      "targetDrift": 0
+    },
+    {
+      "mode": "orbit",
+      "flush": true,
+      "positionDrift": 6.454513267854195e-12,
+      "targetDrift": 0
+    },
+    {
+      "mode": "pan",
+      "flush": false,
+      "positionDrift": 26.326471524839388,
+      "targetDrift": 26.32647152483748
+    },
+    {
+      "mode": "pan",
+      "flush": true,
+      "positionDrift": 6.454513267854195e-12,
+      "targetDrift": 0
+    }
+  ],
+  "pass": true,
+  "scope": "Actual OrbitControls event/inertia handling; viewer browser layout and pointer hit testing remain separately checked."
+}

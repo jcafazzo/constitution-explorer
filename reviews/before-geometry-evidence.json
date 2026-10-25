@@ -1,0 +1,99 @@
+{
+  "phase": "before",
+  "note": "Attachment candidates are disconnected indexed face components, not unique windows or objects. The filter selects small dark planar patches in the Constitution neck/engineering region; raycasting uses the original source hull, independently of generator projection helpers. This checks attachment only, not source fidelity.",
+  "models": [
+    {
+      "id": "constitution",
+      "vertices": 200428,
+      "nonfiniteVertices": 0,
+      "zeroNormals": 0,
+      "fitCases": 12,
+      "maxNDC": 0.8800000000000002,
+      "maxDistanceClamps": 0,
+      "attachment": {
+        "faceSamples": 300,
+        "regions": {
+          "neck": 84,
+          "engineering": 216
+        },
+        "noHullBehind": 12,
+        "offsetOverPoint3m": 92,
+        "maxOffsetM": 2.537936043081686
+      }
+    },
+    {
+      "id": "saladin",
+      "vertices": 73007,
+      "nonfiniteVertices": 0,
+      "zeroNormals": 0,
+      "fitCases": 12,
+      "maxNDC": 0.8800000000000002,
+      "maxDistanceClamps": 0
+    },
+    {
+      "id": "hermes",
+      "vertices": 72701,
+      "nonfiniteVertices": 0,
+      "zeroNormals": 0,
+      "fitCases": 12,
+      "maxNDC": 0.8800000000000002,
+      "maxDistanceClamps": 0
+    },
+    {
+      "id": "ptolemy",
+      "vertices": 102549,
+      "nonfiniteVertices": 0,
+      "zeroNormals": 0,
+      "fitCases": 12,
+      "maxNDC": 0.8800000000000001,
+      "maxDistanceClamps": 0
+    },
+    {
+      "id": "federation",
+      "vertices": 137092,
+      "nonfiniteVertices": 0,
+      "zeroNormals": 0,
+      "fitCases": 12,
+      "maxNDC": 0.8800000000000002,
+      "maxDistanceClamps": 0
+    },
+    {
+      "id": "nacelle",
+      "vertices": 19761,
+      "nonfiniteVertices": 0,
+      "zeroNormals": 0,
+      "fitCases": 12,
+      "maxNDC": 0.8800000000000001,
+      "maxDistanceClamps": 0
+    },
+    {
+      "id": "bridge",
+      "vertices": 40510,
+      "nonfiniteVertices": 0,
+      "zeroNormals": 0,
+      "fitCases": 12,
+      "maxNDC": 0.8800000000000001,
+      "maxDistanceClamps": 0
+    },
+    {
+      "id": "hangar",
+      "vertices": 19416,
+      "nonfiniteVertices": 0,
+      "zeroNormals": 0,
+      "fitCases": 12,
+      "maxNDC": 0.8800000000000001,
+      "maxDistanceClamps": 0
+    },
+    {
+      "id": "impulse",
+      "vertices": 19432,
+      "nonfiniteVertices": 0,
+      "zeroNormals": 0,
+      "fitCases": 12,
+      "maxNDC": 0.8800000000000002,
+      "maxDistanceClamps": 0
+    }
+  ],
+  "geometryAndFitPass": true,
+  "sampledAttachmentPass": false
+}
