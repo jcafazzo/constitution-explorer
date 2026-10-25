@@ -1,0 +1,519 @@
+{
+  "sourcePage": 49,
+  "technicalOrder": "TO:00:10:10",
+  "method": "Per-channel median of 90 by 44 pixel interior patches in a 1546 by 2000 pixel pdftoppm render. Uncalibrated digital scan samples; not measured paint, fabric or metallic reflectance standards.",
+  "colours": {
+    "SF01": {
+      "name": "Silver",
+      "code": "SF01UC",
+      "hex": "#161920",
+      "rgb": [
+        22,
+        25,
+        32
+      ],
+      "sampleRectPx": [
+        281,
+        394,
+        371,
+        438
+      ]
+    },
+    "SF02": {
+      "name": "Antimony",
+      "code": "SF02UC",
+      "hex": "#f5eefd",
+      "rgb": [
+        245,
+        238,
+        253
+      ],
+      "sampleRectPx": [
+        609,
+        394,
+        699,
+        438
+      ]
+    },
+    "SF03": {
+      "name": "Gold",
+      "code": "SF03UC",
+      "hex": "#402000",
+      "rgb": [
+        64,
+        32,
+        0
+      ],
+      "sampleRectPx": [
+        935,
+        394,
+        1025,
+        438
+      ]
+    },
+    "SF04": {
+      "name": "Bronze",
+      "code": "SF04UC",
+      "hex": "#3b0c00",
+      "rgb": [
+        59,
+        12,
+        0
+      ],
+      "sampleRectPx": [
+        1260,
+        394,
+        1350,
+        438
+      ]
+    },
+    "SF05": {
+      "name": "Copper",
+      "code": "SF05UC",
+      "hex": "#93230a",
+      "rgb": [
+        147,
+        35,
+        10
+      ],
+      "sampleRectPx": [
+        281,
+        586,
+        371,
+        630
+      ]
+    },
+    "SF06": {
+      "name": "White",
+      "code": "SF06UC",
+      "hex": "#ffffff",
+      "rgb": [
+        255,
+        255,
+        255
+      ],
+      "sampleRectPx": [
+        609,
+        586,
+        699,
+        630
+      ]
+    },
+    "SF07": {
+      "name": "Ivory",
+      "code": "SF07UC",
+      "hex": "#ffff8d",
+      "rgb": [
+        255,
+        255,
+        141
+      ],
+      "sampleRectPx": [
+        935,
+        586,
+        1025,
+        630
+      ]
+    },
+    "SF08": {
+      "name": "Sand",
+      "code": "SF08UC",
+      "hex": "#fda26f",
+      "rgb": [
+        253,
+        162,
+        111
+      ],
+      "sampleRectPx": [
+        1260,
+        586,
+        1350,
+        630
+      ]
+    },
+    "SF09": {
+      "name": "Blood",
+      "code": "SF09UC",
+      "hex": "#710000",
+      "rgb": [
+        113,
+        0,
+        0
+      ],
+      "sampleRectPx": [
+        281,
+        780,
+        371,
+        824
+      ]
+    },
+    "SF10": {
+      "name": "Red",
+      "code": "SF10UC",
+      "hex": "#fe0000",
+      "rgb": [
+        254,
+        0,
+        0
+      ],
+      "sampleRectPx": [
+        609,
+        780,
+        699,
+        824
+      ]
+    },
+    "SF11": {
+      "name": "Orange",
+      "code": "SF11UC",
+      "hex": "#fe2f00",
+      "rgb": [
+        254,
+        47,
+        0
+      ],
+      "sampleRectPx": [
+        935,
+        780,
+        1025,
+        824
+      ]
+    },
+    "SF12": {
+      "name": "Yellow",
+      "code": "SF12UC",
+      "hex": "#ffff00",
+      "rgb": [
+        255,
+        255,
+        0
+      ],
+      "sampleRectPx": [
+        1260,
+        780,
+        1350,
+        824
+      ]
+    },
+    "SF13": {
+      "name": "Tenne",
+      "code": "SF13UC",
+      "hex": "#fd5000",
+      "rgb": [
+        253,
+        80,
+        0
+      ],
+      "sampleRectPx": [
+        281,
+        968,
+        371,
+        1012
+      ]
+    },
+    "SF14": {
+      "name": "Olive",
+      "code": "SF14UC",
+      "hex": "#097100",
+      "rgb": [
+        9,
+        113,
+        0
+      ],
+      "sampleRectPx": [
+        609,
+        968,
+        699,
+        1012
+      ]
+    },
+    "SF15": {
+      "name": "Green",
+      "code": "SF15UC",
+      "hex": "#000700",
+      "rgb": [
+        0,
+        7,
+        0
+      ],
+      "sampleRectPx": [
+        935,
+        968,
+        1025,
+        1012
+      ]
+    },
+    "SF16": {
+      "name": "Sky Blue",
+      "code": "SF16UC",
+      "hex": "#7cfefe",
+      "rgb": [
+        124,
+        254,
+        254
+      ],
+      "sampleRectPx": [
+        1260,
+        968,
+        1350,
+        1012
+      ]
+    },
+    "SF17": {
+      "name": "Ultramarine",
+      "code": "SF17UC",
+      "hex": "#000064",
+      "rgb": [
+        0,
+        0,
+        100
+      ],
+      "sampleRectPx": [
+        281,
+        1162,
+        371,
+        1206
+      ]
+    },
+    "SF18": {
+      "name": "Blue",
+      "code": "SF18UC",
+      "hex": "#000028",
+      "rgb": [
+        0,
+        0,
+        40
+      ],
+      "sampleRectPx": [
+        609,
+        1162,
+        699,
+        1206
+      ]
+    },
+    "SF19": {
+      "name": "Indigo",
+      "code": "SF19UC",
+      "hex": "#000000",
+      "rgb": [
+        0,
+        0,
+        0
+      ],
+      "sampleRectPx": [
+        935,
+        1162,
+        1025,
+        1206
+      ]
+    },
+    "SF20": {
+      "name": "Midnight",
+      "code": "SF20UC",
+      "hex": "#000000",
+      "rgb": [
+        0,
+        0,
+        0
+      ],
+      "sampleRectPx": [
+        1260,
+        1162,
+        1350,
+        1206
+      ]
+    },
+    "SF21": {
+      "name": "Violet",
+      "code": "SF21UC",
+      "hex": "#000000",
+      "rgb": [
+        0,
+        0,
+        0
+      ],
+      "sampleRectPx": [
+        281,
+        1348,
+        371,
+        1392
+      ]
+    },
+    "SF22": {
+      "name": "Corn",
+      "code": "SF22UC",
+      "hex": "#ffffc8",
+      "rgb": [
+        255,
+        255,
+        200
+      ],
+      "sampleRectPx": [
+        609,
+        1348,
+        699,
+        1392
+      ]
+    },
+    "SF23": {
+      "name": "Tan",
+      "code": "SF23UC",
+      "hex": "#ffff8e",
+      "rgb": [
+        255,
+        255,
+        142
+      ],
+      "sampleRectPx": [
+        935,
+        1348,
+        1025,
+        1392
+      ]
+    },
+    "SF24": {
+      "name": "Brown",
+      "code": "SF24UC",
+      "hex": "#000000",
+      "rgb": [
+        0,
+        0,
+        0
+      ],
+      "sampleRectPx": [
+        1260,
+        1348,
+        1350,
+        1392
+      ]
+    },
+    "SF25": {
+      "name": "Nude",
+      "code": "SF25UC",
+      "hex": "#7c7e84",
+      "rgb": [
+        124,
+        126,
+        132
+      ],
+      "sampleRectPx": [
+        281,
+        1542,
+        371,
+        1586
+      ]
+    },
+    "SF26": {
+      "name": "Purple",
+      "code": "SF26UC",
+      "hex": "#310000",
+      "rgb": [
+        49,
+        0,
+        0
+      ],
+      "sampleRectPx": [
+        609,
+        1542,
+        699,
+        1586
+      ]
+    },
+    "SF27": {
+      "name": "Oxide",
+      "code": "SF27UC",
+      "hex": "#2e3200",
+      "rgb": [
+        46,
+        50,
+        0
+      ],
+      "sampleRectPx": [
+        935,
+        1542,
+        1025,
+        1586
+      ]
+    },
+    "SF28": {
+      "name": "Taupe",
+      "code": "SF28UC",
+      "hex": "#9c967b",
+      "rgb": [
+        156,
+        150,
+        123
+      ],
+      "sampleRectPx": [
+        1260,
+        1542,
+        1350,
+        1586
+      ]
+    },
+    "SF29": {
+      "name": "Platinum",
+      "code": "SF29UC",
+      "hex": "#000000",
+      "rgb": [
+        0,
+        0,
+        0
+      ],
+      "sampleRectPx": [
+        281,
+        1738,
+        371,
+        1782
+      ]
+    },
+    "SF30": {
+      "name": "Gray",
+      "code": "SF30UC",
+      "hex": "#9dfefe",
+      "rgb": [
+        157,
+        254,
+        254
+      ],
+      "sampleRectPx": [
+        609,
+        1738,
+        699,
+        1782
+      ]
+    },
+    "SF31": {
+      "name": "Bluegray",
+      "code": "SF31UC",
+      "hex": "#02508a",
+      "rgb": [
+        2,
+        80,
+        138
+      ],
+      "sampleRectPx": [
+        935,
+        1738,
+        1025,
+        1782
+      ]
+    },
+    "SF32": {
+      "name": "Black",
+      "code": "SF32UC",
+      "hex": "#000000",
+      "rgb": [
+        0,
+        0,
+        0
+      ],
+      "sampleRectPx": [
+        1260,
+        1738,
+        1350,
+        1782
+      ]
+    }
+  }
+}
