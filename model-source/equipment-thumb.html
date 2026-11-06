@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><title>thumb</title>
+<style>html,body{margin:0;background:#efece2}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"../dist/vendor/three.module.js"}}</script>
+<script type="module">
+// Dev-only: renders one Equipment Locker GLB for a catalogue thumbnail. Used by model-source/make-equipment-thumbs.sh.
+import * as THREE from '../dist/vendor/three.module.js';
+import {GLTFLoader} from '../dist/vendor/GLTFLoader.js';
+const id=new URLSearchParams(location.search).get('id');
+const W=640,H=480,r=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});r.setSize(W,H);r.outputColorSpace=THREE.SRGBColorSpace;r.toneMapping=THREE.ACESFilmicToneMapping;r.setClearColor(0xefece2);document.body.append(r.domElement);
+const s=new THREE.Scene(),c=new THREE.PerspectiveCamera(26,W/H,.001,100);c.up.set(0,0,1);
+s.add(new THREE.HemisphereLight(0xffffff,0x6f706a,1.7));for(const [p,i] of [[[2,-4,5],2.4],[[-4,2,2],1.0],[[0,3,-2],.5]]){const l=new THREE.DirectionalLight(0xffffff,i);l.position.set(...p);s.add(l);}
+const g=(await new GLTFLoader().loadAsync(`../dist/assets/equipment/${id}.glb`)).scene;const b=new THREE.Box3().setFromObject(g);g.position.sub(b.getCenter(new THREE.Vector3()));s.add(g);
+const rad=b.getBoundingSphere(new THREE.Sphere()).radius,dir=new THREE.Vector3(.9,-1.1,.7).normalize();c.position.copy(dir.multiplyScalar(rad/Math.sin(THREE.MathUtils.degToRad(13))*1.1));c.lookAt(0,0,0);
+r.render(s,c);document.title='ready';
+</script>

@@ -1,0 +1,1261 @@
+[
+ {
+  "id": "phaser-1",
+  "title": "Hand Phaser Type I",
+  "category": "weapons",
+  "pages": [
+   103
+  ],
+  "size": [
+   4.94,
+   10.72,
+   2.7
+  ],
+  "sizeBasis": "printed W.O.A × L.O.A × D.O.A",
+  "subtitle": "Standard field equipment",
+  "model": "Hand Phaser — Type I",
+  "codes": {
+   "103": "01:08:50"
+  },
+  "summary": "The palm-sized sidearm: a gloss-black shell with an antimony face plate around the photon emitter, a cross-hatched electron aspirator pile on top, and the force wheel and indicator dial beside the operational light.",
+  "description": "The smallest phaser, carried alone or locked into the Type II pistol. Five effective ranges are printed on the sheet, from heat to overload.",
+  "specs": [
+   {
+    "label": "Length overall (L.O.A.)",
+    "value": "107.20",
+    "unit": "mm",
+    "page": 103
+   },
+   {
+    "label": "Width overall (W.O.A.)",
+    "value": "49.40",
+    "unit": "mm",
+    "page": 103
+   },
+   {
+    "label": "Depth overall (D.O.A.)",
+    "value": "27.00",
+    "unit": "mm",
+    "page": 103
+   },
+   {
+    "label": "Overload blast radius",
+    "value": "40",
+    "unit": "m",
+    "page": 103
+   },
+   {
+    "label": "Dematerialize",
+    "value": "10",
+    "unit": "m",
+    "page": 103
+   },
+   {
+    "label": "Disrupt",
+    "value": "20",
+    "unit": "m",
+    "page": 103
+   },
+   {
+    "label": "Heat",
+    "value": "2",
+    "unit": "m",
+    "page": 103
+   },
+   {
+    "label": "Stun",
+    "value": "30",
+    "unit": "m",
+    "page": 103
+   },
+   {
+    "label": "Photon emitter",
+    "value": "1.02 MeV",
+    "page": 103
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF02UC",
+    "name": "Br. antimony"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Gloss black"
+   }
+  ],
+  "components": [
+   "1.02 MeV photon emitter",
+   "Face plate",
+   "Electron aspirator pile",
+   "Trigger",
+   "Force setting wheel",
+   "Operational light (blue)",
+   "Force indicator dial",
+   "Deflector shield",
+   "Body shell",
+   "Access plate",
+   "Magnatomic adhesion area"
+  ],
+  "interpretation": "Plan and depth profiles follow the sheet’s body lines and sections. The lattice of the aspirator pile, the dial markings and the gloss finish are simplified.",
+  "derived": [],
+  "thumb": "assets/equipment/thumb-phaser-1.webp"
+ },
+ {
+  "id": "phaser-2",
+  "title": "Hand Phaser Type II",
+  "category": "weapons",
+  "pages": [
+   104,
+   105
+  ],
+  "size": [
+   4.94,
+   22.1,
+   15.75
+  ],
+  "sizeBasis": "printed W.O.A × L.O.A × D.O.A",
+  "subtitle": "Standard field equipment",
+  "model": "Hand Phaser — Type II",
+  "codes": {
+   "104": "01:08:52",
+   "105": "01:08:53"
+  },
+  "summary": "The pistol assembly with a Type I locked on top, as the sheet requires. In front are the topaz beam shield and emitter and the knurled photon accelerator. The blue-grey body carries the dilithium crystal cell, and the grip is raked back with S/T firing triggers.",
+  "description": "A long-range pistol built around the Type I. The printed overall width of 49.40 mm equals the Type I’s own width, which confirms the two are dimensioned as one assembly.",
+  "specs": [
+   {
+    "label": "Length overall (L.O.A.)",
+    "value": "221.00",
+    "unit": "mm",
+    "page": 104
+   },
+   {
+    "label": "Width overall (W.O.A.)",
+    "value": "49.40",
+    "unit": "mm",
+    "page": 104
+   },
+   {
+    "label": "Depth overall (D.O.A.)",
+    "value": "157.50",
+    "unit": "mm",
+    "page": 104
+   },
+   {
+    "label": "Overload blast radius",
+    "value": "135",
+    "unit": "m",
+    "page": 104
+   },
+   {
+    "label": "Dematerialize",
+    "value": "30",
+    "unit": "m",
+    "page": 104
+   },
+   {
+    "label": "Disrupt",
+    "value": "60",
+    "unit": "m",
+    "page": 104
+   },
+   {
+    "label": "Heat",
+    "value": "6",
+    "unit": "m",
+    "page": 104
+   },
+   {
+    "label": "Stun",
+    "value": "90",
+    "unit": "m",
+    "page": 104
+   },
+   {
+    "label": "Beam shield",
+    "value": "Clear white topaz",
+    "page": 104
+   }
+  ],
+  "derived": [
+   {
+    "label": "Grip rake from vertical",
+    "value": "≈ 21°"
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF02UC",
+    "name": "Br. antimony"
+   },
+   {
+    "code": "SF31UC",
+    "name": "Gl. bluegray"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Gloss black"
+   },
+   {
+    "code": "(P)",
+    "name": "Clear white topaz"
+   }
+  ],
+  "components": [
+   "Beam shield (P)",
+   "Beam emitter",
+   "Photon accelerator",
+   "Forward lockplate",
+   "Dilithium crystal cell",
+   "Deflector shield",
+   "Hand Phaser Type I locked-on (required)",
+   "Rear lockplate",
+   "Grip",
+   "Firing triggers: S = safety, T = trigger",
+   "Magnatomic adhesion areas",
+   "Lock release",
+   "Force setting dial"
+  ],
+  "interpretation": "The side profile and grip rake come from the lines-and-sections sheet (PDF 105). The grip’s cross-section between stations, the accelerator knurl count and the lockplate recesses are simplified.",
+  "thumb": "assets/equipment/thumb-phaser-2.webp"
+ },
+ {
+  "id": "ray-gun",
+  "title": "Ray Gun",
+  "category": "weapons",
+  "pages": [
+   106
+  ],
+  "size": [
+   8.4,
+   23.5,
+   8.4
+  ],
+  "sizeBasis": "printed length overall; printed maximum diameter",
+  "subtitle": "Offensive/defensive area weapon",
+  "model": "Ray Gun — Type I",
+  "codes": {
+   "106": "01:08:58"
+  },
+  "summary": "A turned grey body housing that tapers to a rounded tail. An antimony collette steps up to the translucent diamond emitter tube, and a split antimony trigger strip on top selects offensive or defensive fire.",
+  "description": "An area weapon. Its printed effective areas (3 m at 90 m, 8 m at 180 m) describe a widening field rather than a beam.",
+  "specs": [
+   {
+    "label": "Model",
+    "value": "Type I",
+    "page": 106
+   },
+   {
+    "label": "Offensive (disrupt) range",
+    "value": "90",
+    "unit": "m",
+    "page": 106
+   },
+   {
+    "label": "Effective area at range",
+    "value": "3",
+    "unit": "m",
+    "page": 106
+   },
+   {
+    "label": "Defensive (stun) range",
+    "value": "180",
+    "unit": "m",
+    "page": 106
+   },
+   {
+    "label": "Effective area at range",
+    "value": "8",
+    "unit": "m",
+    "page": 106
+   },
+   {
+    "label": "Length overall",
+    "value": "23.5",
+    "unit": "cm",
+    "page": 106
+   },
+   {
+    "label": "Maximum diameter",
+    "value": "8.4",
+    "unit": "cm",
+    "page": 106
+   },
+   {
+    "label": "Weight",
+    "value": "630",
+    "unit": "gm",
+    "page": 106
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "—",
+    "name": "Translucent (emitter tube)"
+   },
+   {
+    "code": "SF02UC",
+    "name": "Antimony"
+   },
+   {
+    "code": "SF30UC",
+    "name": "Gray"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Black"
+   }
+  ],
+  "components": [
+   "Diamond emitter tube",
+   "Collette",
+   "Body housing",
+   "Triggers: offensive / defensive"
+  ],
+  "interpretation": "The broken-out side view and the circular front view both show a round body, so it is modelled as a solid of revolution. Its radii are measured on the plan at the 0–5 cm bar.",
+  "derived": [],
+  "thumb": "assets/equipment/thumb-ray-gun.webp"
+ },
+ {
+  "id": "communicator",
+  "title": "Communicator",
+  "category": "communications",
+  "pages": [
+   137
+  ],
+  "size": [
+   6.35,
+   11.35,
+   2.8
+  ],
+  "sizeBasis": "printed W.O.A × L.O.A × H.O.A (closed); study shows the antenna grille open, so height is not compared",
+  "checkAxes": [
+   1,
+   1,
+   0
+  ],
+  "subtitle": "Standard field equipment item",
+  "model": "Communicator — Type I",
+  "codes": {
+   "137": "03:02:00"
+  },
+  "summary": "Upper and lower black shells meet at a gold band. The perforated antenna grille is shown flipped open on its hinge, uncovering the LEDs, the transmit/receive and channel switches and the vent.",
+  "description": "A 200-gram field communicator rated to 12,000 km, powered by an 006P energy unit.",
+  "specs": [
+   {
+    "label": "Length overall (L.O.A.)",
+    "value": "113.5",
+    "unit": "mm",
+    "page": 137
+   },
+   {
+    "label": "Width overall (W.O.A.)",
+    "value": "63.5",
+    "unit": "mm",
+    "page": 137
+   },
+   {
+    "label": "Height overall (H.O.A.)",
+    "value": "28",
+    "unit": "mm",
+    "page": 137
+   },
+   {
+    "label": "Weight",
+    "value": "200",
+    "unit": "gm",
+    "page": 137
+   },
+   {
+    "label": "Range",
+    "value": "12 000",
+    "unit": "km",
+    "page": 137
+   },
+   {
+    "label": "Energy unit",
+    "value": "006P",
+    "page": 137
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF03UC",
+    "name": "Gold"
+   },
+   {
+    "code": "SF02UC",
+    "name": "Antimony"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Black"
+   }
+  ],
+  "components": [
+   "Red (on) L.E.D.",
+   "Yellow (T) L.E.D.",
+   "Blue (R) L.E.D.",
+   "Vent",
+   "Transmit/receive switch (SW1)",
+   "Channel switch (SW2)",
+   "Antenna (open)",
+   "Tuned ferrite loop",
+   "Upper body shell",
+   "Removable bottom",
+   "Speaker/microphone",
+   "Attach screws (2)",
+   "On/off switch (SW)",
+   "Magnatomic adhesion surface"
+  ],
+  "interpretation": "Closed, it measures the printed 113.5 × 63.5 × 28 mm. The grille is opened to the ≈70° of the sheet’s “antenna open” line, and the layout of the switches under the grille is interpreted from callouts the sheet draws only through the perforations.",
+  "derived": [],
+  "thumb": "assets/equipment/thumb-communicator.webp"
+ },
+ {
+  "id": "ear-receiver",
+  "title": "Ear Receiver",
+  "category": "communications",
+  "pages": [
+   138
+  ],
+  "size": [
+   3.15,
+   2.6,
+   6.55
+  ],
+  "sizeBasis": "printed width overall; printed maximum diameter; printed length overall",
+  "checkAxes": [
+   1,
+   1,
+   1
+  ],
+  "tolerance": 0.08,
+  "subtitle": "For non-public reception",
+  "model": "SFAF/CC-MK05-0",
+  "codes": {
+   "138": "03:02:02"
+  },
+  "summary": "A finned antimony receiver housing over a black core, with an energy cell and high-gain antenna grid at the base. On top, the earphone and transparent custom-moulded ear-piece swivel stiffly at about 40°.",
+  "description": "A closed-loop receiver for all prime subspace channels, used where transmissions are private or the surroundings are noisy.",
+  "specs": [
+   {
+    "label": "Model",
+    "value": "SFAF/CC-MK05-0",
+    "page": 138
+   },
+   {
+    "label": "Size",
+    "value": "0",
+    "page": 138
+   },
+   {
+    "label": "Length overall",
+    "value": "6.55",
+    "unit": "cm",
+    "page": 138
+   },
+   {
+    "label": "Width overall",
+    "value": "3.15",
+    "unit": "cm",
+    "page": 138
+   },
+   {
+    "label": "Maximum diameter",
+    "value": "2.6",
+    "unit": "cm",
+    "page": 138
+   },
+   {
+    "label": "Weight",
+    "value": "57",
+    "unit": "gm",
+    "page": 138
+   },
+   {
+    "label": "Angle marked on plan",
+    "value": "40°",
+    "page": 138
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF02UC",
+    "name": "Antimony"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Black"
+   }
+  ],
+  "components": [
+   "Molded plastic ear-piece",
+   "Ear-piece retention plate",
+   "Earphone housing",
+   "Receiver housing",
+   "Energy cell housing",
+   "High gain antenna grid and heat sink",
+   "Ear-piece swivels stiffly here"
+  ],
+  "interpretation": "The ear-piece is moulded to each user’s ear, so its shape here is generic. The sheet marks 40° on the plan without saying what it is measured from (the drawn housing axis measures ≈35°), so the swivel is posed between the two. The drawing measures about 3% longer than the printed 6.55 cm, and the model follows the drawing.",
+  "derived": [],
+  "thumb": "assets/equipment/thumb-ear-receiver.webp"
+ },
+ {
+  "id": "universal-translator",
+  "title": "Universal Translator",
+  "category": "communications",
+  "pages": [
+   139
+  ],
+  "size": [
+   4.8,
+   28,
+   4.8
+  ],
+  "sizeBasis": "printed maximum diameter; printed length overall",
+  "subtitle": "U.F.P. standard",
+  "model": "SFAF/CC-MK-01 — Type I",
+  "codes": {
+   "139": "03:02:04"
+  },
+  "summary": "A long antimony cylinder. At the front are the raked speech-sensor block and the knurled decoding/encoding ring. Along the top run the computer functions display under its transparent cover and the operator’s speaker grille, and the activating switch sits at 45° near the data storage banks.",
+  "description": "Used to talk with Federation members and with unknown alien language forms in the treaty exploration territory.",
+  "specs": [
+   {
+    "label": "Model",
+    "value": "SFAF/CC-MK-01",
+    "page": 139
+   },
+   {
+    "label": "Type",
+    "value": "I",
+    "page": 139
+   },
+   {
+    "label": "Length overall",
+    "value": "28",
+    "unit": "cm",
+    "page": 139
+   },
+   {
+    "label": "Maximum diameter",
+    "value": "4.8",
+    "unit": "cm",
+    "page": 139
+   },
+   {
+    "label": "Weight",
+    "value": "500",
+    "unit": "gm",
+    "page": 139
+   },
+   {
+    "label": "Activating switch position",
+    "value": "45°",
+    "page": 139
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF02UC",
+    "name": "Antimony"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Black"
+   }
+  ],
+  "components": [
+   "Speech characteristics sensors",
+   "Other party speaker/microphone",
+   "Decoding/encoding section",
+   "Computer functions display panel",
+   "Primary computer section",
+   "Operator’s speaker/microphone",
+   "Activating switch",
+   "Data storage banks section",
+   "Transparent cover",
+   "Rear cover",
+   "Housing"
+  ],
+  "interpretation": "The display panel’s lit cells form an illustrative pattern, not a readout from the sheet. All other proportions are measured at the sheet’s 0–6 cm bar.",
+  "derived": [],
+  "thumb": "assets/equipment/thumb-universal-translator.webp"
+ },
+ {
+  "id": "sciences-tricorder",
+  "title": "Sciences Tricorder",
+  "category": "sciences",
+  "pages": [
+   112,
+   113,
+   114
+  ],
+  "size": [
+   11.43,
+   4.83,
+   19.33
+  ],
+  "sizeBasis": "printed W.O.A × D.O.A; height with display head raised measured on PDF 113 (printed closed height 177.8 mm)",
+  "tolerance": 0.06,
+  "subtitle": "Type I",
+  "model": "Sciences Tricorder — Type I",
+  "codes": {
+   "112": "02:04:00",
+   "113": "02:04:01",
+   "114": "02:04:03"
+  },
+  "summary": "Shown in the open arrangement. The display-control head is raised to expose the video display, sensor array, three indicator lights and three selector knobs. Below are the eight removable record/play discs and the speaker/mic, and the circuitry section stays closed.",
+  "description": "Senses, measures, analyses, compares and identifies the surrounding environment, with multi-channel recording and a choice of display modes.",
+  "specs": [
+   {
+    "label": "Height overall (closed)",
+    "value": "177.8",
+    "unit": "mm",
+    "page": 112
+   },
+   {
+    "label": "Width overall",
+    "value": "114.3",
+    "unit": "mm",
+    "page": 112
+   },
+   {
+    "label": "Depth overall",
+    "value": "48.3",
+    "unit": "mm",
+    "page": 112
+   },
+   {
+    "label": "Shoulder strap (naugahyde)",
+    "value": "127",
+    "unit": "cm",
+    "page": 112
+   },
+   {
+    "label": "Removable play/record discs",
+    "value": "8",
+    "page": 113
+   },
+   {
+    "label": "Record/play disc",
+    "value": "31.75 dia × 5.58",
+    "unit": "mm",
+    "page": 114
+   },
+   {
+    "label": "Case frame wall",
+    "value": "1.27",
+    "unit": "mm",
+    "page": 113
+   },
+   {
+    "label": "Vent holes",
+    "value": "3 mm dia, 11 each side",
+    "page": 114
+   },
+   {
+    "label": "Drawing scale",
+    "value": "Full size",
+    "page": 112
+   }
+  ],
+  "derived": [
+   {
+    "label": "Height, head raised",
+    "value": "≈ 193 mm"
+   },
+   {
+    "label": "Video display",
+    "value": "≈ 48 × 32 mm"
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF02UC",
+    "name": "Antimony"
+   },
+   {
+    "code": "SF14UC",
+    "name": "Olive"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Black (pebbled)"
+   }
+  ],
+  "components": [
+   "Display-control head cover",
+   "Video display",
+   "Sensor array",
+   "Matched comparison light (blue)",
+   "Sub-normal light (amber)",
+   "Danger-alarm light (red)",
+   "Disc selector / channel selector / record-play controls",
+   "Removable play/record discs (8)",
+   "Compression plate",
+   "Speaker/mic.",
+   "Record-compare section lid",
+   "Circuitry/power supply section",
+   "Side body storage shells",
+   "Case frames (brushed)",
+   "Shoulder strap"
+  ],
+  "interpretation": "The head is drawn upright, as in the front views. The section views suggest a faceplate tilt of about 25–30°, but no angle is printed. Which surfaces are olive and which are black can’t be read from the halftone, so the case is shown black.",
+  "thumb": "assets/equipment/thumb-sciences-tricorder.webp"
+ },
+ {
+  "id": "medical-tricorder",
+  "title": "Medical Tricorder",
+  "category": "medical",
+  "pages": [
+   124,
+   125,
+   126
+  ],
+  "size": [
+   11.43,
+   4.83,
+   19.36
+  ],
+  "sizeBasis": "printed W.O.A × D.O.A; height with display head raised measured on PDF 125; depth not compared (lower lid drawn partially open)",
+  "checkAxes": [
+   1,
+   0,
+   1
+  ],
+  "tolerance": 0.06,
+  "subtitle": "Standard field equipment item — Type I",
+  "model": "Medical Tricorder — Type I",
+  "codes": {
+   "124": "02:11:00",
+   "125": "02:11:01",
+   "126": "02:11:02"
+  },
+  "summary": "The medical variant shares the sciences case. Its open arrangement adds the life-form functions sensor/analyzer bay and a lower compartment lid drawn partly open; LEDs A–C and controls D–F sit beside the video display.",
+  "description": "A 900-gram field diagnostic unit with 24-channel capability. The sheet notes that its internal circuitry is classified.",
+  "specs": [
+   {
+    "label": "Length overall",
+    "value": "177.8",
+    "unit": "mm",
+    "page": 124
+   },
+   {
+    "label": "Width overall",
+    "value": "114.3",
+    "unit": "mm",
+    "page": 124
+   },
+   {
+    "label": "Depth overall",
+    "value": "48.3",
+    "unit": "mm",
+    "page": 124
+   },
+   {
+    "label": "Weight",
+    "value": "900",
+    "unit": "gm",
+    "page": 124
+   },
+   {
+    "label": "Shoulder strap (naugahyde)",
+    "value": "127",
+    "unit": "cm",
+    "page": 124
+   },
+   {
+    "label": "Channels",
+    "value": "24",
+    "page": 126
+   },
+   {
+    "label": "Speaker/mic.",
+    "value": "Type 32-0214",
+    "page": 126
+   },
+   {
+    "label": "Removable play/record discs",
+    "value": "8",
+    "page": 125
+   }
+  ],
+  "derived": [
+   {
+    "label": "Height, head raised",
+    "value": "≈ 194 mm"
+   },
+   {
+    "label": "Lower compartment lid",
+    "value": "≈ 54 mm tall"
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF02UC",
+    "name": "Antimony"
+   },
+   {
+    "code": "SF14UC",
+    "name": "Olive"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Black (pebbled)"
+   }
+  ],
+  "components": [
+   "(A) Matched comparison (blue) L.E.D.",
+   "(B) Sub-normal (amber) L.E.D.",
+   "(C) Danger-alarm (red) L.E.D.",
+   "(D) Disc selector control",
+   "(E) Channel selector control",
+   "(F) Record/play control with volume",
+   "(G) Wire harness duct each side",
+   "(H) Speaker-microphone",
+   "(J) Faceplate",
+   "Sensor array",
+   "Life form functions sensor/analyzer",
+   "Lower compartment lid (partially open)",
+   "Removable play/record discs (8)"
+  ],
+  "interpretation": "The analyzer is shown in olive to set it apart; the halftone doesn’t settle its colour. The lower lid’s 14° opening and the hidden internal arrangement are interpretations.",
+  "thumb": "assets/equipment/thumb-medical-tricorder.webp"
+ },
+ {
+  "id": "heartbeat-reader",
+  "title": "Heartbeat Reader",
+  "category": "medical",
+  "pages": [
+   127
+  ],
+  "size": [
+   5.2,
+   5.2,
+   17.75
+  ],
+  "sizeBasis": "printed maximum diameter; printed length overall",
+  "subtitle": "Star Fleet College of Medicine standard",
+  "model": "SFAF/SG-MK06 — Type M",
+  "codes": {
+   "127": "02:11:04"
+  },
+  "summary": "Shaped like a microphone. A spherical guard and ground-plane screen, joined by a clamp band, enclose the omnidirectional sensor. The body carries the BPM readout, two indicators and the activate/audible slide switches, and the base holds the sample and volume selector.",
+  "description": "Reads the heartbeats of one or many life forms at once. By cancelling known individuals one at a time, it can pick out an alien disguised within a group.",
+  "specs": [
+   {
+    "label": "Model",
+    "value": "SFAF/SG-MK06-Type M",
+    "page": 127
+   },
+   {
+    "label": "Length overall",
+    "value": "17.75",
+    "unit": "cm",
+    "page": 127
+   },
+   {
+    "label": "Maximum diameter",
+    "value": "5.2",
+    "unit": "cm",
+    "page": 127
+   },
+   {
+    "label": "Weight",
+    "value": "230",
+    "unit": "gm",
+    "page": 127
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF02UC",
+    "name": "Antimony"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Black"
+   },
+   {
+    "code": "L.E.D.",
+    "name": "Blue"
+   },
+   {
+    "code": "L.E.D.",
+    "name": "Red"
+   }
+  ],
+  "components": [
+   "Guard and anti-stray audible noise screen",
+   "Clamp band",
+   "Ground plane screen",
+   "Omnidirectional sensor",
+   "Multiple reading cancel indicator",
+   "Digital readout with floating decimal",
+   "Unit go indicator",
+   "Slide switches (activate, audible)",
+   "Body shell",
+   "Solo/multiple reading selector",
+   "Audible volume control"
+  ],
+  "interpretation": "The screen mesh is drawn as a coarse wire lattice. The printed length is about 1% longer than the drawing, so the vertical measurements are scaled to meet it.",
+  "derived": [],
+  "thumb": "assets/equipment/thumb-heartbeat-reader.webp"
+ },
+ {
+  "id": "spray-applicator",
+  "title": "Spray Applicator",
+  "category": "medical",
+  "pages": [
+   128
+  ],
+  "size": [
+   1.9,
+   1.9,
+   6.5
+  ],
+  "sizeBasis": "printed maximum diameter; printed length overall (loaded)",
+  "subtitle": "Star Fleet College of Medicine standard",
+  "model": "SFAF/SG-MK01-70 — Size 70",
+  "codes": {
+   "128": "02:11:06"
+  },
+  "summary": "A transparent, fluted pressurised vial on an antimony applicator body. The spray trigger is pressed from the side, and an interchangeable nozzle is fitted at the base.",
+  "description": "Applies external medications, antibiotics and protective dressings to small wounds and contusions.",
+  "specs": [
+   {
+    "label": "Model",
+    "value": "SFAF/SG-MK01-70",
+    "page": 128
+   },
+   {
+    "label": "Size",
+    "value": "70",
+    "page": 128
+   },
+   {
+    "label": "Length overall, loaded",
+    "value": "6.5",
+    "unit": "cm",
+    "page": 128
+   },
+   {
+    "label": "Maximum diameter",
+    "value": "1.9",
+    "unit": "cm",
+    "page": 128
+   },
+   {
+    "label": "Weight, loaded",
+    "value": "160",
+    "unit": "gm",
+    "page": 128
+   },
+   {
+    "label": "Vial fluid capacity",
+    "value": "70",
+    "unit": "cc",
+    "page": 128
+   },
+   {
+    "label": "Vial weight, loaded",
+    "value": "80",
+    "unit": "gm",
+    "page": 128
+   },
+   {
+    "label": "Vial pressure",
+    "value": "1.30",
+    "unit": "kg/cm²",
+    "page": 128
+   },
+   {
+    "label": "Nozzles (orifice dia.)",
+    "value": "Extra fine .0025 · fine .025 · medium .20 mm · coarse special order",
+    "page": 128
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF02UC",
+    "name": "Antimony (basic; otherwise matches the vial contents’ colour code)"
+   }
+  ],
+  "components": [
+   "(A) Applicator body",
+   "(B) Spray trigger (press to spray)",
+   "(C) Interchangeable vial",
+   "(D) Dispensing teat",
+   "(E) Interchangeable nozzle"
+  ],
+  "interpretation": "The vial is shown clear because colour follows its contents, which vary.",
+  "derived": [],
+  "thumb": "assets/equipment/thumb-spray-applicator.webp"
+ },
+ {
+  "id": "medical-scanner",
+  "title": "Medical Scanner",
+  "category": "medical",
+  "pages": [
+   129
+  ],
+  "size": [
+   3.5,
+   3.5,
+   6.05
+  ],
+  "sizeBasis": "printed maximum diameter; printed length overall",
+  "subtitle": "Star Fleet College of Medicine standard",
+  "model": "Medical scanner",
+  "codes": {
+   "129": "02:11:07"
+  },
+  "summary": "A grey computer housing with eight flutes. Its top dial reads six emission groups against the normal Terran range. Below the collar, the rotating scanner turns inside a 48-mesh screen above the ground-plane screen and life-form scale.",
+  "description": "Assesses the general medical condition of intelligent life forms by sensing body emanations in alpha, beta, gamma, Kirlian, theta and xi groups.",
+  "specs": [
+   {
+    "label": "Length overall",
+    "value": "6.05",
+    "unit": "cm",
+    "page": 129
+   },
+   {
+    "label": "Maximum diameter",
+    "value": "3.5",
+    "unit": "cm",
+    "page": 129
+   },
+   {
+    "label": "Weight",
+    "value": "230",
+    "unit": "gm",
+    "page": 129
+   },
+   {
+    "label": "Sensitivity",
+    "value": "to .0001",
+    "unit": "EmV/AU²",
+    "page": 129
+   },
+   {
+    "label": "Reading groups",
+    "value": "A, B, Γ, K, Θ, Ξ",
+    "page": 129
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF02UC",
+    "name": "Antimony"
+   },
+   {
+    "code": "SF30UC",
+    "name": "Gray"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Black"
+   }
+  ],
+  "components": [
+   "(A) Computer housing",
+   "(B) Activating switch (press on-off)",
+   "(C) Scanner housing (48 mesh screen)",
+   "(D) Rotating scanner",
+   "(E) Readings dial (increase from bottom to top)",
+   "(F) Life form type selection scale",
+   "(G) Ground plane screen (48 mesh)",
+   "(H) NT – normal Terran range"
+  ],
+  "interpretation": "The rotating scanner element and the dial’s bar readings are illustrative. The tiny letters on the life-form scale are illegible in the scan.",
+  "derived": [],
+  "thumb": "assets/equipment/thumb-medical-scanner.webp"
+ },
+ {
+  "id": "anabolic-protoplaser",
+  "title": "Anabolic Protoplaser",
+  "category": "medical",
+  "pages": [
+   130,
+   131
+  ],
+  "size": [
+   11.5,
+   35,
+   6.95
+  ],
+  "sizeBasis": "printed size-2 length and height (the study shows size 0 and size 2 side by side; width not compared)",
+  "checkAxes": [
+   0,
+   1,
+   1
+  ],
+  "subtitle": "Portable wound healer",
+  "model": "SFAF/SG-MK08-0 and -2",
+  "codes": {
+   "130": "02:11:13",
+   "131": "02:11:12"
+  },
+  "summary": "The minor-injury size 0 (left) and the massive-injury size 2 (right). Each has a grey housing on a black removable bottom panel, an antimony switch-and-intensity strip with a force light, and the DNA match synthesization unit leading to the ray emission duct.",
+  "description": "Standard field wound healers in two sizes. The larger unit runs up to 500 EmV/AU².",
+  "specs": [
+   {
+    "label": "Size 0 model",
+    "value": "SFAF/SG-MK08-0",
+    "page": 130
+   },
+   {
+    "label": "Size 0 length × width × height",
+    "value": "25 × 3.8 × 4.2",
+    "unit": "cm",
+    "page": 130
+   },
+   {
+    "label": "Size 0 weight",
+    "value": "450",
+    "unit": "gm",
+    "page": 130
+   },
+   {
+    "label": "Size 0 intensity scale",
+    "value": "0–100",
+    "unit": "EmV/AU²",
+    "page": 130
+   },
+   {
+    "label": "Size 2 model",
+    "value": "SFAF/SG-MK08-2",
+    "page": 131
+   },
+   {
+    "label": "Size 2 length × width × height",
+    "value": "35 × 5.6 × 6.95",
+    "unit": "cm",
+    "page": 131
+   },
+   {
+    "label": "Size 2 weight",
+    "value": "680",
+    "unit": "gm",
+    "page": 131
+   },
+   {
+    "label": "Size 2 intensity range",
+    "value": "0–500",
+    "unit": "EmV/AU²",
+    "page": 131
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF02UC",
+    "name": "Antimony"
+   },
+   {
+    "code": "SF30UC",
+    "name": "Gray"
+   },
+   {
+    "code": "SF10UC",
+    "name": "Red"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Black"
+   }
+  ],
+  "components": [
+   "Housing",
+   "Removable bottom panel",
+   "Specifications plate",
+   "Activating switch and intensity control",
+   "Effectivity sensor",
+   "DNA match synthesization unit",
+   "Ray emission duct",
+   "Recharging chamber",
+   "Intensity force light"
+  ],
+  "interpretation": "Size 0 follows PDF 130. Size 2 reuses that layout scaled to its printed envelope, so its separate activating switch (black off / red on) and other differences on PDF 131 are not modelled.",
+  "derived": [],
+  "thumb": "assets/equipment/thumb-anabolic-protoplaser.webp"
+ },
+ {
+  "id": "surgical-scalpels",
+  "title": "Surgical Scalpels",
+  "category": "medical",
+  "pages": [
+   132
+  ],
+  "size": [
+   12.6,
+   3.75,
+   6.97
+  ],
+  "sizeBasis": "no dimensions printed; MK10-0 height and body diameter measured at the sheet's 0–4 cm bar; three models side by side",
+  "checkAxes": [
+   0,
+   1,
+   1
+  ],
+  "subtitle": "Star Fleet College of Medicine standard",
+  "model": "SFAF/SG-MK10-000, -00, -0",
+  "codes": {
+   "132": "02:11:14"
+  },
+  "summary": "Three laser scalpels in rodinium housings. A ribbed surgeon’s grip carries the intensity scale, trigger and range scale lock under a prime-focus cone, which grows taller and blunter as cutting width increases.",
+  "description": "Cutting widths of 1, 2 and 3 AU. Intensity falls from 0–80 to 0–70 EmV/AU² as the width increases.",
+  "specs": [
+   {
+    "label": "MK10-000",
+    "value": "1 AU · 0–80 EmV/AU² · 227 gm",
+    "page": 132
+   },
+   {
+    "label": "MK10-00",
+    "value": "2 AU · 0–75 EmV/AU² · 220 gm",
+    "page": 132
+   },
+   {
+    "label": "MK10-0",
+    "value": "3 AU · 0–70 EmV/AU² · 220 gm",
+    "page": 132
+   },
+   {
+    "label": "Housing material",
+    "value": "Rodinium (printed “RODINIUN”)",
+    "page": 132
+   }
+  ],
+  "derived": [
+   {
+    "label": "Heights (000 / 00 / 0)",
+    "value": "≈ 5.6 / 5.8 / 7.0 cm"
+   },
+   {
+    "label": "Body diameter",
+    "value": "≈ 3.75 cm"
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF02UC",
+    "name": "Antimony (all housings)"
+   }
+  ],
+  "components": [
+   "Prime focus",
+   "Cutting tip",
+   "Intensity scale",
+   "Trigger",
+   "Range scale lock",
+   "Body",
+   "Surgeon’s grip"
+  ],
+  "interpretation": "The sheet prints no dimensions; all sizes are measured at its 0–4 cm bar.",
+  "thumb": "assets/equipment/thumb-surgical-scalpels.webp"
+ }
+]
