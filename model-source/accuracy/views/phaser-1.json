@@ -1,0 +1,61 @@
+{
+ "page_note": "PDF 103 at 68.37 px/cm on the 1400 px plate (0\u201330 mm bar)",
+ "views": [
+  {
+   "name": "top",
+   "page": 103,
+   "crop": [
+    215,
+    500,
+    570,
+    1252
+   ],
+   "pxPerCm": 68.37,
+   "from": "+Z",
+   "up": "-Y",
+   "try_mirror": false
+  },
+  {
+   "name": "side",
+   "page": 103,
+   "crop": [
+    600,
+    500,
+    850,
+    1252
+   ],
+   "pxPerCm": 68.37,
+   "from": "-X",
+   "up": "-Y",
+   "try_mirror": false
+  },
+  {
+   "name": "bottom",
+   "page": 103,
+   "crop": [
+    905,
+    500,
+    1262,
+    1252
+   ],
+   "pxPerCm": 68.37,
+   "from": "-Z",
+   "up": "-Y",
+   "try_mirror": false
+  },
+  {
+   "name": "front",
+   "page": 103,
+   "crop": [
+    910,
+    225,
+    1262,
+    420
+   ],
+   "pxPerCm": 68.37,
+   "from": "-Y",
+   "up": "+Z",
+   "try_mirror": false
+  }
+ ]
+}

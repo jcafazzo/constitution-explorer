@@ -1,0 +1,54 @@
+[
+ {
+  "view": "top",
+  "iou": 0.975,
+  "mean_mm": 0.38,
+  "p95_mm": 1.02,
+  "plate_area_cm2": 45.52,
+  "model_area_cm2": 46.52,
+  "offset_px": [
+   1,
+   -1
+  ],
+  "mirrored": false
+ },
+ {
+  "view": "side",
+  "iou": 0.955,
+  "mean_mm": 0.54,
+  "p95_mm": 2.36,
+  "plate_area_cm2": 24.18,
+  "model_area_cm2": 25.17,
+  "offset_px": [
+   -3,
+   2
+  ],
+  "mirrored": false
+ },
+ {
+  "view": "bottom",
+  "iou": 0.975,
+  "mean_mm": 0.39,
+  "p95_mm": 1.35,
+  "plate_area_cm2": 45.49,
+  "model_area_cm2": 46.53,
+  "offset_px": [
+   -1,
+   -4
+  ],
+  "mirrored": false
+ },
+ {
+  "view": "front",
+  "iou": 0.917,
+  "mean_mm": 0.73,
+  "p95_mm": 1.61,
+  "plate_area_cm2": 11.47,
+  "model_area_cm2": 11.9,
+  "offset_px": [
+   -3,
+   4
+  ],
+  "mirrored": false
+ }
+]
