@@ -34,7 +34,7 @@ dict(id='communicator',category='communications',subtitle='Standard field equipm
  specs=[S('Length overall (L.O.A.)','113.5','mm',137),S('Width overall (W.O.A.)','63.5','mm',137),S('Height overall (H.O.A.)','28','mm',137),S('Weight','200','gm',137),S('Range','12 000','km',137),S('Energy unit','006P',None,137)],
  colourKey=[C('SF03UC','Gold'),C('SF02UC','Antimony'),C('SF32UC','Black')],
  components=['Red (on) L.E.D.','Yellow (T) L.E.D.','Blue (R) L.E.D.','Vent','Transmit/receive switch (SW1)','Channel switch (SW2)','Antenna (open)','Tuned ferrite loop','Upper body shell','Removable bottom','Speaker/microphone','Attach screws (2)','On/off switch (SW)','Magnatomic adhesion surface'],
- interpretation='Closed, it measures the printed 113.5 × 63.5 × 28 mm. The grille is opened to the ≈70° of the sheet’s “antenna open” line, and the layout of the switches under the grille is interpreted from callouts the sheet draws only through the perforations.'),
+ interpretation='Closed, it measures the printed 113.5 × 63.5 × 28 mm. The grille swings out past vertical, about 110°, as the sheet’s dash-dot “antenna open” outline shows, and the layout of the switches under the grille is interpreted from callouts the sheet draws only through the perforations.'),
 dict(id='ear-receiver',category='communications',subtitle='For non-public reception',model='SFAF/CC-MK05-0',codes={'138':'03:02:02'},
  summary='A finned antimony receiver housing over a black core, with an energy cell and high-gain antenna grid at the base. On top, the earphone and transparent custom-moulded ear-piece swivel stiffly at about 40°.',
  description='A closed-loop receiver for all prime subspace channels, used where transmissions are private or the surroundings are noisy.',
@@ -53,18 +53,18 @@ dict(id='sciences-tricorder',category='sciences',subtitle='Type I',model='Scienc
  summary='Shown in the open arrangement. The display-control head is raised to expose the video display, sensor array, three indicator lights and three selector knobs. Below are the eight removable record/play discs and the speaker/mic, and the circuitry section stays closed.',
  description='Senses, measures, analyses, compares and identifies the surrounding environment, with multi-channel recording and a choice of display modes.',
  specs=[S('Height overall (closed)','177.8','mm',112),S('Width overall','114.3','mm',112),S('Depth overall','48.3','mm',112),S('Shoulder strap (naugahyde)','127','cm',112),S('Removable play/record discs','8',None,113),S('Record/play disc','31.75 dia × 5.58','mm',114),S('Case frame wall','1.27','mm',113),S('Vent holes','3 mm dia, 11 each side',None,114),S('Drawing scale','Full size',None,112)],
- derived=[dict(label='Height, head raised',value='≈ 193 mm'),dict(label='Video display',value='≈ 48 × 32 mm')],
+ derived=[dict(label='Height, head raised (front view)',value='≈ 193 mm'),dict(label='Video display',value='≈ 48 × 32 mm')],
  colourKey=[C('SF02UC','Antimony'),C('SF14UC','Olive'),C('SF32UC','Black (pebbled)')],
  components=['Display-control head cover','Video display','Sensor array','Matched comparison light (blue)','Sub-normal light (amber)','Danger-alarm light (red)','Disc selector / channel selector / record-play controls','Removable play/record discs (8)','Compression plate','Speaker/mic.','Record-compare section lid','Circuitry/power supply section','Side body storage shells','Case frames (brushed)','Shoulder strap'],
- interpretation='The head is drawn upright, as in the front views. The section views suggest a faceplate tilt of about 25–30°, but no angle is printed. Which surfaces are olive and which are black can’t be read from the halftone, so the case is shown black.'),
+ interpretation='Every side view shows the open head swung back on its pivot (roughly 30–45°; no angle is printed). This study keeps it upright as the front views draw it, so the head-raised height is a front-view figure. Olive and black can’t be told apart in the halftone, so the case is shown black. The 127 cm strap is shown only by its lugs, and the speaker grille’s concentric-arc pattern and the sensor lattice are simplified. The 1.27 mm frame wall is from the PDF 113 section; PDF 114 separately prints a 2.54 mm frame.'),
 dict(id='medical-tricorder',category='medical',subtitle='Standard field equipment item — Type I',model='Medical Tricorder — Type I',codes={'124':'02:11:00','125':'02:11:01','126':'02:11:02'},
  summary='The medical variant shares the sciences case. Its open arrangement adds the life-form functions sensor/analyzer bay and a lower compartment lid drawn partly open; LEDs A–C and controls D–F sit beside the video display.',
  description='A 900-gram field diagnostic unit with 24-channel capability. The sheet notes that its internal circuitry is classified.',
  specs=[S('Length overall','177.8','mm',124),S('Width overall','114.3','mm',124),S('Depth overall','48.3','mm',124),S('Weight','900','gm',124),S('Shoulder strap (naugahyde)','127','cm',124),S('Channels','24',None,126),S('Speaker/mic.','Type 32-0214',None,126),S('Removable play/record discs','8',None,125)],
- derived=[dict(label='Height, head raised',value='≈ 194 mm'),dict(label='Lower compartment lid',value='≈ 54 mm tall')],
+ derived=[dict(label='Height, head raised (front view)',value='≈ 194 mm'),dict(label='Lower compartment lid',value='≈ 54 mm tall')],
  colourKey=[C('SF02UC','Antimony'),C('SF14UC','Olive'),C('SF32UC','Black (pebbled)')],
  components=['(A) Matched comparison (blue) L.E.D.','(B) Sub-normal (amber) L.E.D.','(C) Danger-alarm (red) L.E.D.','(D) Disc selector control','(E) Channel selector control','(F) Record/play control with volume','(G) Wire harness duct each side','(H) Speaker-microphone','(J) Faceplate','Sensor array','Life form functions sensor/analyzer','Lower compartment lid (partially open)','Removable play/record discs (8)'],
- interpretation='The analyzer is shown in olive to set it apart; the halftone doesn’t settle its colour. The lower lid’s 14° opening and the hidden internal arrangement are interpretations.'),
+ interpretation='As on the sciences unit, the open head is kept upright although the side views show it swung back on its pivot. The analyzer is shown in olive to set it apart, since the halftone doesn’t settle its colour. The lower lid is swung out 14° to show “partially open”, and the hidden internal arrangement is interpreted. The strap is shown only by its lugs, and the speaker grille is simplified.'),
 dict(id='heartbeat-reader',category='medical',subtitle='Star Fleet College of Medicine standard',model='SFAF/SG-MK06 — Type M',codes={'127':'02:11:04'},
  summary='Shaped like a microphone. A spherical guard and ground-plane screen, joined by a clamp band, enclose the omnidirectional sensor. The body carries the BPM readout, two indicators and the activate/audible slide switches, and the base holds the sample and volume selector.',
  description='Reads the heartbeats of one or many life forms at once. By cancelling known individuals one at a time, it can pick out an alien disguised within a group.',
@@ -85,14 +85,14 @@ dict(id='medical-scanner',category='medical',subtitle='Star Fleet College of Med
  specs=[S('Length overall','6.05','cm',129),S('Maximum diameter','3.5','cm',129),S('Weight','230','gm',129),S('Sensitivity','to .0001','EmV/AU²',129),S('Reading groups','A, B, Γ, K, Θ, Ξ',None,129)],
  colourKey=[C('SF02UC','Antimony'),C('SF30UC','Gray'),C('SF32UC','Black')],
  components=['(A) Computer housing','(B) Activating switch (press on-off)','(C) Scanner housing (48 mesh screen)','(D) Rotating scanner','(E) Readings dial (increase from bottom to top)','(F) Life form type selection scale','(G) Ground plane screen (48 mesh)','(H) NT – normal Terran range'],
- interpretation='The rotating scanner element and the dial’s bar readings are illustrative. The tiny letters on the life-form scale are illegible in the scan.'),
+ interpretation='The 48-mesh screen is shown translucent so the rotating scanner can be seen through it. The scanner’s exact shape and the dial’s bar readings are illustrative, and the tiny letters on the life-form scale are illegible in the scan.'),
 dict(id='anabolic-protoplaser',category='medical',subtitle='Portable wound healer',model='SFAF/SG-MK08-0 and -2',codes={'130':'02:11:13','131':'02:11:12'},
- summary='The minor-injury size 0 (left) and the massive-injury size 2 (right). Each has a grey housing on a black removable bottom panel, an antimony switch-and-intensity strip with a force light, and the DNA match synthesization unit leading to the ray emission duct.',
+ summary='The minor-injury size 0 (left) and the massive-injury size 2 (right). Size 0 has a grey housing on a black removable bottom panel and tapers to a pointed ray emission duct. Size 2 is all grey, with a side activating switch (black off / red on), an effectivity-sensor nub at the front, and a DNA match unit that flares into a blunt cylinder with a recessed duct.',
  description='Standard field wound healers in two sizes. The larger unit runs up to 500 EmV/AU².',
  specs=[S('Size 0 model','SFAF/SG-MK08-0',None,130),S('Size 0 length × width × height','25 × 3.8 × 4.2','cm',130),S('Size 0 weight','450','gm',130),S('Size 0 intensity scale','0–100','EmV/AU²',130),S('Size 2 model','SFAF/SG-MK08-2',None,131),S('Size 2 length × width × height','35 × 5.6 × 6.95','cm',131),S('Size 2 weight','680','gm',131),S('Size 2 intensity range','0–500','EmV/AU²',131)],
  colourKey=[C('SF02UC','Antimony'),C('SF30UC','Gray'),C('SF10UC','Red'),C('SF32UC','Black')],
  components=['Housing','Removable bottom panel','Specifications plate','Activating switch and intensity control','Effectivity sensor','DNA match synthesization unit','Ray emission duct','Recharging chamber','Intensity force light'],
- interpretation='Size 0 follows PDF 130. Size 2 reuses that layout scaled to its printed envelope, so its separate activating switch (black off / red on) and other differences on PDF 131 are not modelled.'),
+ interpretation='Each size is modelled from its own sheet: size 0 at 44 px/cm on PDF 130 and size 2 at 34 px/cm on PDF 131. Section shapes between the drawn views and the depth of the recessed duct are interpreted.'),
 dict(id='surgical-scalpels',category='medical',subtitle='Star Fleet College of Medicine standard',model='SFAF/SG-MK10-000, -00, -0',codes={'132':'02:11:14'},
  summary='Three laser scalpels in rodinium housings. A ribbed surgeon’s grip carries the intensity scale, trigger and range scale lock under a prime-focus cone, which grows taller and blunter as cutting width increases.',
  description='Cutting widths of 1, 2 and 3 AU. Intensity falls from 0–80 to 0–70 EmV/AU² as the width increases.',
@@ -102,11 +102,14 @@ dict(id='surgical-scalpels',category='medical',subtitle='Star Fleet College of M
  components=['Prime focus','Cutting tip','Intensity scale','Trigger','Range scale lock','Body','Surgeon’s grip'],
  interpretation='The sheet prints no dimensions; all sizes are measured at its 0–4 cm bar.'),
 ]
+PS={'phaser-1': '107.2 × 49.4 × 27 mm', 'phaser-2': '221 × 49.4 × 157.5 mm', 'ray-gun': '23.5 cm long · ⌀ 8.4 cm', 'communicator': '113.5 × 63.5 × 28 mm', 'ear-receiver': '6.55 × 3.15 cm · ⌀ 2.6 cm', 'universal-translator': '28 cm long · ⌀ 4.8 cm', 'sciences-tricorder': '177.8 × 114.3 × 48.3 mm closed', 'medical-tricorder': '177.8 × 114.3 × 48.3 mm closed', 'heartbeat-reader': '17.75 cm long · ⌀ 5.2 cm', 'spray-applicator': '6.5 cm long · ⌀ 1.9 cm', 'medical-scanner': '6.05 cm long · ⌀ 3.5 cm', 'anabolic-protoplaser': '25 cm (size 0) · 35 cm (size 2)', 'surgical-scalpels': 'Not dimensioned on the sheet'}
 order=[c['id'] for c in content]
 out=[]
 for c in content:
-  b=base[c['id']];m={**b,**c};m['size']=b['size'];m['specs']=[{k:v for k,v in s.items() if v is not None} for s in c['specs']]
-  m['colourKey']=c['colourKey'];m.setdefault('derived',[]);m['thumb']=f"assets/equipment/thumb-{c['id']}.webp"
+  b=base[c['id']];m={**b,**c};m['size']=b['size'];
+  if c['id']=='communicator': m['checkAxes']=[1,1,1]; m['sizeBasis']='printed W.O.A × L.O.A × H.O.A, checked on the closed pose'
+  m['specs']=[{k:v for k,v in s.items() if v is not None} for s in c['specs']]
+  m['colourKey']=c['colourKey'];m.setdefault('derived',[]);m['thumb']=f"assets/equipment/thumb-{c['id']}.webp";m['printedSize']=PS[c['id']]
   out.append(m)
 json.dump(out,open(P,'w'),indent=1,ensure_ascii=False)
 print(len(out),'items')

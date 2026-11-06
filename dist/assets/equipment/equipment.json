@@ -99,7 +99,8 @@
   ],
   "interpretation": "Plan and depth profiles follow the sheet’s body lines and sections. The lattice of the aspirator pile, the dial markings and the gloss finish are simplified.",
   "derived": [],
-  "thumb": "assets/equipment/thumb-phaser-1.webp"
+  "thumb": "assets/equipment/thumb-phaser-1.webp",
+  "printedSize": "107.2 × 49.4 × 27 mm"
  },
  {
   "id": "phaser-2",
@@ -218,7 +219,8 @@
    "Force setting dial"
   ],
   "interpretation": "The side profile and grip rake come from the lines-and-sections sheet (PDF 105). The grip’s cross-section between stations, the accelerator knurl count and the lockplate recesses are simplified.",
-  "thumb": "assets/equipment/thumb-phaser-2.webp"
+  "thumb": "assets/equipment/thumb-phaser-2.webp",
+  "printedSize": "221 × 49.4 × 157.5 mm"
  },
  {
   "id": "ray-gun",
@@ -315,7 +317,8 @@
   ],
   "interpretation": "The broken-out side view and the circular front view both show a round body, so it is modelled as a solid of revolution. Its radii are measured on the plan at the 0–5 cm bar.",
   "derived": [],
-  "thumb": "assets/equipment/thumb-ray-gun.webp"
+  "thumb": "assets/equipment/thumb-ray-gun.webp",
+  "printedSize": "23.5 cm long · ⌀ 8.4 cm"
  },
  {
   "id": "communicator",
@@ -329,11 +332,11 @@
    11.35,
    2.8
   ],
-  "sizeBasis": "printed W.O.A × L.O.A × H.O.A (closed); study shows the antenna grille open, so height is not compared",
+  "sizeBasis": "printed W.O.A × L.O.A × H.O.A, checked on the closed pose",
   "checkAxes": [
    1,
    1,
-   0
+   1
   ],
   "subtitle": "Standard field equipment item",
   "model": "Communicator — Type I",
@@ -409,9 +412,10 @@
    "On/off switch (SW)",
    "Magnatomic adhesion surface"
   ],
-  "interpretation": "Closed, it measures the printed 113.5 × 63.5 × 28 mm. The grille is opened to the ≈70° of the sheet’s “antenna open” line, and the layout of the switches under the grille is interpreted from callouts the sheet draws only through the perforations.",
+  "interpretation": "Closed, it measures the printed 113.5 × 63.5 × 28 mm. The grille swings out past vertical, about 110°, as the sheet’s dash-dot “antenna open” outline shows, and the layout of the switches under the grille is interpreted from callouts the sheet draws only through the perforations.",
   "derived": [],
-  "thumb": "assets/equipment/thumb-communicator.webp"
+  "thumb": "assets/equipment/thumb-communicator.webp",
+  "printedSize": "113.5 × 63.5 × 28 mm"
  },
  {
   "id": "ear-receiver",
@@ -501,7 +505,8 @@
   ],
   "interpretation": "The ear-piece is moulded to each user’s ear, so its shape here is generic. The sheet marks 40° on the plan without saying what it is measured from (the drawn housing axis measures ≈35°), so the swivel is posed between the two. The drawing measures about 3% longer than the printed 6.55 cm, and the model follows the drawing.",
   "derived": [],
-  "thumb": "assets/equipment/thumb-ear-receiver.webp"
+  "thumb": "assets/equipment/thumb-ear-receiver.webp",
+  "printedSize": "6.55 × 3.15 cm · ⌀ 2.6 cm"
  },
  {
   "id": "universal-translator",
@@ -583,7 +588,8 @@
   ],
   "interpretation": "The display panel’s lit cells form an illustrative pattern, not a readout from the sheet. All other proportions are measured at the sheet’s 0–6 cm bar.",
   "derived": [],
-  "thumb": "assets/equipment/thumb-universal-translator.webp"
+  "thumb": "assets/equipment/thumb-universal-translator.webp",
+  "printedSize": "28 cm long · ⌀ 4.8 cm"
  },
  {
   "id": "sciences-tricorder",
@@ -665,7 +671,7 @@
   ],
   "derived": [
    {
-    "label": "Height, head raised",
+    "label": "Height, head raised (front view)",
     "value": "≈ 193 mm"
    },
    {
@@ -704,8 +710,9 @@
    "Case frames (brushed)",
    "Shoulder strap"
   ],
-  "interpretation": "The head is drawn upright, as in the front views. The section views suggest a faceplate tilt of about 25–30°, but no angle is printed. Which surfaces are olive and which are black can’t be read from the halftone, so the case is shown black.",
-  "thumb": "assets/equipment/thumb-sciences-tricorder.webp"
+  "interpretation": "Every side view shows the open head swung back on its pivot (roughly 30–45°; no angle is printed). This study keeps it upright as the front views draw it, so the head-raised height is a front-view figure. Olive and black can’t be told apart in the halftone, so the case is shown black. The 127 cm strap is shown only by its lugs, and the speaker grille’s concentric-arc pattern and the sensor lattice are simplified. The 1.27 mm frame wall is from the PDF 113 section; PDF 114 separately prints a 2.54 mm frame.",
+  "thumb": "assets/equipment/thumb-sciences-tricorder.webp",
+  "printedSize": "177.8 × 114.3 × 48.3 mm closed"
  },
  {
   "id": "medical-tricorder",
@@ -786,7 +793,7 @@
   ],
   "derived": [
    {
-    "label": "Height, head raised",
+    "label": "Height, head raised (front view)",
     "value": "≈ 194 mm"
    },
    {
@@ -823,8 +830,9 @@
    "Lower compartment lid (partially open)",
    "Removable play/record discs (8)"
   ],
-  "interpretation": "The analyzer is shown in olive to set it apart; the halftone doesn’t settle its colour. The lower lid’s 14° opening and the hidden internal arrangement are interpretations.",
-  "thumb": "assets/equipment/thumb-medical-tricorder.webp"
+  "interpretation": "As on the sciences unit, the open head is kept upright although the side views show it swung back on its pivot. The analyzer is shown in olive to set it apart, since the halftone doesn’t settle its colour. The lower lid is swung out 14° to show “partially open”, and the hidden internal arrangement is interpreted. The strap is shown only by its lugs, and the speaker grille is simplified.",
+  "thumb": "assets/equipment/thumb-medical-tricorder.webp",
+  "printedSize": "177.8 × 114.3 × 48.3 mm closed"
  },
  {
   "id": "heartbeat-reader",
@@ -904,7 +912,8 @@
   ],
   "interpretation": "The screen mesh is drawn as a coarse wire lattice. The printed length is about 1% longer than the drawing, so the vertical measurements are scaled to meet it.",
   "derived": [],
-  "thumb": "assets/equipment/thumb-heartbeat-reader.webp"
+  "thumb": "assets/equipment/thumb-heartbeat-reader.webp",
+  "printedSize": "17.75 cm long · ⌀ 5.2 cm"
  },
  {
   "id": "spray-applicator",
@@ -994,7 +1003,8 @@
   ],
   "interpretation": "The vial is shown clear because colour follows its contents, which vary.",
   "derived": [],
-  "thumb": "assets/equipment/thumb-spray-applicator.webp"
+  "thumb": "assets/equipment/thumb-spray-applicator.webp",
+  "printedSize": "6.5 cm long · ⌀ 1.9 cm"
  },
  {
   "id": "medical-scanner",
@@ -1071,9 +1081,10 @@
    "(G) Ground plane screen (48 mesh)",
    "(H) NT – normal Terran range"
   ],
-  "interpretation": "The rotating scanner element and the dial’s bar readings are illustrative. The tiny letters on the life-form scale are illegible in the scan.",
+  "interpretation": "The 48-mesh screen is shown translucent so the rotating scanner can be seen through it. The scanner’s exact shape and the dial’s bar readings are illustrative, and the tiny letters on the life-form scale are illegible in the scan.",
   "derived": [],
-  "thumb": "assets/equipment/thumb-medical-scanner.webp"
+  "thumb": "assets/equipment/thumb-medical-scanner.webp",
+  "printedSize": "6.05 cm long · ⌀ 3.5 cm"
  },
  {
   "id": "anabolic-protoplaser",
@@ -1100,7 +1111,7 @@
    "130": "02:11:13",
    "131": "02:11:12"
   },
-  "summary": "The minor-injury size 0 (left) and the massive-injury size 2 (right). Each has a grey housing on a black removable bottom panel, an antimony switch-and-intensity strip with a force light, and the DNA match synthesization unit leading to the ray emission duct.",
+  "summary": "The minor-injury size 0 (left) and the massive-injury size 2 (right). Size 0 has a grey housing on a black removable bottom panel and tapers to a pointed ray emission duct. Size 2 is all grey, with a side activating switch (black off / red on), an effectivity-sensor nub at the front, and a DNA match unit that flares into a blunt cylinder with a recessed duct.",
   "description": "Standard field wound healers in two sizes. The larger unit runs up to 500 EmV/AU².",
   "specs": [
    {
@@ -1179,9 +1190,10 @@
    "Recharging chamber",
    "Intensity force light"
   ],
-  "interpretation": "Size 0 follows PDF 130. Size 2 reuses that layout scaled to its printed envelope, so its separate activating switch (black off / red on) and other differences on PDF 131 are not modelled.",
+  "interpretation": "Each size is modelled from its own sheet: size 0 at 44 px/cm on PDF 130 and size 2 at 34 px/cm on PDF 131. Section shapes between the drawn views and the depth of the recessed duct are interpreted.",
   "derived": [],
-  "thumb": "assets/equipment/thumb-anabolic-protoplaser.webp"
+  "thumb": "assets/equipment/thumb-anabolic-protoplaser.webp",
+  "printedSize": "25 cm (size 0) · 35 cm (size 2)"
  },
  {
   "id": "surgical-scalpels",
@@ -1256,6 +1268,7 @@
    "Surgeon’s grip"
   ],
   "interpretation": "The sheet prints no dimensions; all sizes are measured at its 0–4 cm bar.",
-  "thumb": "assets/equipment/thumb-surgical-scalpels.webp"
+  "thumb": "assets/equipment/thumb-surgical-scalpels.webp",
+  "printedSize": "Not dimensioned on the sheet"
  }
 ]

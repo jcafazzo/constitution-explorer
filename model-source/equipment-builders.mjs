@@ -1,6 +1,6 @@
 // Equipment Locker study builders. Units: centimetres. X width, Y length (front = -Y), Z up.
 // Numbers marked "printed" come from the sheet; everything else is measured from the drawing at its
-// scale bar or interpreted. See model-source/equipment-notes.md for per-item sourcing.
+// scale bar or interpreted. Per-item sourcing lives in model-source/equipment-content.py (specs vs derived vs interpretation).
 import {T,group,box,rbox,cyl,sphere,torus,lathe,sideProfile,planExtrude,slats,loft,smooth} from './equipment-kit.mjs';
 
 const knurl=(g,r,len,[x,y,z],axis,n=36,mat='dark')=>{for(let i=0;i<n;i++){const a=i/n*Math.PI*2;const p=axis==='y'?[x+Math.cos(a)*r,y,z+Math.sin(a)*r]:[x+Math.cos(a)*r,y+Math.sin(a)*r,z];const b=box(g,axis==='y'?[.09,len,.09]:[.09,.09,len],p,mat,'knurl');b.rotation[axis]= -a;}};
@@ -94,19 +94,18 @@ export function rayGun(){
  const prof=[[0,9.55],[3.95,9.6],[4.12,10.6],[4.2,11.8],[4.2,13.3],[4.05,14.9],[3.6,16.6],[3.0,18.4],[2.15,20.2],[1.2,21.9],[.45,23.0],[0,23.5]];
  lathe(g,prof.map(([r,t])=>[r,y(t)]),[0,0,0],'y','grey','body housing',64);
  // Triggers: antimony oval strip on the upper surface, divided offensive / defensive.
- const strip=group('triggers');
- loft(strip,smooth([[0,.0,.0],[.25,.6,.12],[1.2,.85,.14],[4.5,.88,.15],[7.8,.85,.14],[8.75,.6,.12],[9,.0,.0]],4),'metal','triggers',2.2);
- for(const t of[1.05,4.5,7.95])box(strip,[1.8,.05,.32],[0,t,0],'black','trigger divide');
- strip.position.set(0,y(10.3),0);g.add(strip);
- // Seat the strip on the curved surface: follow the body radius at each end with a slight pitch.
- strip.position.z=4.2-.02;strip.rotation.x=-.07;
+ // Triggers: antimony oval strip seated on the upper surface, divided offensive / defensive (t = 10.3–19.3 cm on the plan).
+ const R=t=>{for(let i=0;i<prof.length-1;i++){const [r0,t0]=prof[i],[r1,t1]=prof[i+1];if(t>=t0&&t<=t1)return r0+(r1-r0)*(t-t0)/(t1-t0);}return 0;};
+ const ts=[0,.25,1.2,2.5,4.5,6.5,7.8,8.75,9].map(u=>10.3+u),hw=[0,.6,.85,.88,.88,.88,.85,.6,0];
+ loft(g,ts.map((t,i)=>[y(t),hw[i],.12,R(t)+.01]),'metal','triggers',2.2);
+ for(const u of[1.05,4.5,7.95]){const t=10.3+u;box(g,[1.8,.05,.32],[0,y(t),R(t)],'black','trigger divide');}
  return g;
 }
 
 // ---------- Communicator Type I — PDF 137, TO 03:02:00 ----------
 // Printed: L.O.A 113.5 mm, W.O.A 63.5 mm, H.O.A 28 mm, weight 200 gm, range 12 000 km.
 // Colours: gold SF03UC, antimony SF02UC, black SF32UC. Measured at the 0–5 cm bar (68 px/cm).
-export function communicator(){
+export function communicator(open=true){
  const g=group('Communicator');const L=11.35,W=6.35,H=2.8;
  // Lower and upper body shells meeting at a gold equatorial band.
  rbox(g,[W-.12,L-.12,1.32],[0,0,.66],1.0,'black','lower body shell (removable bottom)');
@@ -120,7 +119,7 @@ export function communicator(){
  const lid=group('antenna grille');const gw=4.4,gl=8.3;
  rbox(lid,[gw,gl,.14],[0,gl/2,0],.25,'metal','antenna grille');
  for(let i=0;i<12;i++)for(let j=0;j<22;j++){const x=-gw/2+.32+i*(gw-.64)/11+(j%2)*.16,yy=.45+j*(gl-.9)/21;if(Math.abs(x)>gw/2-.25)continue;cyl(lid,.13,.06,[x,yy,.07],'z','dark','grille perforation',.13,10);}
- lid.position.set(0,-L/2+.62,2.62);lid.rotation.x=THREE_RAD(70);g.add(lid);
+ lid.position.set(0,-L/2+.62,2.62);lid.rotation.x=open?THREE_RAD(110):0;g.add(lid);
  // Exposed control deck under the open grille: LEDs and switches called out on the sheet.
  rbox(g,[4.3,8.1,.08],[0,.6,2.35],.3,'dark','control deck');
  for(const [x,yy,m,n] of[[-.9,-.6,'red','red (on) L.E.D.'],[.2,-.6,'amber','yellow (T) L.E.D.'],[1.3,-.6,'blue','blue (R) L.E.D.']])cyl(g,.16,.12,[x,yy,2.42],'z',m,n);
@@ -155,7 +154,8 @@ function tricorder(kind){
   box(g,[.22,D-.35,H-.1],[s*(W/2-1.16),0,H/2],'metal','case frame (brushed)');
  }
  // Core body behind the front panels.
- box(g,[W-2.5,D-.5,H-.15],[0,.05,H/2],'black','core body');
+ if(kind==='medical'){const zb=Zf(1315),zt=Zf(1015);box(g,[W-2.5,D-.5,H-.15-zt],[0,.05,zt+(H-.15-zt)/2],'black','core body');box(g,[W-2.5,D-2.4,zt-.05],[0,1.0,zt/2],'black','core body (behind analyzer bay)');}
+ else box(g,[W-2.5,D-.5,H-.15],[0,.05,H/2],'black','core body');
  // Display-control head, raised: black cover, antimony faceplate.
  const hz0=Zf(670),hz1=Zf(362),hw=8.82;
  rbox(g,[hw,D-.6,hz1-hz0],[0,.1,(hz0+hz1)/2],.35,'black','display-control head cover');
@@ -182,11 +182,11 @@ function tricorder(kind){
  box(g,[W-2.6,.15,Zf(1015)-Zf(1060)],[0,front-.05,(Zf(1015)+Zf(1060))/2],'black','R/P section lid (open)');
  if(kind==='medical'){
   // Analyzer bay: life-form functions sensor/analyzer; lower compartment lid partially open.
-  box(g,[W-2.6,.1,Zf(1060)-Zf(1315)],[0,front+.9,(Zf(1060)+Zf(1315))/2],'dark','analyzer bay');
+  box(g,[W-2.6,.1,Zf(1060)-Zf(1315)],[0,-.15,(Zf(1060)+Zf(1315))/2],'dark','analyzer bay');
   box(g,[X(668)-X(548),1.3,Zf(1065)-Zf(1665)],[(X(548)+X(668))/2,front+1.05,(Zf(1065)+Zf(1665))/2],'olive','life form functions sensor/analyzer');
   box(g,[X(668)-X(548)-.1,.1,.4],[(X(548)+X(668))/2,front-.22,Zf(1080)],'metal','analyzer label plate');
   const lid=group('lower compartment lid');box(lid,[W-2.6,.18,Zf(1315)],[0,0,Zf(1315)/2],'black','lower compartment lid (partially open)');
-  box(lid,[2.9,.1,.32],[X(845),-.12,Zf(1418)],'metal','lid pull');lid.position.set(0,front,0);lid.rotation.x=THREE_RAD(-14);g.add(lid);
+  box(lid,[2.9,.1,.32],[X(845),-.12,Zf(1418)],'metal','lid pull');lid.position.set(0,front,0);lid.rotation.x=THREE_RAD(14);g.add(lid);
   for(const z of[Zf(1015),Zf(670)])box(g,[3.0,.06,.55],[-1.2,front-.12,z-.45],'white','antimony label plate');
  }else{
   // Circuitry/power-supply section, closed ("to be opened only by Class A specialist ratings").
@@ -198,6 +198,7 @@ function tricorder(kind){
  for(const s of[-1,1]){box(g,[.1,1.1,.45],[s*(W/2-.04),.6,H*.72],'dark','shoulder strap lug');}
  return g;
 }
+export const communicatorClosed=()=>communicator(false);
 export const sciencesTricorder=()=>tricorder('sciences');
 export const medicalTricorder=()=>tricorder('medical');
 
@@ -250,7 +251,7 @@ export function medicalScanner(){
  const g=group('Medical Scanner');const z=py=>(742-py)/68.9;
  // (C) scanner housing with 48-mesh screen and (D) rotating scanner inside; (G) ground plane screen underneath.
  cyl(g,1.3,z(735)-z(742),[0,0,(z(735)+z(742))/2],'z','metal','base ring');
- cyl(g,1.24,z(590)-z(735),[0,0,(z(590)+z(735))/2],'z','dark','scanner housing (48 mesh screen)');
+ cyl(g,1.24,z(590)-z(735),[0,0,(z(590)+z(735))/2],'z','mesh','scanner housing (48 mesh screen)');
  for(let i=0;i<10;i++)torus(g,1.25,.02,[0,0,z(735)+.15+i*.2],'z','grey','mesh');
  const rot=group('rotating scanner');box(rot,[.9,.25,1.7],[.55,0,0],'metal','rotating scanner vane');sphere(rot,.4,[.8,-.1,.2],'metal',[1,1,1],'scanner element');rot.position.set(0,0,(z(590)+z(735))/2);rot.rotation.z=.6;g.add(rot);
  torus(g,1.2,.06,[0,0,.08],'z','grey','life form type selection scale');
@@ -290,11 +291,34 @@ function protoplaser(g,[ox,oy,oz],[sx,sy,sz],label){
  cyl(p,.15,Y(1410)-Y(1275),[0,at((1275+1410)/2),1.8],'y','metal','ray emission duct',1.28);
  p.position.set(ox,oy,oz);p.scale.set(sx,sy,sz);g.add(p);
 }
+// Size 2, modelled from its own sheet (PDF 131, TO 02:11:12) at 34 px/cm (stretched 3% to the printed 35 cm).
+function protoplaser2([ox,oy,oz]){
+ const p=group('size 2 (PDF 131)'),at=py=>-(py-910)/34,zc=2.8;
+ const st=[[315,1.53,3.3],[600,1.85,3.95],[900,2.2,4.6],[1200,2.75,5.6],[1206,2.75,5.6]];
+ loft(p,st.map(([py,hw])=>[at(py),hw,.34,.34]),'grey','removable bottom panel',4);
+ loft(p,st.map(([py,hw,h])=>[at(py),hw-.03,(h-.6)/2,.6+(h-.6)/2]),'grey','housing',4);
+ for(const s of[-1,1])loft(p,st.map(([py,hw])=>[at(py),.02,.05,.62,s*(hw-.04)]),'dark','panel seam',2);
+ // (D) intensity control strip on top with (K) intensity force light; (C) activating switch on the side; (J) specifications plate.
+ const top=py=>{for(let i=0;i<st.length-1;i++){const [a,,h0]=st[i],[b,,h1]=st[i+1];if(py>=a&&py<=b)return h0+(h1-h0)*(py-a)/(b-a);}return 5.6;};
+ loft(p,[320,600,900,1025,1030].map((py,i)=>[at(py),.8,[.05,.15,.38,.6,.05][i],top(py)+[.05,.15,.38,.6,.05][i]-.04]),'metal','intensity control (depress to increase intensity)',4);
+ box(p,[.75,.75,.1],[0,at(885),top(885)+.62],'red','intensity force light');
+ box(p,[3.8,2.1,.06],[0,at(1112),top(1112)],'white','specifications plate');
+ box(p,[.1,1.0,2.9],[2.32,at(922),2.4],'black','activating switch (black off / red on)');
+ for(let i=0;i<6;i++)box(p,[.12,.1,.42],[2.34,at(885)+i*.12,2.4],'red','switch ridges');
+ cyl(p,1.2,.06,[0,at(318),2.3],'y','dark','recharging chamber');
+ // (E) effectivity sensor nub at the front top, (F) DNA match synthesization unit flaring to the (G) ray emission duct.
+ rbox(p,[1.4,1.0,1.4],[0,at(1180),5.6+.65],.3,'grey','effectivity sensor housing');cyl(p,.4,.08,[0,at(1180)-.52,6.25],'y','red','effectivity sensor');
+ cyl(p,.86,(1245-1206)/34,[0,at(1225),zc],'y','metal','neck');
+ cyl(p,1.86,(1355-1245)/34,[0,at(1300),zc],'y','metal','DNA match synthesization unit',.86);
+ cyl(p,1.86,(1505-1355)/34,[0,at(1430),zc],'y','metal','ray emission duct housing');
+ cyl(p,1.4,1.3,[0,at(1505)+.62,zc],'y','dark','recessed ray emission duct',.35);
+ p.position.set(ox,oy,oz);return p;
+}
 export function anabolicProtoplaser(){
  const g=group('Anabolic Protoplaser');
  // Envelope of the size-0 layout before scaling: 3.9 × 24.8 × 3.92 cm; each unit is scaled to its printed W × L × H.
  protoplaser(g,[-3.3,0,0],[3.8/3.9,25/24.8,4.2/3.92],'size 0 (PDF 130)');
- protoplaser(g,[2.6,0,0],[5.6/3.9,35/24.8,6.95/3.92],'size 2 (PDF 131)');
+ g.add(protoplaser2([3.0,0,0]));
  return g;
 }
 
@@ -315,7 +339,7 @@ export function surgicalScalpels(){
   sphere(s,.48,[-1.0,-1.62,bh*.6],'dark',[1,.3,1.3],'trigger');
   box(s,[1.0,.12,bh*.42],[0,-r+.02,bh*.32],'grey','range scale lock');
   box(s,[1.0,.08,bh*.42],[0,-r+.08,bh*.74],'dark','intensity slide');
-  cyl(s,m.tip||.02,ch,[0,0,bh+.1+ch/2],'z','metal','prime focus / cutting tip',r-.05);
+  cyl(s,r-.05,ch,[0,0,bh+.1+ch/2],'z','metal','prime focus / cutting tip',m.tip||.02);
   if(m.tip)cyl(s,m.tip*.5,.03,[0,0,bh+.1+ch],'z','glass','cutting tip');
   s.position.x=m.x;g.add(s);
  }

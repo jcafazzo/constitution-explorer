@@ -12,11 +12,14 @@ globalThis.FileReader??=class{readAsArrayBuffer(b){b.arrayBuffer().then(v=>{this
 
 export const mats={};
 for(const [k,color,roughness,metalness] of [
- ['black',0x24272a,.55,.15],['grey',0x7d8487,.5,.35],['metal',0xb9bcbc,.32,.75],['dark',0x3b4144,.5,.3],
- ['white',0xe6e4dc,.6,.05],['red',0xa1342c,.5,.1],['blue',0x39588f,.45,.15],['bluegray',0x5d6c7c,.32,.2],['gold',0xbf9547,.35,.7],
- ['glass',0x6f97a6,.15,.1],['screen',0x1d3a40,.25,.1],['amber',0xd59b3a,.4,.1],['green',0x3f7a52,.45,.1],['olive',0x6b6a3e,.6,.08],['copper',0xb06b41,.35,.65]]){
+ ['black',0x24272a,.55,.15],['grey',0x8a9093,.5,.2],['metal',0xc9cbc8,.38,.28],['dark',0x3b4144,.5,.3],
+ ['white',0xe6e4dc,.6,.05],['red',0xa1342c,.5,.1],['blue',0x39588f,.45,.15],['bluegray',0x5d6c7c,.32,.2],['gold',0xc69a4c,.36,.35],
+ ['glass',0x6f97a6,.15,.1],['screen',0x1d3a40,.25,.1],['amber',0xd59b3a,.4,.1],['green',0x3f7a52,.45,.1],['olive',0x6b6a3e,.6,.08],['copper',0xb06b41,.38,.35]]){
  mats[k]=new T.MeshStandardMaterial({name:k,color,roughness,metalness});
 }
+// Transparent parts (emitter tube, vial, ear-piece, display cover) export as glTF alpha-blended.
+Object.assign(mats.glass,{transparent:true,opacity:.42,depthWrite:false});
+mats.mesh=new T.MeshStandardMaterial({name:'mesh',color:0x2a2e31,roughness:.6,metalness:.2,transparent:true,opacity:.55,depthWrite:false});
 const add=(g,geo,mat,name)=>{const m=new T.Mesh(geo,mats[mat]||mats.grey);m.name=name||mat;g.add(m);return m;};
 export function group(name){const g=new T.Group();g.name=name;return g;}
 export function box(g,[w,l,h],[x,y,z],mat='grey',name){const m=add(g,new T.BoxGeometry(w,l,h),mat,name);m.position.set(x,y,z);return m;}
@@ -64,7 +67,7 @@ export function batch(root){
  const out=new T.Group();out.name=root.name;for(const [k,b] of buckets){const geo=mergeVertices(mergeGeometries(b.geos,false),1e-5);const m=new T.Mesh(geo,b.mat);m.name=k;out.add(m);}return out;
 }
 export async function exportItem(root,file,outDir){
- const g=batch(root);g.scale.setScalar(.01);g.updateMatrixWorld(true);
+ const g=batch(root);g.scale.setScalar(.01);g.rotation.x=-Math.PI/2;g.updateMatrixWorld(true);// author Z-up/front −Y → glTF Y-up/front +Z
  const wrap=new T.Group();wrap.name=root.name;wrap.add(g);
  const data=await new GLTFExporter().parseAsync(wrap,{binary:true});fs.writeFileSync(path.join(outDir,file),Buffer.from(data));
  const box=new T.Box3().setFromObject(root);let tris=0;g.traverse(o=>{if(o.isMesh){tris+=(o.geometry.index?o.geometry.index.count:o.geometry.attributes.position.count)/3;for(const v of o.geometry.attributes.position.array)if(!Number.isFinite(v))throw Error('Non-finite vertex in '+file);}});

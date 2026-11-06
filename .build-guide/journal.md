@@ -13,7 +13,15 @@
 ## Evidence
 | Check | Candidate | Layer | Provenance | State | Observation |
 |---|---|---|---|---|---|
+| Plate transcription (3 bounded agents) | — | source | independently observed | PASS | transcribe-a/b/c.json in session scratch; printed vs measured mostly ≤1%; flagged: ear receiver 40° ambiguous, size-2 protoplaser layout differs, scalpels unprinted |
+| Envelope check, 13 models | working tree after da9ad83 | digital geometry | directly observed | PASS | `node model-source/build-equipment.mjs` → 13 PASS (±5–8%; communicator height & protoplaser/scalpel width excluded, disclosed) |
+| node --check + check-exports.mjs | da9ad83 | source/unit | directly observed | PASS | all 5 STL export checks passed |
+| Local pages, desktop + 375 px | working tree | local runtime | directly observed | PASS (spot) | index + 8 item pages viewed; no console errors; no horizontal scroll at 375 px |
+| Independent review | da9ad83 | all | independent | NOT RUN (in progress) | reviewer agent launched |
+| Live GitHub Pages | — | deployment | — | NOT RUN | after review |
 
 ## Open findings
+- Material colours: metallic parts rendered near-black without env map → metalness lowered (fixed after da9ad83).
+- Ray gun trigger strip floated over tapering body → reseated on profile (fixed after da9ad83).
 
 ## Handoff

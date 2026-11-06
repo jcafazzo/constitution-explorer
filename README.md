@@ -44,3 +44,12 @@ The existing page layout is retained. A compact Explore selector switches betwee
 Sources: bridge PDF 94–95; impulse PDF 143; propulsion PDF 144; MK-IX hangar PDF 149–150. Exact component counts and the bridge's 36-degree command-axis offset are grounded in these sheets. Interior depths, fine controls, hidden surfaces, material finishes and door poses are reconstructions. The hangar is explicitly MK-IX and is not assigned to other classes. GLB files use the viewer's Z-up, front-negative-Y coordinates; geometry is in approximate metres. Downloads intended for fabrication remain the original STL files, with their own validation requirements.
 
 Nine display GLBs are validated by parsing them with the same Three.js loader as the website, checking finite coordinates and bounding boxes, and confirming source assets. Materials are batched into 7–14 meshes per study. Blender renders are used to inspect geometry and text placement. Display studies are not claimed watertight or print-ready.
+
+## Equipment Locker edition
+
+`#/equipment` adds thirteen hand-held items from the manual: Hand Phaser Types I and II (PDF 103–105), ray gun (106), sciences tricorder (112–114), medical tricorder (124–126), heartbeat reader (127), spray applicator (128), medical scanner (129), anabolic protoplaser sizes 0 and 2 (130–131), surgical scalpels (132), communicator (137), ear receiver (138) and universal translator (139). Each page has an orbitable GLB study, the source plates, the printed specifications, the values measured from the drawings, and a note on what was interpreted.
+
+- `model-source/equipment-builders.mjs` builds each study procedurally, in centimetres; `equipment-kit.mjs` holds the shared primitives and the GLB export. Run `node model-source/build-equipment.mjs [id …]`. The build checks every model against its envelope in `equipment.json` (printed dimensions where the sheet gives them, otherwise measured at the sheet's scale bar) and writes `model-source/equipment-validation.json`.
+- `model-source/equipment-content.py` writes `dist/assets/equipment/equipment.json`. It keeps the literal sheet transcriptions (`specs`), the values measured from the drawings (`derived`) and the interpretation notes separate.
+- `sh model-source/make-equipment-thumbs.sh` re-renders the catalogue thumbnails with headless Chrome.
+- The display studies are not print-ready meshes. Source plates are 1400 px WebP renders of single pages; the full PDF is still not bundled.

@@ -1,7 +1,7 @@
 {
   "phaser-1": {
     "file": "phaser-1.glb",
-    "bytes": 273492,
+    "bytes": 273552,
     "triangles": 9000,
     "sizeCm": {
       "width": 4.94,
@@ -24,7 +24,7 @@
   },
   "phaser-2": {
     "file": "phaser-2.glb",
-    "bytes": 521172,
+    "bytes": 521228,
     "triangles": 17572,
     "sizeCm": {
       "width": 4.94,
@@ -47,8 +47,8 @@
   },
   "ray-gun": {
     "file": "ray-gun.glb",
-    "bytes": 263348,
-    "triangles": 12772,
+    "bytes": 235760,
+    "triangles": 11236,
     "sizeCm": {
       "width": 8.4,
       "length": 23.6,
@@ -70,30 +70,31 @@
   },
   "communicator": {
     "file": "communicator.glb",
-    "bytes": 525520,
+    "bytes": 525556,
     "triangles": 14172,
     "sizeCm": {
       "width": 6.35,
       "length": 11.35,
-      "height": 10.5
+      "height": 2.78
     },
+    "checkedPose": "closed",
     "target": {
       "width": 6.35,
       "length": 11.35,
       "height": 2.8,
-      "basis": "printed W.O.A × L.O.A × H.O.A (closed); study shows the antenna grille open, so height is not compared",
+      "basis": "printed W.O.A × L.O.A × H.O.A, checked on the closed pose",
       "tolerance": 0.05
     },
     "deviation": [
       0,
       0,
-      2.75
+      -0.007
     ],
     "pass": true
   },
   "sciences-tricorder": {
     "file": "sciences-tricorder.glb",
-    "bytes": 404064,
+    "bytes": 404120,
     "triangles": 11024,
     "sizeCm": {
       "width": 11.59,
@@ -116,11 +117,11 @@
   },
   "medical-tricorder": {
     "file": "medical-tricorder.glb",
-    "bytes": 406252,
-    "triangles": 11048,
+    "bytes": 406960,
+    "triangles": 11060,
     "sizeCm": {
       "width": 11.59,
-      "length": 4.88,
+      "length": 5.98,
       "height": 19.23
     },
     "target": {
@@ -132,14 +133,14 @@
     },
     "deviation": [
       0.014,
-      0.01,
+      0.238,
       -0.007
     ],
     "pass": true
   },
   "heartbeat-reader": {
     "file": "heartbeat-reader.glb",
-    "bytes": 529068,
+    "bytes": 529104,
     "triangles": 24396,
     "sizeCm": {
       "width": 5.28,
@@ -162,7 +163,7 @@
   },
   "spray-applicator": {
     "file": "spray-applicator.glb",
-    "bytes": 73912,
+    "bytes": 73968,
     "triangles": 2480,
     "sizeCm": {
       "width": 1.9,
@@ -185,7 +186,7 @@
   },
   "medical-scanner": {
     "file": "medical-scanner.glb",
-    "bytes": 303916,
+    "bytes": 304876,
     "triangles": 14708,
     "sizeCm": {
       "width": 3.5,
@@ -208,11 +209,11 @@
   },
   "anabolic-protoplaser": {
     "file": "anabolic-protoplaser.glb",
-    "bytes": 117904,
-    "triangles": 5192,
+    "bytes": 163052,
+    "triangles": 6508,
     "sizeCm": {
-      "width": 10.64,
-      "length": 35.06,
+      "width": 10.95,
+      "length": 35.03,
       "height": 6.95
     },
     "target": {
@@ -223,15 +224,15 @@
       "tolerance": 0.05
     },
     "deviation": [
-      -0.075,
-      0.002,
+      -0.048,
+      0.001,
       0
     ],
     "pass": true
   },
   "surgical-scalpels": {
     "file": "surgical-scalpels.glb",
-    "bytes": 908876,
+    "bytes": 908936,
     "triangles": 46760,
     "sizeCm": {
       "width": 12.61,
@@ -254,7 +255,7 @@
   },
   "ear-receiver": {
     "file": "ear-receiver.glb",
-    "bytes": 132780,
+    "bytes": 132844,
     "triangles": 4424,
     "sizeCm": {
       "width": 3.12,
@@ -277,7 +278,7 @@
   },
   "universal-translator": {
     "file": "universal-translator.glb",
-    "bytes": 317812,
+    "bytes": 317868,
     "triangles": 8204,
     "sizeCm": {
       "width": 4.85,
