@@ -17,7 +17,10 @@
 | Envelope check, 13 models | working tree after da9ad83 | digital geometry | directly observed | PASS | `node model-source/build-equipment.mjs` → 13 PASS (±5–8%; communicator height & protoplaser/scalpel width excluded, disclosed) |
 | node --check + check-exports.mjs | da9ad83 | source/unit | directly observed | PASS | all 5 STL export checks passed |
 | Local pages, desktop + 375 px | working tree | local runtime | directly observed | PASS (spot) | index + 8 item pages viewed; no console errors; no horizontal scroll at 375 px |
-| Independent review | da9ad83 | all | independent | NOT RUN (in progress) | reviewer agent launched |
+| Independent review | da9ad83 | all | independent | FAIL → repaired | specs all verified; 4 geometry faults (scalpel cones inverted, protoplaser size 2 scaled copy, med. tricorder bay buried/lid inward, communicator grille wrong way) + disclosure/UI items; fixed in 030e700 |
+| Envelope check after repair | 030e700 | digital geometry | directly observed | PASS | 13/13; communicator now checked on closed pose |
+| 13 item pages + bad id + index, existing routes | 030e700 working tree | local runtime | directly observed | PASS | models load, specs render, no console errors; ship/compare/colours/bench unaffected |
+| Re-check of repairs | 030e700 | geometry | independent | PASS | all 4 faults + Y-up confirmed fixed from multi-angle renders vs PDF 125/130/131/132/137; build byte-identical |
 | Live GitHub Pages | — | deployment | — | NOT RUN | after review |
 
 ## Open findings
@@ -25,3 +28,4 @@
 - Ray gun trigger strip floated over tapering body → reseated on profile (fixed after da9ad83).
 
 ## Handoff
+- Shipped by push to main (GitHub Pages workflow). Later candidates: printable equipment STLs; interiors & small craft (PDF 83–102, 123, 135–148); star charts (115–122); tricorder head tilt (side views show ≈30–45°).
