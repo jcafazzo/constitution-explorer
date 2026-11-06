@@ -1,0 +1,64 @@
+{
+ "page_note": "PDF 130 (size 0) at 43.48 px/cm. Scores an export of the size-0 unit only. Front (ray duct) = -Y, Z up. Rear view (ROT 90 CCW) is not scored: it draws only the rear end face, not the full projected outline.",
+ "views": [
+  {
+   "name": "top-plan",
+   "page": 130,
+   "crop": [
+    728,
+    312,
+    918,
+    1412
+   ],
+   "pxPerCm": 43.48,
+   "from": "+Z",
+   "up": "+Y"
+  },
+  {
+   "name": "side-profile",
+   "page": 130,
+   "crop": [
+    1108,
+    312,
+    1316,
+    1412
+   ],
+   "pxPerCm": 43.48,
+   "from": "+X",
+   "up": "+Y",
+   "mask_out": [
+    [
+     0,
+     0,
+     60,
+     14
+    ],
+    [
+     186,
+     0,
+     208,
+     14
+    ],
+    [
+     183,
+     68,
+     208,
+     88
+    ]
+   ]
+  },
+  {
+   "name": "front-elevation",
+   "page": 130,
+   "crop": [
+    936,
+    1212,
+    1112,
+    1416
+   ],
+   "pxPerCm": 43.48,
+   "from": "-Y",
+   "up": "+Z"
+  }
+ ]
+}

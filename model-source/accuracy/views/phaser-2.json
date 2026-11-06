@@ -1,0 +1,48 @@
+{
+ "page_note": "PDF 104 at 67.61 px/cm (0-30 mm bar). Scored against the model WITHOUT the Type I (GLB_DIR=model-source/accuracy/out/phaser-2/score-glb): every view draws the Type I as a dash-dot phantom. side: right drawing, seen from +X (Type I side = image right = +Z); its grip passes behind the top view, so the plate is model-source/accuracy/helpers/plates/phaser-2-104-side.png (built by plates.py: other drawings and callouts blanked, the 2.3 cm of grip hidden behind the top view filled between the grip's two straight edges). top: middle drawing seen from +Z; the side view's grip shows on both sides of it and is masked. The end view (left drawing) is not scored: it is not a consistent projection (horizontally about 0.875 of the sheet scale - accelerator ring 2.7 cm vs 3.1 cm in the side and top views, head 3.0 vs 3.5 cm - while its height, Type I top to grip butt, is the full 15.8 cm).",
+ "views": [
+  {
+   "name": "side",
+   "page": 104,
+   "plate": "model-source/accuracy/helpers/plates/phaser-2-104-side.png",
+   "crop": [
+    170,
+    225,
+    1300,
+    1760
+   ],
+   "pxPerCm": 67.61,
+   "from": "+X",
+   "up": "-Y",
+   "try_mirror": false
+  },
+  {
+   "name": "top",
+   "page": 104,
+   "crop": [
+    470,
+    225,
+    800,
+    1760
+   ],
+   "pxPerCm": 67.61,
+   "from": "+Z",
+   "up": "-Y",
+   "try_mirror": false,
+   "mask_out": [
+    [
+     0,
+     675,
+     42,
+     1025
+    ],
+    [
+     283,
+     535,
+     330,
+     935
+    ]
+   ]
+  }
+ ]
+}

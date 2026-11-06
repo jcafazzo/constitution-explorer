@@ -1,0 +1,6 @@
+{
+ "page_note": "PDF 138 PROFILE, scored against the pose variant with the earphone head swivelled to face the viewer (plate B face-on, as drawn).",
+ "views": [
+  {"name": "profile", "page": 138, "crop": [1080, 285, 1300, 790], "pxPerCm": 68.59, "from": "-X", "up": "+Z", "try_mirror": false}
+ ]
+}

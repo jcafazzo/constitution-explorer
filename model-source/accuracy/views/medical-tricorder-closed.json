@@ -1,0 +1,48 @@
+{
+ "page_note": "Closed pose. PDF 124 front half view mirrored about CL SYM; side view as drawn. 68.35 px/cm. mask_out on the front: the centreline stubs above and below the view (doubled by the mirroring).",
+ "views": [
+  {
+   "name": "p124-front-closed",
+   "page": 124,
+   "crop": [
+    0,
+    360,
+    956,
+    1630
+   ],
+   "pxPerCm": 68.35,
+   "from": "-Y",
+   "up": "+Z",
+   "try_mirror": false,
+   "plate": "model-source/accuracy/helpers/plates/plate-124-front-mirrored.png",
+   "mask_out": [
+    [
+     0,
+     0,
+     956,
+     23
+    ],
+    [
+     0,
+     1256,
+     956,
+     1270
+    ]
+   ]
+  },
+  {
+   "name": "p124-side-closed",
+   "page": 124,
+   "crop": [
+    895,
+    370,
+    1265,
+    1630
+   ],
+   "pxPerCm": 68.35,
+   "from": "+X",
+   "up": "+Z",
+   "try_mirror": false
+  }
+ ]
+}

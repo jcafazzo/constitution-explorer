@@ -1,0 +1,57 @@
+{
+ "page_note": "PDF 132 model SFAF/SG-MK10-0 at 67.95 px/cm (0-4 cm bar). Scores an export of that one scalpel only. Upright: Z up, cone (prime focus) on top, trigger / range scale lock face to the front (-Y). End view is looking down on the cone tip (VIEW arrows).",
+ "views": [
+  {
+   "name": "elevation",
+   "page": 132,
+   "crop": [
+    958,
+    1252,
+    1205,
+    1750
+   ],
+   "pxPerCm": 67.95,
+   "from": "-Y",
+   "up": "+Z",
+   "mask_out": [
+    [
+     0,
+     373,
+     10,
+     408
+    ],
+    [
+     0,
+     0,
+     89,
+     16
+    ],
+    [
+     150,
+     0,
+     247,
+     16
+    ],
+    [
+     0,
+     495,
+     247,
+     498
+    ]
+   ]
+  },
+  {
+   "name": "end",
+   "page": 132,
+   "crop": [
+    600,
+    1422,
+    840,
+    1665
+   ],
+   "pxPerCm": 67.95,
+   "from": "+Z",
+   "up": "+Y"
+  }
+ ]
+}

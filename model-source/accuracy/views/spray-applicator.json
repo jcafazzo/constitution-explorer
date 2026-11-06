@@ -1,0 +1,7 @@
+{
+ "page_note": "PDF 128 at 68.60 px/cm on the 1400 px plate (0-4 cm bar). Upright item: Z up, vial at the top, trigger B facing the front (-Y).",
+ "views": [
+  {"name": "elevation", "page": 128, "crop": [790, 316, 942, 780], "pxPerCm": 68.60, "from": "-Y", "up": "+Z"},
+  {"name": "nozzle-end", "page": 128, "crop": [790, 830, 942, 982], "pxPerCm": 68.60, "from": "-Z", "up": "-Y"}
+ ]
+}

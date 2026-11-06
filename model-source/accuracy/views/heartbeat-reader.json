@@ -1,0 +1,6 @@
+{
+ "page_note": "PDF 127 at 67.88 px/cm on the 1400 px plate (0-4 cm bar). Front elevation from -Y, upright (Z = length).",
+ "views": [
+  {"name": "front", "page": 127, "crop": [615, 300, 1005, 1570], "pxPerCm": 67.88, "from": "-Y", "up": "+Z", "try_mirror": false}
+ ]
+}

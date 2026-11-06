@@ -1,0 +1,78 @@
+{
+ "page_note": "PDF 129 at 68.52 px/cm on the 1400 px plate (0-4 cm bar). Upright item: Z up, computer housing at the top, activating switch B facing the front (-Y).",
+ "views": [
+  {
+   "name": "elevation",
+   "page": 129,
+   "crop": [
+    660,
+    318,
+    928,
+    744
+   ],
+   "pxPerCm": 68.52,
+   "from": "-Y",
+   "up": "+Z",
+   "mask_out": [
+    [
+     0,
+     177,
+     11,
+     202
+    ],
+    [
+     238,
+     250,
+     268,
+     266
+    ],
+    [
+     225,
+     352,
+     268,
+     382
+    ],
+    [
+     0,
+     352,
+     46,
+     382
+    ]
+   ]
+  },
+  {
+   "name": "top-dial",
+   "page": 129,
+   "crop": [
+    962,
+    314,
+    1228,
+    582
+   ],
+   "pxPerCm": 68.52,
+   "from": "+Z",
+   "up": "+Y",
+   "mask_out": [
+    [
+     0,
+     0,
+     38,
+     48
+    ]
+   ]
+  },
+  {
+   "name": "bottom",
+   "page": 129,
+   "crop": [
+    660,
+    862,
+    924,
+    1124
+   ],
+   "pxPerCm": 68.52,
+   "from": "-Z",
+   "up": "-Y"
+  }
+ ]
+}

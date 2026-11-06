@@ -1,0 +1,60 @@
+{
+ "page_note": "PDF 131 (size 2) at 33.98 px/cm. Scores an export of the size-2 unit only. Front = -Y, Z up. Rear view (ROT 90 CCW) is not scored: it draws only the rear end face.",
+ "views": [
+  {
+   "name": "top-plan",
+   "page": 131,
+   "crop": [
+    576,
+    296,
+    792,
+    1516
+   ],
+   "pxPerCm": 33.98,
+   "from": "+Z",
+   "up": "+Y"
+  },
+  {
+   "name": "side-profile",
+   "page": 131,
+   "crop": [
+    930,
+    296,
+    1192,
+    1516
+   ],
+   "pxPerCm": 33.98,
+   "from": "+X",
+   "up": "+Y",
+   "mask_out": [
+    [
+     223,
+     134,
+     262,
+     164
+    ]
+   ]
+  },
+  {
+   "name": "front-elevation",
+   "page": 131,
+   "crop": [
+    786,
+    1404,
+    990,
+    1668
+   ],
+   "pxPerCm": 33.98,
+   "from": "-Y",
+   "up": "+Z",
+   "mask_out": [
+    [
+     40,
+     0,
+     68,
+     14
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,7 @@
+{
+ "page_note": "Shaded renders of the site pose (antenna open 110 deg) only; the open lid is drawn only as a dash-dot phantom, so these scores are not meaningful - accuracy is scored on the closed pose (communicator.json).",
+ "views": [
+  {"name": "side-open", "page": 137, "crop": [250, 560, 1300, 1160], "pxPerCm": 67.63, "from": "-X", "up": "+Z", "try_mirror": false},
+  {"name": "end-open", "page": 137, "crop": [800, 0, 1350, 600], "pxPerCm": 67.63, "from": "-Y", "up": "+Z", "try_mirror": false}
+ ]
+}

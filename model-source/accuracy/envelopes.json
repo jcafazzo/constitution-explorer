@@ -1,0 +1,67 @@
+{
+ "phaser-1": [
+  4.98,
+  10.82,
+  3.04
+ ],
+ "phaser-2": [
+  4.98,
+  22.04,
+  16.08
+ ],
+ "ray-gun": [
+  8.42,
+  23.47,
+  8.7
+ ],
+ "communicator": [
+  6.35,
+  14.22,
+  10.01
+ ],
+ "ear-receiver": [
+  3.85,
+  2.67,
+  7.52
+ ],
+ "universal-translator": [
+  4.86,
+  28.11,
+  4.86
+ ],
+ "sciences-tricorder": [
+  12.62,
+  9.99,
+  19.35
+ ],
+ "medical-tricorder": [
+  12.28,
+  13.47,
+  19.36
+ ],
+ "heartbeat-reader": [
+  5.26,
+  5.26,
+  17.89
+ ],
+ "spray-applicator": [
+  1.93,
+  2.0,
+  6.53
+ ],
+ "medical-scanner": [
+  3.55,
+  3.6,
+  6.08
+ ],
+ "anabolic-protoplaser": [
+  11.96,
+  35.31,
+  7.09
+ ],
+ "surgical-scalpels": [
+  12.35,
+  3.84,
+  7.02
+ ]
+}

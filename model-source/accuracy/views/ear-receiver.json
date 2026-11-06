@@ -1,0 +1,6 @@
+{
+ "page_note": "PDF 138 at 68.59 px/cm on the 1400 px plate (0-4 cm bar). PLAN = from -Y (earpiece to image left = -X). The PROFILE draws the ear-piece plate face-on, i.e. the head swivelled to face the viewer; it is scored against the ear-receiver-profile pose variant (views/ear-receiver-profile.json).",
+ "views": [
+  {"name": "plan", "page": 138, "crop": [700, 290, 990, 790], "pxPerCm": 68.59, "from": "-Y", "up": "+Z", "try_mirror": false}
+ ]
+}

@@ -1,0 +1,77 @@
+{
+ "page_note": "PDF 137 at 67.63 px/cm on the 1400 px plate (0-5 cm bar). Drawn with the hinge (ferrite loop) end at image right = model -Y (front). Scored against the CLOSED pose (communicator-closed variant); the site model is the open pose.",
+ "views": [
+  {
+   "name": "top",
+   "page": 137,
+   "crop": [
+    330,
+    430,
+    1150,
+    895
+   ],
+   "pxPerCm": 67.63,
+   "from": "+Z",
+   "up": "+X",
+   "try_mirror": false
+  },
+  {
+   "name": "side",
+   "page": 137,
+   "crop": [
+    330,
+    925,
+    1200,
+    1150
+   ],
+   "pxPerCm": 67.63,
+   "from": "-X",
+   "up": "+Z",
+   "try_mirror": false,
+   "mask_out": [
+    [
+     792,
+     0,
+     870,
+     110
+    ]
+   ]
+  },
+  {
+   "name": "bottom",
+   "page": 137,
+   "crop": [
+    330,
+    1180,
+    1150,
+    1640
+   ],
+   "pxPerCm": 67.63,
+   "from": "-Z",
+   "up": "-X",
+   "try_mirror": false,
+   "mask_out": [
+    [
+     0,
+     449,
+     820,
+     460
+    ]
+   ]
+  },
+  {
+   "name": "end",
+   "page": 137,
+   "crop": [
+    850,
+    200,
+    1310,
+    425
+   ],
+   "pxPerCm": 67.63,
+   "from": "-Y",
+   "up": "+Z",
+   "try_mirror": false
+  }
+ ]
+}

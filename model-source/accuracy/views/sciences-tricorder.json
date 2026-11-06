@@ -1,0 +1,27 @@
+{
+ "page_note": "Open arrangement (site GLB). PDF 113 at 67.94 px/cm (FULL SIZE; calibrated from the 31.75 mm disc on PDF 114). mask_out: section-arrow / leader tips touching the head top (and callout circles B, C on 125).",
+ "views": [
+  {
+   "name": "p113-front-open",
+   "page": 113,
+   "crop": [
+    280,
+    355,
+    1090,
+    1705
+   ],
+   "pxPerCm": 67.94,
+   "from": "-Y",
+   "up": "+Z",
+   "try_mirror": false,
+   "mask_out": [
+    [
+     0,
+     0,
+     810,
+     21
+    ]
+   ]
+  }
+ ]
+}

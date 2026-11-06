@@ -1,0 +1,62 @@
+{
+ "page_note": "Closed pose (pose argument \"closed\"). PDF 112 front is a half view mirrored about its SYMMETRY line (plate png built by tricorder.py --plates). PDF 112 at 67.61, PDF 114 at 67.94 px/cm. mask_out on the front: the centreline stubs above and below the view (doubled by the mirroring).",
+ "views": [
+  {
+   "name": "p112-front-closed",
+   "page": 112,
+   "crop": [
+    0,
+    440,
+    938,
+    1720
+   ],
+   "pxPerCm": 67.61,
+   "from": "-Y",
+   "up": "+Z",
+   "try_mirror": false,
+   "plate": "model-source/accuracy/helpers/plates/plate-112-front-mirrored.png",
+   "mask_out": [
+    [
+     0,
+     0,
+     938,
+     34
+    ],
+    [
+     0,
+     1258,
+     938,
+     1280
+    ]
+   ]
+  },
+  {
+   "name": "p112-side-closed",
+   "page": 112,
+   "crop": [
+    925,
+    440,
+    1300,
+    1720
+   ],
+   "pxPerCm": 67.61,
+   "from": "+X",
+   "up": "+Z",
+   "try_mirror": false
+  },
+  {
+   "name": "p114-viewCC-closed",
+   "page": 114,
+   "crop": [
+    870,
+    470,
+    1230,
+    1725
+   ],
+   "pxPerCm": 67.94,
+   "from": "+X",
+   "up": "+Z",
+   "try_mirror": false
+  }
+ ]
+}

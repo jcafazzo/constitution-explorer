@@ -1,0 +1,39 @@
+{
+ "page_note": "Open arrangement (site GLB). PDF 125 at 68.35 px/cm (scale bar). mask_out: section-arrow / leader tips touching the head top (and callout circles B, C on 125).",
+ "views": [
+  {
+   "name": "p125-front-open",
+   "page": 125,
+   "crop": [
+    440,
+    340,
+    1250,
+    1705
+   ],
+   "pxPerCm": 68.35,
+   "from": "-Y",
+   "up": "+Z",
+   "try_mirror": false,
+   "mask_out": [
+    [
+     745,
+     25,
+     790,
+     65
+    ],
+    [
+     710,
+     75,
+     752,
+     120
+    ],
+    [
+     0,
+     0,
+     810,
+     19
+    ]
+   ]
+  }
+ ]
+}

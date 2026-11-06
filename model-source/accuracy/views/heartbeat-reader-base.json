@@ -1,0 +1,6 @@
+{
+ "page_note": "PDF 127 END VIEW (partial view of the base only: drum + side tabs), seen from below (-Z) with the front (-Y) at image top. Scored against the base-only variant (heartbeat_reader.py --variant base). Plate = cleaned fill of the drawn outline (out/heartbeat-reader-base/make_plate.py).",
+ "views": [
+  {"name": "end", "page": 127, "plate": "model-source/accuracy/helpers/plates/heartbeat-reader-base-end.png", "crop": [940, 1200, 1330, 1400], "pxPerCm": 67.88, "from": "-Z", "up": "-Y", "try_mirror": false}
+ ]
+}

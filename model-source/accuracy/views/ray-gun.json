@@ -1,0 +1,7 @@
+{
+ "page_note": "PDF 106 at 57.74 px/cm on the 1400 px plate (0-5 cm bar). Main elevation looks at the trigger panel (+Z) with the emitter up; FRONT VIEW looks down the emitter axis with the panel at the top. The SIDE VIEW is a broken-out partial view (only the panel edge) and is not scored.",
+ "views": [
+  {"name": "plan", "page": 106, "crop": [790, 300, 1350, 1720], "pxPerCm": 57.74, "from": "+Z", "up": "-Y", "try_mirror": false},
+  {"name": "front", "page": 106, "crop": [160, 1020, 700, 1580], "pxPerCm": 57.74, "from": "-Y", "up": "+Z", "try_mirror": false}
+ ]
+}

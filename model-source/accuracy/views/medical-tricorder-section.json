@@ -1,0 +1,49 @@
+{
+ "page_note": "PDF 126 internal arrangement, 68.01 px/cm: head open, lids shown shut (the plate draws the lids as single lines, which the silhouette extractor drops). mask_out: the strip in front of the case front edge, where the plate draws the opened lids as lines (this pose has them shut).",
+ "views": [
+  {
+   "name": "p126-left-section",
+   "page": 126,
+   "crop": [
+    380,
+    420,
+    880,
+    1790
+   ],
+   "pxPerCm": 68.01,
+   "from": "+X",
+   "up": "+Z",
+   "try_mirror": false,
+   "mask_out": [
+    [
+     0,
+     0,
+     36,
+     1370
+    ]
+   ]
+  },
+  {
+   "name": "p126-right-section",
+   "page": 126,
+   "crop": [
+    900,
+    300,
+    1360,
+    1690
+   ],
+   "pxPerCm": 68.01,
+   "from": "+X",
+   "up": "+Z",
+   "try_mirror": false,
+   "mask_out": [
+    [
+     0,
+     0,
+     42,
+     1390
+    ]
+   ]
+  }
+ ]
+}

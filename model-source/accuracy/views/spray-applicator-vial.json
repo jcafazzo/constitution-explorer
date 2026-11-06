@@ -1,0 +1,7 @@
+{
+ "page_note": "PDF 128 vial C drawn alone (68.60 px/cm). Scores an export of the vial object only.",
+ "views": [
+  {"name": "vial", "page": 128, "crop": [1136, 314, 1290, 606], "pxPerCm": 68.60, "from": "-Y", "up": "+Z"},
+  {"name": "vial-end", "page": 128, "crop": [1137, 626, 1290, 780], "pxPerCm": 68.60, "from": "-Z", "up": "-Y"}
+ ]
+}

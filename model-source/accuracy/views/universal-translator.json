@@ -1,0 +1,8 @@
+{
+ "page_note": "PDF 139 at 43.80 px/cm on the 1400 px plate (0-6 cm bar). TOP PLAN looks at the display (+Z); SIDE PROFILE is seen from +X (display strip edge-on at its right); FRONT ELEVATION looks down the axis from the sensor end (sensor block A tall, as drawn). The two circular section views are sections, not scored.",
+ "views": [
+  {"name": "side", "page": 139, "crop": [690, 300, 960, 1580], "pxPerCm": 43.8, "from": "+X", "up": "-Y", "try_mirror": false},
+  {"name": "plan", "page": 139, "crop": [1060, 300, 1340, 1580], "pxPerCm": 43.8, "from": "+Z", "up": "-Y", "try_mirror": false},
+  {"name": "front", "page": 139, "crop": [420, 1320, 720, 1580], "pxPerCm": 43.8, "from": "-Y", "up": "+Z", "try_mirror": false}
+ ]
+}
