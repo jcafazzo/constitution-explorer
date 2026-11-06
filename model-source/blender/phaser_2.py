@@ -173,9 +173,9 @@ def build():
     # fluted aft panel: five flutes on the +X face (side x 1062-1117, rows 1470-1741, running past the bottom edge)
     for px in (1062, 1075, 1089, 1103, 1117):
         z = zs(px); y0, y1 = yv(1472), yv(1741)
-        x_ = max(face_x(py, z) for py in range(1474, 1730, 10))
-        kit.cyl('deflector flute', .085, y1 - y0, (x_ - .07, (y0 + y1) / 2, z), 'bluegray', 'Y', parent=ds)
-        kit.sphere('flute end', .085, (x_ - .07, y0, z), 'bluegray', parent=ds)
+        # follow the body face so each flute stays on the surface and ends at the rounded butt, as drawn
+        secs = [(yv(py), face_x(py, z) - .16, face_x(py, z) - .0, z - .085, z + .085) for py in range(1474, 1742, 6)]
+        kit.loft('deflector flute', secs, 'bluegray', p=2.0, seg=16, parent=ds)
     # ---- force setting dial on the aft section's +Z face (side: flange x 1192-1212 rows 1417-1551, knob x 1216-1256 rows 1446-1527;
     #      top view: graduated face dia 1.85, hub 0.93) ----
     dial = kit.group('Force setting dial', root)
@@ -185,7 +185,12 @@ def build():
     for i in range(24):
         a = 2 * math.pi * i / 24
         kit.box('dial graduation', (.025, .14, .03), (dx + .84 * math.sin(a), dy + .84 * math.cos(a), zs(1211)), 'black', rot=(0, 0, -a), parent=dial)
-    kit.cyl('dial knob', .62, zs(1256) - zs(1213), (dx, dy, (zs(1256) + zs(1213)) / 2), 'antimony', 'Z', seg=6, parent=dial)
+    # four-lobed hub, as the top view draws it
+    kh = zs(1256) - zs(1213); kz = (zs(1256) + zs(1213)) / 2
+    kit.cyl('dial knob core', .42, kh, (dx, dy, kz), 'antimony', 'Z', parent=dial)
+    for i in range(4):
+        a = math.pi / 4 + i * math.pi / 2
+        kit.cyl('dial knob lobe', .26, kh, (dx + .36 * math.cos(a), dy + .36 * math.sin(a), kz), 'antimony', 'Z', parent=dial)
     kit.cyl('dial hub', .3, .04, (dx, dy, zs(1256) + .02), 'dark', 'Z', parent=dial)
     # ---- lock release: tab on the +X side of the aft section (top x 535-557, rows 1395-1430; side circle at x 1135) ----
     lr = kit.group('Lock release', root)

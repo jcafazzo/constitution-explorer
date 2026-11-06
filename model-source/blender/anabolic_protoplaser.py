@@ -38,11 +38,13 @@ class Sheet:
         lo, hi = kit.sample(self.side, (py - self.side['origin_px'][1]) / self.P, 4)
         return self.z(self.side['origin_px'][0] + lo * self.P)
 
-def conform_plate(name, secs, half_w, parent, material='antimony', p=2.6):
-    """A plate that hugs the rounded top: the housing-top sections grown slightly, cut to |x| <= half_w (boolean intersect)."""
+def conform_plate(name, secs, half_w, parent, material='antimony', p=2.6, z_min=None):
+    """A plate that hugs the rounded top: the housing-top sections grown slightly, cut to |x| <= half_w (boolean intersect)
+    and, with z_min, to z >= z_min (so a plate on the top surface does not wrap round the sides and bottom)."""
     shell = kit.loft(name, secs, material, p=p, parent=parent)
     ys = [s_[0] for s_ in secs]; zs = [v for s_ in secs for v in s_[3:]]
-    cut = kit.box(name + ' cutter', (2 * half_w, max(ys) - min(ys) + 1, max(zs) - min(zs) + 1), (0, (max(ys) + min(ys)) / 2, (max(zs) + min(zs)) / 2), 'antimony', parent=parent)
+    z0 = min(zs) - .5 if z_min is None else z_min; z1 = max(zs) + .5
+    cut = kit.box(name + ' cutter', (2 * half_w, max(ys) - min(ys) + 1, z1 - z0), (0, (max(ys) + min(ys)) / 2, (z0 + z1) / 2), 'antimony', parent=parent)
     m = shell.modifiers.new('clip', 'BOOLEAN'); m.operation = 'INTERSECT'; m.object = cut; m.solver = 'EXACT'
     bpy.context.view_layer.update(); bpy.context.view_layer.objects.active = shell; bpy.ops.object.modifier_apply(modifier='clip')
     bpy.data.objects.remove(cut)
@@ -107,7 +109,7 @@ def size2(parent=None, name='Anabolic Protoplaser size 2 (SFAF/SG-MK08-2)'):
     for py in rows(R0, F0, 90):
         w = S.half_w(py) if not 860 < py < 990 else (S.half_w(860) + (S.half_w(990) - S.half_w(860)) * (py - 860) / 130)  # switch C masked out
         k = min(1.0, (py - R0) / 4 + .25)
-        housing.append((S.y(py), -w * k, w * k, S.bottom(py), ztop(py)))
+        housing.append((S.y(py), -w * k, w * k, S.bottom(py) - .03, ztop(py)))   # bottom panel line drawn heavy: 0.3 mm below its centre
     kit.loft('(A) housing', housing, 'grey', p=4.2, parent=g)
     # (B) removable bottom panel (grey on this sheet): the seam line along the lower side faces
     for i in range(0, 61):
@@ -122,9 +124,14 @@ def size2(parent=None, name='Anabolic Protoplaser size 2 (SFAF/SG-MK08-2)'):
     top = [(S.y(py), -.9, .9, ztop(py) - .1, max(zD(py), ztop(py) + .02)) for py in rows(R0 + 1, 1030, 60)]
     kit.loft('(D) intensity control base', base, 'grey', p=8, parent=g)
     kit.loft('(D) intensity control (depress to increase intensity)', top, 'antimony', p=5, parent=g)
-    # (K) intensity force light: square on D (plan x 662-703, y 870-905)
-    kit.box('(K) intensity force light', (S.x(703) - S.x(662), S.y(870) - S.y(905), .04), (S.x(682.5), S.y(887.5), zD(887) + .005), 'white', bev=.01, parent=g)
-    kit.box('K frame', (S.x(706) - S.x(659), S.y(867) - S.y(908), .03), (S.x(682.5), S.y(887.5), zD(887) - .002), 'black', parent=g)
+    # (K) intensity force light: a white square light (plan x 665-700, y 873-902) in a black square frame (x 659-706, y 867-908),
+    # both standing proud of D's top and tilted to its slope (D rises 0.07 cm toward the front over the light)
+    tilt = math.atan2(-(zD(905) - zD(870)), S.y(870) - S.y(905))
+    zK = zD(887.5); xc = S.x(682.5); yc = S.y(887.5)
+    fo, fi = (706 - 659) / S.P, (700 - 665) / S.P; bw = (fo - fi) / 2; hk = .14
+    for dx, dy, sx, sy in ((0, (fi + bw) / 2, fo, bw), (0, -(fi + bw) / 2, fo, bw), ((fi + bw) / 2, 0, bw, fi), (-(fi + bw) / 2, 0, bw, fi)):
+        kit.box('(K) force light frame', (sx, sy, hk), (xc + dx, yc + dy * math.cos(tilt), zK + .045 - hk / 2 + dy * math.sin(tilt)), 'black', rot=(tilt, 0, 0), parent=g)
+    kit.box('(K) intensity force light', (fi, fi, hk), (xc, yc, zK + .03 - hk / 2), 'white', rot=(tilt, 0, 0), parent=g)
     # (E) effectivity sensor on the front face of the D step (front elevation: dia 0.82, 0.59 above the housing top)
     kit.cyl('(E) effectivity sensor', .41, .05, (0, S.y(1030) - .02, ztop(1030) + .59), 'red', 'Y', parent=g)
     # (C) activating switch, black-off / red-on, push forward: on the +X side face (plan x 773-784, side window rows 868-975, z ±0.43)
@@ -135,21 +142,25 @@ def size2(parent=None, name='Anabolic Protoplaser size 2 (SFAF/SG-MK08-2)'):
     for i in range(6):
         kit.box('switch grip rib', (.03, .03, .36), (xw + .33, S.y(878 + i * 4.5), 0), 'black', parent=g)
     # (J) specifications plate on the top near the front (plan x 603-765, y 1078-1150)
+    # (the side profile draws J only on the top edge: the plate is clipped 0.6 cm below the housing top, so it stays on the top face)
     conform_plate('(J) specifications plate', [(S.y(py), -S.half_w(py) - .03, S.half_w(py) + .03, S.bottom(py) - .03, ztop(py) + .05)
-                                               for py in rows(1078, 1150, 8)], (765 - 603) / 2 / S.P, g, p=4.2)
+                                               for py in rows(1078, 1150, 8)], (765 - 603) / 2 / S.P, g, p=4.2, z_min=ztop(1150) - .6)
     # (H) recharging chamber: dia 2.15 circle on the rear end face
     yr = S.y(R0)
     zc = (ztop(330) + S.bottom(330)) / 2
     kit.cyl('(H) recharging chamber', 1.07, .04, (0, yr + .005, zc), 'grey', 'Y', parent=g)
     kit.torus('H rim', 1.07, .03, (0, yr + .02, zc), 'dark', 'Y', parent=g)
     # (F) DNA match synthesization unit: collar (rows 1205-1218, 3.77 wide), neck dia 1.62 (1218-1250), cone flaring to the
-    # blunt cylinder dia 3.88 (1362-1510) whose front holds the recessed conical duct (G: mouth dia 3.36 → bore dia 1.24, 1.18 deep)
-    kit.cyl('collar', 3.77 / 2, S.y(1205) - S.y(1219), (0, S.y(1212), 0), 'grey', 'Y', bev=.05, parent=g)
+    # blunt cylinder dia 3.88 (1362-1510) whose front holds the recessed conical duct (G). F is drawn unshaded: antimony.
+    # The front elevation draws three concentric circles: F rim (dia 3.72), cone mouth (dia 3.15) and bore (dia 1.16, the dashed
+    # duct running back through the unit in the side profile); cone 1.18 deep.
+    kit.cyl('collar', 3.77 / 2, S.y(1205) - S.y(1219), (0, S.y(1212), 0), 'antimony', 'Y', bev=.05, parent=g)
     rN, rF = (710 - 655) / 2 / S.P, (750 - 618) / 2 / S.P
-    yF = S.y(1510)
-    pts = [(0, S.y(1217)), (rN, S.y(1217)), (rN, S.y(1250)), (rF, S.y(1362)), (rF, yF), (1.68, yF), (.62, yF + 1.18), (0, yF + 1.18)]
-    kit.revolve('(F) DNA match synthesization unit', pts, 'grey', axis='Y', parent=g)
-    kit.revolve('(G) ray emission duct (recessed cone)', [(1.66, yF + .002), (.6, yF + 1.17), (0, yF + 1.17)], 'dark', axis='Y', parent=g)
+    yF = S.y(1510); rM, rB = 3.15 / 2, 1.16 / 2
+    pts = [(0, S.y(1217)), (rN, S.y(1217)), (rN, S.y(1250)), (rF, S.y(1362)), (rF, yF), (rM, yF), (rB, yF + 1.18), (0, yF + 1.18)]
+    kit.revolve('(F) DNA match synthesization unit', pts, 'antimony', axis='Y', parent=g)
+    kit.revolve('(G) ray emission duct (recessed cone)', [(rM - .02, yF + .002), (rB, yF + 1.17), (rB - .01, yF + 1.17)], 'grey', axis='Y', parent=g)
+    kit.cyl('(G) ray emission duct bore', rB, .02, (0, yF + 1.165, 0), 'black', 'Y', parent=g)
     return g, S.bottom(1190), yr
 
 def build(parent=None):

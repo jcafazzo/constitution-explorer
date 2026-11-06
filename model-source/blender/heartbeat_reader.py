@@ -32,13 +32,14 @@ def build(variant='full'):
     root = kit.group('Heartbeat Reader')
     # ---- base: centre drum carrying the solo/multiple reading selector and volume control; flat side tabs ----
     kit.revolve('base drum (reading selector / volume control)', [(0, z(1548)), (1.04, z(1548)), (1.085, z(1545)), (1.085, z(1450)), (0.99, z(1446)), (0, z(1446))], 'white', axis='Z', parent=root)
-    # side tabs: 4.20 cm tip to tip x 1.18 cm (front elevation), 0.57 cm thick (END VIEW, y 1296-1335), rounded corners
-    tw, th, tt, rc = x(948) - x(663), z(1457) - z(1537), 39 / PPC, 10 / PPC
+    # side tabs: 4.22 cm tip to tip x 1.18 cm (front elevation, x 662-950 outside the lines), 0.57 cm thick (END VIEW, y 1296-1335),
+    # rounded corners. The base is drawn about x 806 (drum 734-878, tabs 662-950), so the tabs are centred on the axis.
+    tw, th, tt, rc = (950 - 662) / PPC - .02, z(1457) - z(1537), 39 / PPC, 10 / PPC
     pts = []
     for cx, cz, a0 in ((tw / 2 - rc, th / 2 - rc, 0), (-tw / 2 + rc, th / 2 - rc, 90), (-tw / 2 + rc, -th / 2 + rc, 180), (tw / 2 - rc, -th / 2 + rc, 270)):
         for k in range(7):
             a = math.radians(a0 + k * 15); pts.append((cx + rc * math.cos(a), cz + rc * math.sin(a)))
-    kit.extrude('side tabs', pts, tt, 'white', plane='XZ', loc=((x(663) + x(948)) / 2, 0, (z(1457) + z(1537)) / 2), parent=root)
+    kit.extrude('side tabs', pts, tt, 'white', plane='XZ', loc=(0, 0, (z(1457) + z(1537)) / 2), parent=root)
     if variant == 'base':
         return root
     # scales on the drum front: SAMPLE (S..M, upper, index pointer above) and VOL (0..10, lower, pointer below)
@@ -74,36 +75,31 @@ def build(variant='full'):
     sph = sorted(sph, key=lambda p: p[1])[::3]
     top = max(zz for r, zz in sph)
     outline = [(0, sph[0][1])] + sph + [(0, top + .001)]
-    kit.revolve('omnidirectional sensor cage (dark core)', [(max(r - .06, 0), zz) for r, zz in outline], 'dark', axis='Z', parent=root)
-    # screen lattice: meridians + parallels on the measured sphere outline (coarse wire mesh as drawn)
-    zb = sph[0][1]
-    def mer(name, ang0, twist, mat):
-        # a meridian wire: thin swept circle following the outline in the plane at angle ang
-        import bmesh, bpy
-        bm = bmesh.new(); rings = []; n = 6; w = .022
-        pts_ = [(r, zz) for r, zz in sph if r > .02]
-        for i, (r, zz) in enumerate(pts_):
-            j0, j1 = max(i - 1, 0), min(i + 1, len(pts_) - 1)
-            tr, tz = pts_[j1][0] - pts_[j0][0], pts_[j1][1] - pts_[j0][1]; L = math.hypot(tr, tz) or 1
-            nr, nz = tz / L, -tr / L
-            ang = ang0 + twist * (zz - sph[0][1]) / (sph[-1][1] - sph[0][1])
-            ring = []
-            for k in range(n):
-                b = 2 * math.pi * k / n
-                rr_ = r + w * math.cos(b) * nr; zz_ = zz + w * math.cos(b) * nz; t = w * math.sin(b)
-                ring.append(bm.verts.new((rr_ * math.cos(ang) - t * math.sin(ang), rr_ * math.sin(ang) + t * math.cos(ang), zz_)))
-            rings.append(ring)
-        for a_, b_ in zip(rings, rings[1:]):
-            for k in range(n): bm.faces.new((a_[k], a_[(k + 1) % n], b_[(k + 1) % n], b_[k]))
+    # Screens: a light antimony sphere under a fine woven wire mesh (the plate stipples ~1.5 mm cells over the whole head).
+    # The mesh is a geodesic (icosphere, 4 subdivisions: ~1.6 mm cells, no poles) wire grid; every vertex is pushed out
+    # radially from the sphere centre onto the measured silhouette, so the head follows the drawn outline.
+    import bpy, bmesh
+    pol = sorted((math.atan2(zz - cz, r), math.hypot(r, zz - cz)) for r, zz in sph if r > .02)
+    def rho(phi):              # silhouette distance from the head centre at elevation angle phi
+        if phi <= pol[0][0]: return rr
+        if phi >= pol[-1][0]: return pol[-1][1]
+        for (a0, r0), (a1, r1) in zip(pol, pol[1:]):
+            if a0 <= phi <= a1: return r0 + (r1 - r0) * (phi - a0) / max(a1 - a0, 1e-9)
+    def geo(name, inset, material):
+        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=4, radius=1.0)
+        for v in bm.verts:
+            d = v.co.normalized(); phi = math.asin(max(-1, min(1, d.z)))
+            v.co = d * (rho(phi) - inset); v.co.z += cz
         me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free()
-        return kit.smooth(kit._obj(name, me, mat, root), 60)
-    # coarse diamond wire lattice as drawn: two crossing families of helical wires
-    for k in range(28):
-        for tw in (1, -1):
-            mer('screen wire', 2 * math.pi * k / 28, tw * math.pi * .55, 'antimony')
-    # clamp band (y 476..513, 5.27 cm across), flat with small edge radii
+        return kit._obj(name, me, material, root)
+    kit.smooth(geo('omnidirectional sensor screens (antimony)', .03, 'antimony'), 60)
+    wire = geo('screen wire mesh (woven)', .006, 'grey')
+    m = wire.modifiers.new('wire', 'WIREFRAME'); m.thickness = .022; m.offset = 0; m.use_even_offset = True; m.use_replace = True
+    bpy.context.view_layer.objects.active = wire; bpy.ops.object.modifier_apply(modifier='wire')
+    for f in wire.data.polygons: f.use_smooth = True
+    # clamp band (y 476..513, 5.27 cm across): a flat, square-edged band
     Rb = 357 / 2 / PPC
-    kit.revolve('clamp band', [(0, z(513)), (Rb - .05, z(513)), (Rb, z(512)), (Rb, z(477)), (Rb - .05, z(476)), (0, z(476))], 'white', axis='Z', parent=root)
+    kit.revolve('clamp band', [(0, z(513)), (Rb, z(513)), (Rb, z(476)), (0, z(476))], 'white', axis='Z', parent=root)
     kit.sphere('omnidirectional sensor', .32, (0, 0, cz), 'grey', parent=root)
     # ---- front face (-Y): indicators, readout, slide switches ----
     def front(py, px=MID_X): return -math.sqrt(max(body_r(prof, py) ** 2 - x(px) ** 2, 0))
@@ -111,12 +107,21 @@ def build(variant='full'):
     for py, mat, n in ((722, 'blue', 'multiple reading cancel indicator (L.E.D.)'), (800, 'red', 'unit go indicator (L.E.D.)')):
         kit.cyl(n, 8 / PPC, .1, (x(783), front(py, 783) - .01, z(py)), mat, 'Y', parent=root)
         kit.torus(n + ' bezel', 9 / PPC, .018, (x(783), front(py, 783) - .03, z(py)), 'black', axis='Y', parent=root)
-    # digital readout with floating decimal: black surround x 798-840, y 715-810; window x 805-830, y 722-800 (4 digits)
+    # digital readout with floating decimal: outlined surround x 798-840, y 715-810; window x 805-830, y 722-800 holding four
+    # seven-segment figures drawn as outlined 8s, turned to read along the body (each cell ~20 x 19 px)
     yb = front(762, 820)
-    kit.box('digital readout surround', (x(840) - x(798), .12, z(715) - z(810)), (x(819), yb - .02, z(762.5)), 'black', parent=root)
+    kit.box('digital readout surround', (x(840) - x(798), .12, z(715) - z(810)), (x(819), yb - .02, z(762.5)), 'white', parent=root)
+    kit.box('digital readout surround outline', (x(841) - x(797), .1, z(714) - z(811)), (x(819), yb - .005, z(762.5)), 'black', parent=root)
     kit.box('digital readout window', (x(830) - x(805), .04, z(722) - z(800)), (x(817.5), yb - .09, z(761)), 'screen', parent=root)
+    U, V, T = (x(827) - x(809)) / 2, (z(0) - z(15)) / 2, .02          # half length (across the window), half height, bar
+    yd = yb - .112
     for i in range(4):
-        kit.box('readout digit', (x(828) - x(808), .02, .2), (x(818), yb - .11, z(732 + i * 19.5)), 'red', parent=root)
+        uc, zc = x(818), z(731.5 + i * 19.5)
+        for du in (-U, 0, U):                                          # the three bars across the figure
+            kit.box('readout segment', (T, .02, 2 * V), (uc + du, yd, zc), 'red', parent=root)
+        for du in (-U / 2, U / 2):                                     # the four bars along it
+            for dv in (-V, V):
+                kit.box('readout segment', (U - T, .02, T), (uc + du, yd, zc + dv), 'red', parent=root)
     for i in range(3):  # "BPM" legend, printed vertically left of the window
         kit.box('BPM legend', (.1, .01, .08), (x(795), front(748 + i * 13, 795) - .005, z(748 + i * 13)), 'black', parent=root)
     # slide switches ACTIVATE (y 830-866) and AUDIBLE (y 885-920): ribbed black boss 0.28 cm proud (SECTION), OFF end at right

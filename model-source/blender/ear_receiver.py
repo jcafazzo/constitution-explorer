@@ -1,6 +1,9 @@
 """Ear Receiver — PDF 138, TO 03:02:02 (SFAF/CC-MK05-0, size 0).  Run: Blender -b -P model-source/blender/ear_receiver.py [-- --pose profile --out DIR]
 Printed: length overall 6.55 cm, width overall 3.15 cm, maximum diameter 2.6 cm, 57 gm. Colours: antimony SF02UC, black SF32UC,
-transparent half-hard plastic ear-piece.
+transparent half-hard plastic ear-piece.  Fins, rails, stem, flange, plate B and housing C use the 'antimony' material (colour key);
+the energy cell housing, core, cone and root lobes are black; the ear-piece is transparent ('glass').
+END view (below the PLAN, seen from the base): outer circle 180-181 px = fin OD, inner circle 128-130 px (ratio 0.71-0.72) = base
+flange edge (PLAN 134/184 = 0.73; the plan is kept, 0.4 mm apart); the two strips across the annulus are the axial rails' feet.
 Upright: Z = length (base at z = 0). PLAN seen from -Y (image-right = +X, ear-piece to -X); PROFILE seen from -X.
 The drawing is followed, not the print: it measures 6.75 cm long (+3%) and 2.67 cm across the fins (printed 2.6).
 Body: revolved from the PLAN silhouette (profiles/ear-receiver-plan.json); the two axial rails that close the fin grooves at
@@ -30,7 +33,7 @@ def build(pose='plan'):
     # ---- (E) energy cell housing (black) and base flange (antimony), from the PLAN ----
     rf = sum(r for py, r in plan if 765 <= py <= 772) / sum(1 for py, r in plan if 765 <= py <= 772)
     rc_ = sum(r for py, r in plan if 750 <= py <= 760) / sum(1 for py, r in plan if 750 <= py <= 760)
-    kit.revolve('base flange', [(0, z(775)), (rf - .03, z(775)), (rf, z(774)), (rf, z(763)), (0, z(763))], 'white', axis='Z', parent=root)
+    kit.revolve('base flange', [(0, z(775)), (rf - .03, z(775)), (rf, z(774)), (rf, z(763)), (0, z(763))], 'antimony', axis='Z', parent=root)
     kit.revolve('(E) energy cell housing', [(0, z(764)), (rc_, z(764)), (rc_, z(747)), (0, z(747))], 'black', axis='Z', parent=root)
     # ---- (D) receiver housing: black core with eight antimony fins (PLAN: fins 183 px OD, core 144 px) ----
     fins = []; inside = False
@@ -41,10 +44,12 @@ def build(pose='plan'):
             if wide: fins[-1][1] = py
             inside = wide
     core_r = 144 / 2 / PPC
-    kit.revolve('(D) receiver housing core', [(0, z(748)), (core_r, z(748)), (core_r, z(566)), (0, z(566))], 'black', axis='Z', parent=root)
+    # core stops 0.1 mm short of the lowest fin's underside so that fin, not the black core, is seen from below: the END view
+    # draws a plain annulus from the fin OD (outer circle) to the base flange edge (inner circle, 0.71-0.72 of the outer)
+    kit.revolve('(D) receiver housing core', [(0, z(748) + .01), (core_r, z(748) + .01), (core_r, z(566)), (0, z(566))], 'black', axis='Z', parent=root)
     fin_r = sum(r for py, r in plan if any(a <= py <= b for a, b in fins)) / sum(1 for py, r in plan if any(a <= py <= b for a, b in fins))
     for a, b in fins:
-        kit.cyl('(D) receiver housing fin', fin_r, (b - a + 1) / PPC, (0, 0, z((a + b + 1) / 2)), 'white', 'Z', seg=96, bev=.015, parent=root)
+        kit.cyl('(D) receiver housing fin', fin_r, (b - a + 1) / PPC, (0, 0, z((a + b + 1) / 2)), 'antimony', 'Z', seg=96, bev=.015, parent=root)
     # black cone above the fins (PLAN y 528..566)
     cone = [(r, z(py)) for py, r in plan if 528 <= py <= 566][::2]
     kit.revolve('receiver cone', [(0, z(566))] + sorted(cone, key=lambda p: p[1]) + [(0, z(527))], 'black', axis='Z', parent=root)
@@ -54,10 +59,10 @@ def build(pose='plan'):
     for sgn in (1, -1):
         pts = [(.76, z(566))] + [(R, z(568))] + [(r, z(py)) for py, r in foot[::3]] + [(.76, z(776))]
         prof = [(sgn * r_, zz) for r_, zz in pts]
-        kit.extrude('(F) high gain antenna grid / heat sink rail', [(p[0], p[1]) for p in prof], 10 / PPC, 'white', plane='YZ', parent=root)
+        kit.extrude('(F) high gain antenna grid / heat sink rail', [(p[0], p[1]) for p in prof], 10 / PPC, 'antimony', plane='YZ', parent=root)
     # ---- stem (PLAN x 857-897, PROFILE 1167-1205) with four black root lobes (drawn as a pair in both views) ----
     rs = 19.5 / PPC
-    kit.cyl('stem', rs, z(440) - z(530), (0, 0, (z(440) + z(530)) / 2), 'white', 'Z', parent=root)
+    kit.cyl('stem', rs, z(440) - z(530), (0, 0, (z(440) + z(530)) / 2), 'antimony', 'Z', parent=root)
     for k in range(4):
         a = math.radians(45 + 90 * k); d = 12 / PPC
         kit.sphere('stem root lobe', 8 / PPC, (d * math.cos(a), d * math.sin(a), z(540)), 'black', scale=(1, 1, 3.0), parent=root)
@@ -75,10 +80,10 @@ def build(pose='plan'):
     for cy, cz, a0 in ((W / 2 - rc, H / 2 - rc, 0), (-W / 2 + rc, H / 2 - rc, 90), (-W / 2 + rc, -H / 2 + rc, 180), (W / 2 - rc, -H / 2 + rc, 270)):
         for k in range(7):
             a = math.radians(a0 + k * 15); pts.append((cy + rc * math.cos(a), cz + rc * math.sin(a)))
-    kit.extrude('(B) ear-piece retention plate', pts, T, 'white', plane='YZ', bev=.02, parent=head)
-    kit.sphere('(B) retention plate dome', 27 / PPC, (0, 0, H / 2 - .02), 'white', scale=(.32, 1, .7), parent=head)  # PROFILE knob 55 px wide, 18 px proud
+    kit.extrude('(B) ear-piece retention plate', pts, T, 'antimony', plane='YZ', bev=.02, parent=head)
+    kit.sphere('(B) retention plate dome', 27 / PPC, (0, 0, H / 2 - .02), 'antimony', scale=(.32, 1, .7), parent=head)  # PROFILE knob 55 px wide, 18 px proud
     # housing C: PLAN square a 0.12..1.05 cm, u -0.71..+0.46 cm
-    kit.cyl('(C) earphone housing', .58, .98, (.12 + .98 / 2, 0, -.13), 'white', 'X', parent=head)
+    kit.cyl('(C) earphone housing', .58, .98, (.12 + .98 / 2, 0, -.13), 'antimony', 'X', parent=head)
     kit.torus('(G) swivel', .5, .035, (.08, 0, -.13), 'grey', axis='X', parent=head)
     # ear-piece A: PLAN outline extruded across (end-on in PROFILE it is the 80 px circle -> 1.17 cm)
     poly = ep['poly']

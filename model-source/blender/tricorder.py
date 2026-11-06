@@ -47,11 +47,19 @@ VARIANTS = {
         top_lip=395,                             # faceplate starts below this row (PDF 113)
         bezel=(400, 413, 755, 664), screen=(418, 428, 745, 648), sensor=(812, 420, 900, 515),
         leds=[(797, 548), (866, 548), (935, 548)], knobs=[(797, 622), (866, 622), (935, 622)],
-        frame_member=(680, 765), comp=(765, 1012), discs=(392, 725, 785), holder=(975, 1012), ledge=(1012, 1020),
+        frame_member=(680, 765), comp=(765, 1012), discs=(392, 712, 785), holder=(975, 1012), ledge=(1012, 1020),
+        disc_bar=(712, 726, 783),                # PDF 113: vertical holder bar right of the stack (x0, x1, top row)
+        rim='antimony',                          # PDF 113: plain (white) rim 378-407 above the faceplate; PDF 125 draws it pebbled
+        sill=671,                                # faceplate's drawn lower edge; white down to the frame member (680)
+
         speaker_plate=728, speaker=(862, 885, 108, 88), grille='star',
         rc_lid=dict(hinge=1020, length=4.60, open=103.5), lower_seam=1092,
-        screw_px=(1100, 662), hinge_plate=[(1000, 525), (1012, 505), (1035, 498), (1190, 498), (1213, 505), (1225, 525), (1185, 690), (1062, 690)],
-        strap_y=(1055, 1180),
+        screw_px=(1113, 665),
+        # outlined bracket (PDF 112 side): band centreline from the left curl tip, down the left arm, across behind the
+        # strap tab, up the right arm to the right curl tip; band width in cm
+        bracket=[(1045, 512), (1030, 505), (1012, 512), (1004, 530), (1008, 560), (1050, 690), (1060, 702), (1175, 702), (1186, 690),
+                 (1214, 560), (1218, 530), (1211, 512), (1202, 505), (1188, 512)], bracket_w=0.30,
+        strap_y=(1055, 1180), tab=(690, 1057),   # PDF 112 side: strap tab top row, break-line row (5.43 cm)
         # strap centreline (offset out from the shell side, depth below the top), traced on the plates' ink
         strap_open=[(0, 3.30), (.20, 3.25), (.35, 3.30), (.42, 3.50), (.47, 3.72), (.51, 3.95), (.54, 4.2), (.56, 4.43)],   # PDF 113
         strap_closed=[(0, 3.10), (.35, 3.43), (.61, 3.88), (.74, 4.32), (.84, 4.76), (.96, 5.65), (1.0, 6.54), (1.0, 7.42), (.95, 8.31), (.89, 8.9)],  # PDF 112
@@ -63,12 +71,17 @@ VARIANTS = {
         bezel=(553, 393, 928, 662), screen=(572, 408, 912, 648), sensor=(980, 405, 1065, 490),
         leds=[(955, 530), (1030, 530), (1105, 530)], knobs=[(955, 612), (1030, 612), (1105, 612)],
         frame_member=(655, 748), comp=(748, 1000), discs=(550, 875, 752), holder=(958, 1000), ledge=(1000, 1015),
+        disc_bar=(875, 888, 752), disc_grooves=True,   # PDF 125: separator strips between the discs
+        sill=648,
+
         speaker_plate=880, speaker=(1020, 878, 109, 85), grille='wave',
         rc_lid=dict(hinge=1015, length=3.88, open=100.3, plate=(1.02, 1.68)),
         bay=(1015, 1062), analyzer=(550, 668, 1062, 1095),
         lower_lid=dict(hinge=-17.6, top=-8.16, open=56.9, plate=(1.94, 2.63)),   # PDF 124 closed lid, PDF 125 projection
-        screw_px=(1083, 585), hinge_plate=[(975, 450), (985, 428), (1010, 420), (1180, 420), (1205, 428), (1215, 450), (1150, 612), (1028, 612)],
-        strap_y=(1027, 1150), lugs=[770, 1100],
+        screw_px=(1086, 585),
+        bracket=[(1012, 430), (998, 423), (988, 432), (986, 455), (1022, 610), (1030, 622), (1150, 622), (1158, 610),
+                 (1194, 455), (1190, 435), (1180, 424), (1167, 428)], bracket_w=0.10,   # PDF 124: single heavy line
+        strap_y=(1027, 1150), tab=(611, 777), lugs=[770, 1100],   # PDF 124 side: tab 2.43 cm
         strap_open=[(0, 3.45), (.20, 3.40), (.30, 3.50), (.32, 3.65), (.30, 3.85)],          # PDF 125
         strap_closed=[(0, 3.15), (.16, 3.29), (.42, 3.58), (.56, 3.88), (.66, 4.17), (.75, 4.46), (.80, 4.75), (.85, 5.05), (.86, 5.34), (.87, 5.56)],  # PDF 124
     ),
@@ -114,23 +127,44 @@ def clean(prof, drop_thin=0.5, win=45, tol=0.04):
     prof['s0'] = s0
     return prof
 
+def fair(prof, lam_mid=1e7, lam_end=3.0, edge=0.9, ramp=0.6, tol=0.035, iters=5):
+    """Fair a measured silhouette for lofting: robust Whittaker smoother (3rd differences) on lo and hi.
+    The plates draw the case sides as straight-ish ink lines; 2-px rows step the slope in ~0.1 jumps, and the loft
+    rings, sampled every 1-2 mm, turn that into horizontal shading bands. The penalty is strong along the straight run
+    and relaxed over the last `edge` cm at each end so the rounded top/base corners keep their drawn shape.
+    Rows further than `tol` cm from the fit (held values where the strap or a leader crosses the outline) are down-weighted."""
+    import numpy as np
+    r = np.array(prof['rows'], float); s = r[:, 0]; n = len(s); H = s[-1]
+    D = np.diff(np.eye(n), 3, axis=0); sm = (s[:-3] + s[3:]) / 2
+    t = np.clip((np.minimum(sm, H - sm) - edge) / ramp, 0, 1); t = t * t * (3 - 2 * t)
+    lam = np.exp(np.log(lam_end) + (np.log(lam_mid) - np.log(lam_end)) * t)
+    P = D.T @ (lam[:, None] * D)
+    for c in (1, 2):
+        y = r[:, c]; w = np.ones(n)
+        for _ in range(iters):
+            z = np.linalg.solve(np.diag(w) + P, w * y)
+            e = np.abs(z - y) / tol; w = np.where(e < 1, 1.0, 1.0 / (e * e))
+        r[:, c] = z
+    prof['rows'] = r.tolist()
+    return prof
+
 class Case:
     def __init__(self, V):
         self.V = V
-        self.side = clean(kit.load_profile(V['side']), drop_thin=0.3)
-        self.front = clean(kit.load_profile(V['front']))
-        self.front2 = clean(kit.load_profile(V['front2'])) if V.get('front2') else None
+        self.side = fair(clean(kit.load_profile(V['side']), drop_thin=0.3))
+        self.front = fair(clean(kit.load_profile(V['front'])))
+        self.front2 = fair(clean(kit.load_profile(V['front2']))) if V.get('front2') else None
         # side rows start at the case top: the first row kept is z = 0
         self.H = self.side['rows'][-1][0]
         sx, sy, sp = V['side_px']
         self.ppc_side = sp
     def half(self, s):
-        lo, hi = kit.sample(self.front, max(s, 0), 2)
+        lo, hi = kit.sample(self.front, max(s, 0))
         if self.front2:
-            lo2, hi2 = kit.sample(self.front2, max(s, 0), 2); return ((hi - lo) + (hi2 - lo2)) / 4
+            lo2, hi2 = kit.sample(self.front2, max(s, 0)); return ((hi - lo) + (hi2 - lo2)) / 4
         return (hi - lo) / 2
     def yr(self, s):
-        return kit.sample(self.side, min(max(s, 0), self.H), 2)
+        return kit.sample(self.side, min(max(s, 0), self.H))
     def yfront(self, s): return self.yr(s)[0]
 
 def rrect(a, y0, y1, r, n=5, x0=None, x1=None):
@@ -288,9 +322,19 @@ def build(item, pose='open'):
     t_lip = (min(Zf(V['top_lip']), 0.95) - pv[1] - F.z) / d.z
     P1 = F + d * t_lip; pts.append((P1.y, P1.z))
     shell = prism('head shell (pebbled)', pts, -hw + .002, hw - .002, 'pebbled', parent=head)
+    parts = [shell]
+    if V.get('rim'):     # PDF 113 draws the rim above the faceplate plain (white antimony), not pebbled: skin the lip P1 -> T
+        T = Vector((0, *pts[0])); e = (T - P1); n = Vector((0, e.z, -e.y)).normalized()
+        if n.y > 0: n = -n                                     # outward = toward the front of the open head
+        ext = (T - Vector((0, *pts[1]))).normalized() * 0.02    # wrap a hair over the tip
+        k = 0.015
+        poly = [(P1.y - d.y * 0.02, P1.z - d.z * 0.02), (T.y + ext.y, T.z + ext.z),
+                (T.y + ext.y + n.y * k, T.z + ext.z + n.z * k), (P1.y - d.y * 0.02 + n.y * k, P1.z - d.z * 0.02 + n.z * k)]
+        parts.append(prism('head top rim (antimony)', poly, -hw + .001, hw - .001, V['rim'], parent=head))
     env = envelope(C, 'env', 'dark', r=0.7, grow=0.12)   # keeps the drawn tip, trims the corner that would stand proud when shut
     head.rotation_euler = (math.radians(OPEN_ANGLE), 0, 0); bpy.context.view_layer.update()
-    apply_bool(shell, env, 'INTERSECT'); delete(env)          # trimmed to the case where it is housed when shut
+    for o in parts: apply_bool(o, env, 'INTERSECT')           # trimmed to the case where it is housed when shut
+    delete(env)
     kit.smooth(shell, 35)
     head.rotation_euler = (0 if head_open else math.radians(OPEN_ANGLE), 0, 0)
     # faceplate frame: local X = x, local Y = up the faceplate (F -> T), local Z = outward normal (front-up)
@@ -342,7 +386,14 @@ def build(item, pose='open'):
         y = min(C.yfront(-z0), C.yfront(-z1))
         return kit.box(name, (x1 - x0, depth, z1 - z0), ((x0 + x1) / 2, y - proud + depth / 2, (z0 + z1) / 2), material, parent=root)
     fm = V['frame_member']
-    if head_open: front_plate('frame member (antimony)', -fr0, fr0, fm[0], fm[1], 0.6, 'antimony')
+    if head_open:
+        front_plate('frame member (antimony)', -fr0, fr0, fm[0], fm[1], 0.6, 'antimony')
+        # neither plate draws the case lip between the faceplate's lower edge and the frame member dark: carry the
+        # antimony up behind the faceplate so no pebbled strip shows there
+        # the head slot's floor rises toward the faceplate base and showed from the front as a pebbled strip: cover it up to the
+        # floor height under the faceplate (no higher than needed, so the faceplate itself is not hidden)
+        z0 = Zf(fm[0]); z1 = max(Zf(V['sill']), zf(pv[0] + F.y) + 0.02)
+        kit.box('frame member upper lip (antimony)', (2 * fr0, 0.4, z1 - z0), (0, C.yfront(-z0) - 0.02 + 0.2, (z0 + z1) / 2), 'antimony', parent=root)
     else:         # shut, the head's tip (3.4 cm below the top) laps over the upper edge of the frame member
         kit.box('frame member (antimony)', (2 * fr0, 0.6, Zf(fm[0]) + 3.45), (0, C.yfront(3.8) - 0.02 + 0.3, (Zf(fm[1]) - 3.45) / 2), 'antimony', parent=root)
     rcl = V['rc_lid']; zh = Zf(rcl['hinge']); yh = C.yfront(-zh)
@@ -352,11 +403,15 @@ def build(item, pose='open'):
         yb = C.yfront(-(zc0 + zc1) / 2) + 3.95
         kit.box('compartment back', (2 * fr0, 0.1, zc1 - zc0), (0, yb - 0.05, (zc0 + zc1) / 2), 'dark', parent=root)
         d0, d1, dtop = V['discs']; pitch = (d1 - d0) / 8; rd = 1.5875; zd = Zf(dtop) - rd; yd = C.yfront(-zd) + 2.25
-        for i in range(8):
+        for i in range(8):                         # flat-faced discs (the plates draw plain rectangles edge-on)
             xd = X(d0 + pitch * (i + .5))
-            kit.revolve('removable play/record disc', [(0, -.279), (1.4875, -.279), (rd, -.179), (rd, .179), (1.4875, .279), (0, .279)],
-                        'white', axis='X', loc=(xd, yd, zd), parent=root)
-            kit.cyl('disc inert core', 1.25, 0.565, (xd, yd, zd), 'grey', 'X', parent=root)
+            kit.cyl('removable play/record disc', rd, 0.558, (xd, yd, zd), 'white', 'X', seg=72, parent=root)
+            if V.get('disc_grooves') and i < 7:    # PDF 125: separator strip between neighbouring discs
+                xb = X(d0 + pitch * (i + 1)); g = max(pitch / fp - 0.558 - 0.004, 0.02)
+                kit.cyl('disc separator', rd - 0.12, g, (xb, yd, zd), 'dark', 'X', seg=48, parent=root)   # recessed: reads as a groove
+        if V.get('disc_bar'):                      # vertical holder bar at the right of the stack
+            bx0, bx1, btop = V['disc_bar']; zt, zb = Zf(btop), Zf(V['holder'][0])
+            kit.box('disc holder bar', (X(bx1) - X(bx0), 2.2, zt - zb), ((X(bx0) + X(bx1)) / 2, C.yfront(-(zt + zb) / 2) + 0.1 + 1.1, (zt + zb) / 2), 'antimony', parent=root)
         h = V['holder']
         front_plate('disc holder frame', -fr0, xs, h[0], h[1], 2.2, 'antimony', proud=-0.1)
         kit.box('compression plate', (0.08, 3.4, Zf(V['discs'][2]) - Zf(h[1])), (X(d0) - 0.05, yd, (Zf(V['discs'][2]) + Zf(h[1])) / 2), 'antimony', parent=root)
@@ -364,21 +419,38 @@ def build(item, pose='open'):
         # speaker / mic grille
         spx, spy, ro, ri = V['speaker']; xsp, zsp = X(spx), Zf(spy); ysp = C.yfront(-zsp) - 0.06
         kit.cyl('speaker/mic ring', ro / fp, 0.08, (xsp, ysp, zsp), 'antimony', 'Y', seg=64, parent=root)
-        kit.cyl('speaker/mic grille', ri / fp, 0.04, (xsp, ysp - 0.05, zsp), 'antimony' if V['grille'] == 'star' else 'dark', 'Y', seg=64, parent=root)
+        kit.cyl('speaker/mic grille', ri / fp, 0.04, (xsp, ysp - 0.05, zsp), 'dark', 'Y', seg=64, parent=root) if V['grille'] != 'star' else None
         R = ri / fp
-        if V['grille'] == 'star':                 # PDF 113: concentric arcs behind a four-pointed star
-            for k in range(1, 9):
-                rr = R * k / 9
-                for q in range(4):                 # arcs in each quadrant between the star's points
-                    a0 = q * math.pi / 2 + 0.22; a1 = (q + 1) * math.pi / 2 - 0.22
-                    tube('speaker grille arc', [(xsp + rr * math.cos(a0 + (a1 - a0) * j / 12), ysp - 0.08, zsp + rr * math.sin(a0 + (a1 - a0) * j / 12)) for j in range(13)],
-                         0.014, 'black', parent=root, seg=5)
-            star = []                              # four-pointed star with concave sides (astroid)
-            for k in range(96):
-                a = 2 * math.pi * k / 96; c_, s2 = math.cos(a), math.sin(a)
-                star.append((xsp + R * 0.97 * c_ ** 3 + 0.04 * c_, zsp + R * 0.97 * s2 ** 3 + 0.04 * s2))
-            prism_y('speaker grille star', star, ysp - 0.12, ysp - 0.06, 'black', parent=root)
-            kit.sphere('speaker grille centre', 0.1, (xsp, ysp - 0.1, zsp), 'antimony', parent=root)
+        if V['grille'] == 'star':
+            # PDF 113: white grille inside a black rim line; in each half ~13 nested arcs concentric about the star point at the
+            # rim (top half about the top point, bottom half about the bottom point) fill the disc; a solid black four-pointed
+            # star with concave sides lies over them, a white inner outline and a white "C" mark at its centre.
+            kit.cyl('speaker/mic grille rim line', R, 0.04, (xsp, ysp - 0.05, zsp), 'black', 'Y', seg=72, parent=root)
+            kit.cyl('speaker/mic grille (white)', R - 0.03, 0.01, (xsp, ysp - 0.075, zsp), 'white', 'Y', seg=72, parent=root)
+            Rin = R - 0.035; yarc = ysp - 0.083
+            for sgn in (1, -1):
+                cz = zsp + sgn * R
+                for k in range(1, 20):
+                    rr = k * R / 13.5; run = []
+                    for j in range(91):
+                        th = -math.pi / 2 + math.pi * j / 90
+                        x_, z_ = xsp + rr * math.sin(th), cz - sgn * rr * math.cos(th)
+                        ok = math.hypot(x_ - xsp, z_ - zsp) <= Rin and sgn * (z_ - zsp) >= 0
+                        if ok: run.append((x_, yarc, z_))
+                        if (not ok or j == 90) and run:
+                            if len(run) > 2: tube('speaker grille arc', run, 0.011, 'black', parent=root, seg=5)
+                            run = []
+            def astroid(sc, q=3.2, n=128):
+                out = []
+                for k in range(n):
+                    a = 2 * math.pi * k / n; c_, s2 = math.cos(a), math.sin(a)
+                    out.append((xsp + sc * math.copysign(abs(c_) ** q, c_), zsp + sc * math.copysign(abs(s2) ** q, s2)))
+                return out
+            prism_y('speaker grille star', astroid(R * 0.985), ysp - 0.11, ysp - 0.07, 'black', parent=root)
+            line = [(x_, ysp - 0.112, z_) for x_, z_ in astroid(R * 0.66)]
+            tube('speaker grille star inner line', line + line[:2], 0.011, 'white', parent=root, seg=5)
+            tube('speaker grille "C" mark', [(xsp + 0.075 * math.cos(math.radians(a)), ysp - 0.112, zsp + 0.075 * math.sin(math.radians(a))) for a in range(40, 325, 15)],
+                 0.016, 'white', parent=root, seg=6)
         else:                                     # PDF 125: wavy horizontal lines
             for k in range(-9, 10):
                 zz = zsp + k * R / 9.5; half = math.sqrt(max(R * R - (zz - zsp) ** 2, 0)) - 0.03
@@ -390,7 +462,7 @@ def build(item, pose='open'):
             kit.box('life form functions sensor/analyzer', (X(a[1]) - X(a[0]), 1.6, za1 - za0), ((X(a[0]) + X(a[1])) / 2, yfa + 0.3 + 0.8, (za0 + za1) / 2), 'pebbled', bev=.03, parent=root)
             kit.box('sensor/analyzer cap', (X(a[1]) - X(a[0]) - 0.04, 1.62, Zf(a[2]) - Zf(a[3])), ((X(a[0]) + X(a[1])) / 2, yfa + 1.1, (Zf(a[2]) + Zf(a[3])) / 2), 'antimony', parent=root)
             zb1 = Zf(V['bay'][0])
-            kit.box('analyzer bay back (circuitry, classified)', (2 * fr0, 0.1, zb1 + 17.45), (0, C.yfront(10) + 3.35, (zb1 - 17.45) / 2), 'grey', parent=root)
+            kit.box('analyzer bay back (circuitry, classified)', (2 * fr0, 0.1, zb1 + 17.45), (0, C.yfront(10) + 3.35, (zb1 - 17.45) / 2), 'white', parent=root)   # drawn blank (white) on PDF 125
     # ---- lids (hinged at the front edge, as PDF 126 draws them); open angles from the open front views
     def lid(name, z_h, L, ang, plate=None):
         y_h = C.yfront(-z_h); y_t = C.yfront(-(z_h + L))
@@ -399,31 +471,53 @@ def build(item, pose='open'):
         kit.box(name + ' panel', (2 * fr0 - .04, 0.14, L - .02), (0, -0.07, L / 2), 'pebbled', bev=.02, parent=g)
         kit.cyl(name + ' hinge pin', 0.07, 2 * fr0 - .1, (0, -0.07, 0.05), 'brushed', 'X', parent=g)
         if plate:
-            kit.box(name + ' plate (antimony)', (3.06, 0.02, plate[1] - plate[0]), (0, -0.145, L - (plate[0] + plate[1]) / 2), 'antimony', parent=g)
+            # light, non-metallic finish: a metallic antimony plate on a lid hanging face-down mirrors the floor and reads dark grey
+            kit.box(name + ' plate (antimony)', (3.06, 0.03, plate[1] - plate[0]), (0, -0.15, L - (plate[0] + plate[1]) / 2), 'white', parent=g)
         return g
     lid('record-compare section lid', zh, rcl['length'], rcl['open'] if lids_open else 0, rcl.get('plate'))
     if 'lower_lid' in V:
         ll = V['lower_lid']; lid('analyzer compartment lid (lower)', ll['hinge'], ll['top'] - ll['hinge'], ll['open'] if lids_open else 0, ll.get('plate'))
     elif 'lower_seam' in V:
         zz = Zf(V['lower_seam']); kit.box('circuitry/power supply section lid seam', (2 * fr0, 0.03, 0.03), (0, C.yfront(-zz) - 0.005, zz), 'dark', parent=root)
-    # ---- narrow sides: triangular hinge plate, cross-head pivot screw, strap, lugs; vent holes in the side frames
+    # ---- narrow sides: outlined hinge bracket, cross-head pivot screw, strap tab, lugs; vent holes in the side frames
     def side_x(s): return C.half(s)
     for sg in (1, -1):
-        poly = [(Ys(px), Zs(py)) for px, py in V['hinge_plate']]
-        bm = bmesh.new(); n = len(poly)
-        inner = [bm.verts.new((sg * (side_x(-z) - 0.06), y, z)) for y, z in poly]   # flush outline plate, 0.15 mm proud
-        outer = [bm.verts.new((sg * (side_x(-z) + 0.015), y, z)) for y, z in poly]
-        bm.faces.new(inner); bm.faces.new(list(reversed(outer)))
-        for i in range(n): bm.faces.new((inner[i], inner[(i + 1) % n], outer[(i + 1) % n], outer[i]))
+        # the plates draw the hinge bracket as an outline (a band with curled top ends), not a solid plate
+        pk = [(Ys(px), Zs(py)) for px, py in V['bracket']]; hw_b = V['bracket_w'] / 2
+        path = []                                  # resample (<= 1 mm) so the band follows the side's curvature
+        for (y0_, z0_), (y1_, z1_) in zip(pk, pk[1:]):
+            m = max(1, int(math.hypot(y1_ - y0_, z1_ - z0_) / 0.1))
+            path += [(y0_ + (y1_ - y0_) * j / m, z0_ + (z1_ - z0_) * j / m) for j in range(m)]
+        path.append(pk[-1])
+        bm = bmesh.new(); rings = []
+        for i, (y, z) in enumerate(path):
+            a_ = path[max(i - 1, 0)]; b_ = path[min(i + 1, len(path) - 1)]
+            ty, tz = b_[0] - a_[0], b_[1] - a_[1]; L = math.hypot(ty, tz) or 1; ny, nz = -tz / L * hw_b, ty / L * hw_b
+            ring = []
+            for (dy, dz), off in (((-ny, -nz), -0.06), ((ny, nz), -0.06), ((ny, nz), 0.02), ((-ny, -nz), 0.02)):
+                ring.append(bm.verts.new((sg * (side_x(-(z + dz)) + off), y + dy, z + dz)))
+            rings.append(ring)
+        for k in range(len(rings) - 1):
+            for i in range(4): bm.faces.new((rings[k][i], rings[k][(i + 1) % 4], rings[k + 1][(i + 1) % 4], rings[k + 1][i]))
+        bm.faces.new(rings[0]); bm.faces.new(list(reversed(rings[-1])))
         bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
-        me = bpy.data.meshes.new('hinge plate'); bm.to_mesh(me); bm.free()
-        o = bpy.data.objects.new('triangular hinge plate', me); bpy.context.scene.collection.objects.link(o); o.data.materials.append(kit.mat('black')); o.parent = root
+        me = bpy.data.meshes.new('hinge bracket'); bm.to_mesh(me); bm.free()
+        o = bpy.data.objects.new('hinge bracket (outline)', me); bpy.context.scene.collection.objects.link(o); o.data.materials.append(kit.mat('black')); o.parent = root
         ysc, zsc = Ys(V['screw_px'][0]), Zs(V['screw_px'][1]); xsc = sg * (side_x(-zsc) + 0.05)
         kit.cyl('pivot screw (oval head)', 0.32, 0.08, (xsc, ysc, zsc), 'antimony', 'X', parent=root)
         for rot in (0, math.pi / 2):
             o = kit.box('screw cross recess', (0.03, 0.42, 0.08), (xsc + sg * 0.04, ysc, zsc), 'dark', parent=root); o.rotation_euler = (rot, 0, 0)
-        path = [(sg * (side_x(s) + o_), -s) for o_, s in V['strap_open' if lids_open or pose == 'section' else 'strap_closed']]
-        path = [(sg * (side_x(-zsc)), zsc)] + path
+        # strap: from the tab top (just below the screw head) along the traced path; the side views draw a 1.9 cm wide tab
+        # hanging to a break line (PDF 112: 5.43 cm, PDF 124: 2.43 cm), so every pose carries it down to that depth
+        d_top, d_brk = -Zs(V['tab'][0]), -Zs(V['tab'][1])
+        tr = [(o_, d) for o_, d in V['strap_open' if lids_open or pose == 'section' else 'strap_closed'] if d > d_top + 0.05]
+        cut = [(o_, d) for o_, d in tr if d <= d_brk]
+        if len(cut) < len(tr):                    # trace runs past the break: end it there
+            (oa, da), (ob, db) = cut[-1], tr[len(cut)]; f = (d_brk - da) / max(db - da, 1e-6); cut.append((oa + (ob - oa) * f, d_brk))
+        else:                                     # trace stops short of the break: hang on down at its last offset
+            ol, dl = cut[-1]; m = max(2, int((d_brk - dl) / 0.25))
+            cut += [(ol, dl + (d_brk - dl) * j / m) for j in range(1, m + 1)]
+        path = [(sg * (side_x(d) + o_), -d) for o_, d in [(0.0, d_top)] + cut]
         sweep_xz('127 cm naugahyde shoulder strap', path, Ys(V['strap_y'][0]), Ys(V['strap_y'][1]), 0.18, 'black', parent=root)
         for px, py in VENTS_PX:
             kit.cyl('vent hole 3 mm (side frame)', 0.15, (fr1 - fr0) + 0.06, (sg * (fr0 + fr1) / 2, (px - 1046.5) / 67.94, -(py - 482) / 67.94), 'dark', 'X', parent=root)

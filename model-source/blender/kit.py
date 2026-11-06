@@ -54,11 +54,16 @@ def group(name, parent=None):
     return e
 
 def smooth(o, angle=40):
-    for p in o.data.polygons: p.use_smooth = True
-    try:
-        mod = o.modifiers.new('smooth', 'SMOOTH_BY_ANGLE'); mod['Input_1'] = math.radians(angle)
-    except Exception:
-        pass
+    """Smooth shading with hard edges where faces meet at more than `angle` degrees (cylinder caps, steps, rims).
+    Edges are marked sharp on the mesh itself, so the glTF exporter splits normals there."""
+    me = o.data
+    bm = bmesh.new(); bm.from_mesh(me)
+    lim = math.radians(angle)
+    for e in bm.edges:
+        if len(e.link_faces) == 2 and e.calc_face_angle(0) > lim: e.smooth = False
+        elif len(e.link_faces) != 2: e.smooth = False
+    for f in bm.faces: f.smooth = True
+    bm.to_mesh(me); bm.free()
     return o
 
 def bevel(o, width=.05, segments=3, angle=35):

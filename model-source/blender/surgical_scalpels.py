@@ -3,7 +3,11 @@ No dimensions are printed; everything is measured at the sheet's 0-4 cm bar (67.
 Housing: rodinium, colour antimony SF02UC (all three). Upright: Z up, prime-focus cone on top (base down on the ribbed body),
 trigger / intensity scale / range scale lock facing the front (-Y). Three models side by side along X: 000 (−X), 00, 0 (+X).
 Turned outline of each: revolved from its elevation silhouette (profiles/surgical-scalpels-<n>-elev.json).
-Front details: x / y read on the elevation, x converted to an angle on the grip (asin of offset / drawn radius)."""
+Front details: x / y read on the elevation, x converted to an angle on the grip (asin of offset / drawn radius).
+Triggers: the elevations draw upright ellipses (outline line centres, px) set in from the grip edge — 000 x 968.5-1032 y 503-576.5
+(grip edge x 950), 00 x 972.5-1036.5 y 990.5-1066 (edge 957), 0 x 985.5-1042 y 1563-1637.5 (edge 973; x 973 is the grip
+outline, not the oval). Each is built as that ellipse projected straight back (along +Y) onto the grip, so it reads as an
+upright ellipse in the front view."""
 import sys, os, math
 sys.path.insert(0, os.path.dirname(__file__))
 import kit, bmesh, bpy
@@ -11,11 +15,11 @@ import kit, bmesh, bpy
 PPC = 67.95
 # per model: axis x, top / bottom rows, scale ring, grip and skirt rows, trigger oval, slider strip, lock box (px on PDF 132)
 MODELS = {
-    '000': dict(axis=1072.5, top=311, ring=(486, 500), grip=(500, 655), skirt=(655, 692.5), trig=(968, 1033, 503, 578),
+    '000': dict(axis=1072.5, top=311, ring=(486, 500), grip=(500, 655), skirt=(655, 692.5), trig=(968.5, 1032, 503, 576.5),
                 slide=(1035, 1105, 500, 583), lock=(1037, 1107, 583, 655), ticks=((950, 985), (1083, 1190)), maxmark=970, tenmark=1150, flat=0),
-    '00': dict(axis=1076.5, top=776, ring=(978, 990), grip=(990, 1145), skirt=(1145, 1172), trig=(972, 1036, 993, 1063),
+    '00': dict(axis=1076.5, top=776, ring=(978, 990), grip=(990, 1145), skirt=(1145, 1172), trig=(972.5, 1036.5, 990.5, 1066),
                slide=(1040, 1108, 990, 1075), lock=(1042, 1112, 1075, 1145), ticks=((962, 995), (1090, 1190)), maxmark=980, tenmark=1155, flat=1),
-    '0': dict(axis=1081.0, top=1261, ring=(1545, 1558), grip=(1558, 1717), skirt=(1717, 1745), trig=(973, 1035, 1563, 1635),
+    '0': dict(axis=1081.0, top=1261, ring=(1545, 1558), grip=(1558, 1717), skirt=(1717, 1745), trig=(985.5, 1042, 1563, 1637.5),
               slide=(1043, 1112, 1558, 1650), lock=(1043, 1112, 1650, 1717), ticks=((978, 1005), (1095, 1185)), maxmark=992, tenmark=1158, flat=1),
 }
 SPACING = 4.4
@@ -23,10 +27,13 @@ SPACING = 4.4
 # line); the grip radius is taken 1.5 % inside the elevation outline to split that difference.
 GRIP_K = 0.985
 
-def curved_pad(name, R, t, a0, a1, z0, z1, material, ellipse=False, parent=None, n=40):
-    """A pad lying on the cylinder of radius R (axis Z), proud by t; spans angles a0..a1 (rad, from +X) and heights z0..z1."""
+def curved_pad(name, R, t, a0, a1, z0, z1, material, ellipse=False, parent=None, n=40, outline=None, centre=None):
+    """A pad lying on the cylinder of radius R (axis Z), proud by t; spans angles a0..a1 (rad, from +X) and heights z0..z1.
+    outline / centre: an explicit closed outline [(angle, z), ...] and its centre (angle, z) instead of a0..z1."""
     ac, zc, ha, hz = (a0 + a1) / 2, (z0 + z1) / 2, (a1 - a0) / 2, (z1 - z0) / 2
-    if ellipse:
+    if outline:
+        ac, zc = centre
+    elif ellipse:
         outline = [(ac + ha * math.cos(2 * math.pi * i / n), zc + hz * math.sin(2 * math.pi * i / n)) for i in range(n)]
     else:
         k = 10; outline = ([(a0 + (a1 - a0) * i / k, z0) for i in range(k)] + [(a1, z0 + (z1 - z0) * i / 4) for i in range(4)] +
@@ -98,10 +105,15 @@ def build_one(key, parent=None, x0=0.0):
     for px in (p['maxmark'], p['tenmark']):
         a = ang(px, Rr); kit.box('scale figure', (.18, .02, (r1 - r0) / PPC * .5), (Rr * math.cos(a), Rr * math.sin(a), z((r0 + r1) / 2) + .02), 'black', rot=(0, 0, a + math.pi / 2), parent=g)
     a = ang(p['axis'], Rr); kit.torus('scale index 0', .04, .008, ((Rr + .004) * math.cos(a), (Rr + .004) * math.sin(a), z((r0 + r1) / 2) + .02), 'black', 'Y', parent=g)
-    # trigger: oval pad at the left of the grip front
+    # trigger: an upright ellipse in the front view (projected back onto the grip), outlined in black
     x0t, x1t, y0t, y1t = p['trig']
-    curved_pad('trigger', Rg, .025, ang(x0t, Rg), ang(x1t, Rg), z(y1t), z(y0t), 'antimony', ellipse=True, parent=g)
-    curved_pad('trigger outline', Rg, .012, ang(x0t - 2, Rg), ang(x1t + 2, Rg), z(y1t + 2), z(y0t - 2), 'black', ellipse=True, parent=g)
+    def proj_ellipse(name, grow, t, mat, n=48):
+        xc, yc, hx, hy = (x0t + x1t) / 2, (y0t + y1t) / 2, (x1t - x0t) / 2 + grow, (y1t - y0t) / 2 + grow
+        R = max(RG(y0t + (y1t - y0t) * i / 8) for i in range(9))      # the grip swells slightly: sit on its widest row
+        pts = [(ang(xc + hx * math.cos(2 * math.pi * i / n), R), z(yc - hy * math.sin(2 * math.pi * i / n))) for i in range(n)]
+        return curved_pad(name, R, t, 0, 0, 0, 0, mat, parent=g, outline=pts, centre=(ang(xc, R), z(yc)))
+    proj_ellipse('trigger', -1.0, .025, 'antimony')
+    proj_ellipse('trigger outline', 1.0, .012, 'black')
     # range scale slider strip (vertically ribbed) with the up-pointing index triangle under the scale's 0
     sx0, sx1, sy0, sy1 = p['slide']
     curved_pad('range scale slider', Rg, .02, ang(sx0, Rg), ang(sx1, Rg), z(sy1), z(sy0), 'antimony', parent=g)
@@ -110,13 +122,17 @@ def build_one(key, parent=None, x0=0.0):
         kit.box('slider rib', (.02, .03, (sy1 - sy0) / PPC * .96), ((Rg + .032) * math.cos(a), (Rg + .032) * math.sin(a), z((sy0 + sy1) / 2)), 'antimony', rot=(0, 0, a + math.pi / 2), parent=g)
     a = ang((sx0 + sx1) / 2, Rg)
     tri = lambda name, zc, up: kit.extrude(name, [(-.1, -.11 * up), (.1, -.11 * up), (0, .11 * up)], .02, 'black', plane='XZ',
-                                           loc=((Rg + .035) * math.cos(a), (Rg + .035) * math.sin(a), zc), rot=(0, 0, a + math.pi / 2), parent=g)
-    tri('index triangle (up)', z(sy0 + 14), 1)
+                                           loc=((Rg + .05) * math.cos(a), (Rg + .05) * math.sin(a), zc), rot=(0, 0, a + math.pi / 2), parent=g)
+    tri('index triangle (up) outline', z(sy0 + 14), 1)
+    tri2 = lambda name, zc, up: kit.extrude(name, [(-.06, -.085 * up), (.06, -.085 * up), (0, .07 * up)], .02, 'antimony', plane='XZ',
+                                            loc=((Rg + .057) * math.cos(a), (Rg + .057) * math.sin(a), zc), rot=(0, 0, a + math.pi / 2), parent=g)
+    tri2('index triangle (up)', z(sy0 + 14), 1)
     # range scale lock: square block with the down-pointing triangle
     lx0, lx1, ly0, ly1 = p['lock']
     curved_pad('range scale lock', Rg, .04, ang(lx0, Rg), ang(lx1, Rg), z(ly1), z(ly0), 'antimony', parent=g)
     curved_pad('lock outline', Rg, .03, ang(lx0 - 2, Rg), ang(lx1 + 2, Rg), z(ly1 + 1), z(ly0 - 1), 'black', parent=g)
-    tri('lock triangle (down)', z((ly0 + ly1) / 2 - 2), -1)
+    tri('lock triangle (down) outline', z((ly0 + ly1) / 2 - 2), -1)
+    tri2('lock triangle (down)', z((ly0 + ly1) / 2 - 2), -1)   # both index triangles are drawn outlined
     return g
 
 def build(parent=None, name='Surgical Scalpels'):

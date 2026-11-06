@@ -6,11 +6,14 @@ Body: three horizontal-slice lofts (lower shell, gold band, upper shell). At eac
 (exponent 9, fitted to the TOP-view corners) whose length and centre come from that row of the SIDE silhouette
 (profiles/communicator-side.json) and whose width comes from the same row of the END silhouette (communicator-end.json),
 widened 1.1 % so the band meets the printed 63.5 mm (END/BOTTOM views draw 62.8 mm, TOP view 64.2 mm).
-Details: plate pixel positions. Hidden internals drawn dashed (006P energy unit, speaker/microphone) are not modelled.
+Details: plate pixel positions. Hidden internals drawn dashed (006P energy unit, speaker/microphone, and the on/off switch SW
+on the BOTTOM view) are not modelled. The antenna grille is genuinely perforated (297 through-holes + 27 edge notches, Boolean
+cut and applied), so the deck L.E.D.s and switches show through it as in the TOP view.
 --pose closed: grille shut (used to score against the plates, which draw it shut); default pose = antenna open 110 deg."""
 import sys, os, math
 sys.path.insert(0, os.path.dirname(__file__))
 import kit, bmesh, bpy
+from mathutils import Matrix
 
 PPC = 67.63
 SX = 6.35 / (425 / PPC)            # width correction: END-view band 425 px -> printed 63.5 mm
@@ -86,21 +89,29 @@ def build(pose='open'):
         for k in range(7):
             a = math.radians(a0 + k * 15); pts.append((cx_ + rc * math.cos(a), cy_ + rc * math.sin(a) - yb_))
     zg = ztop + gt / 2 - zb_        # lies on the shell top (SIDE view); the low deck controls sit under it
-    kit.extrude('antenna (perforated grille)', pts, gt, 'gold', plane='XY', loc=(0, 0, zg), bev=.02, parent=hinge)
-    # hex-packed perforations: 21.7 px pitch, 17 px holes, staggered rows 18.8 px apart (drawn on both faces)
+    grille = kit.extrude('antenna (perforated grille)', pts, gt, 'gold', plane='XY', loc=(0, 0, zg), bev=.02, parent=hinge)
+    # real through-holes, Boolean-cut and applied before export so the deck LEDs/switch show through, as in the TOP view.
+    # Hex lattice measured on the plate (template-matched hole rings): 27 columns at x = 518 + 21.45 i px, holes every 25.9 px
+    # down each column, odd columns offset half a pitch; hole dia 17 px. 11 full holes per column (297) plus a half-hole notch
+    # where the lattice runs off the long edges (top edge on even columns, bottom edge on odd), as drawn.
     bm = bmesh.new(); hr = 8.5 / PPC; nh = 0
-    yy = 508 + 12; row = 0
-    while yy <= 800 - 10:
-        xx = 500 + 12 + (10.85 if row % 2 else 0)
-        while xx <= 1088 - 10:
-            for zf in (zg + gt / 2 + .003, zg - gt / 2 - .003):
-                bmesh.ops.create_circle(bm, cap_ends=True, segments=12, radius=hr, matrix=__import__('mathutils').Matrix.Translation((xt(yy), yt(xx) - yb_, zf)))
-            nh += 1; xx += 21.7
-        yy += 18.8; row += 1
-    me = bpy.data.meshes.new('grille perforations'); bm.to_mesh(me); bm.free()
-    kit._obj('grille perforations', me, 'black', hinge)
+    for i in range(27):
+        xx = 518 + 21.45 * i
+        for j in range(-1, 13):
+            yy = 503.5 + 25.9 * j + (12.95 if i % 2 else 0)
+            if yy + 8.5 < 508 - 1 or yy - 8.5 > 800 + 1: continue
+            bmesh.ops.create_cone(bm, cap_ends=True, segments=16, radius1=hr, radius2=hr, depth=gt + .2,
+                                  matrix=Matrix.Translation((xt(yy), yt(xx) - yb_, zg)))
+            nh += 1
+    holes = kit._obj('grille hole cutters', bpy.data.meshes.new('cutters'), None, hinge); bm.to_mesh(holes.data); bm.free()
+    bpy.context.view_layer.objects.active = grille
+    bpy.ops.object.modifier_apply(modifier='bevel')
+    m = grille.modifiers.new('holes', 'BOOLEAN'); m.operation = 'DIFFERENCE'; m.object = holes; m.solver = 'EXACT'
+    bpy.ops.object.modifier_apply(modifier='holes')
+    bpy.data.objects.remove(holes, do_unlink=True)
+    kit.smooth(grille, 40)
     kit.box('grille hinge knuckle', ((gx1 - gx0) - .3, .5, .3), ((gx0 + gx1) / 2, .0, zg - .08), 'gold', bev=.08, parent=hinge)
-    # ---- bottom (BOTTOM view): magnatomic adhesion surface, two attach screws, on/off switch (SW, drawn dashed) ----
+    # ---- bottom (BOTTOM view): magnatomic adhesion surface, two attach screws ----
     zbot = zs(1135)
     rc = 12 / PPC; mx0, mx1, my0, my1 = xb(1325), xb(1517), yb(880), yb(604); pts = []
     for cx_, cy_, a0 in ((mx1 - rc, my1 - rc, 0), (mx0 + rc, my1 - rc, 90), (mx0 + rc, my0 + rc, 180), (mx1 - rc, my0 + rc, 270)):
@@ -111,7 +122,7 @@ def build(pose='open'):
         kit.cyl('attach screw', 15 / PPC, .04, (xb(py), yb(740), zbot + .01), 'antimony', 'Z', parent=root)
         for r in (0.6, -0.6):
             kit.box('attach screw cross-head', (.22, .05, .02), (xb(py), yb(740), zbot - .005), 'black', rot=(0, 0, math.pi / 4 + (r > 0) * math.pi / 2), parent=root)
-    kit.box('on/off switch (SW)', (xb(1595) - xb(1548), yb(970) - yb(1040), .02), (xb(1571), yb(1005), zbot + .005), 'dark', parent=root)
+    # the on/off switch SW (BOTTOM view, 1548-1595 x 970-1040 px) is drawn dashed, i.e. hidden inside the case: not modelled
     return root
 
 if __name__ == '__main__':

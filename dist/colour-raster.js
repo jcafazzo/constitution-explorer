@@ -2,7 +2,7 @@
 // Each *-map.png is produced by model-source/colour/segment.py from the scanned plate:
 //   R = linework / edge weight, G = region class × 20, B/A = halftone flag (uniforms) or emblem alpha (flags).
 // Painting happens on a <canvas>; colours come from the SF code palette passed in.
-const V = 'r1';
+const V = 'r3';
 const CLASS = ['paper', 'tunic', 'black', 'hose', 'badge', 'field', 'metal', 'device', 'braid'];
 const cache = new Map();
 function loadImage(src) {
@@ -33,7 +33,7 @@ function paintMap(map, colours, {flag = false, metalShade = true} = {}) {
   const {w, h, data} = map, out = new ImageData(w, h), o = out.data;
   const col = CLASS.map(n => colours[n] ? hex(colours[n]) : null);
   for (let y = 0; y < h; y++) {
-    const shade = metalShade ? 1.1 - .2 * (y / h) : 1;
+    const shade = metalShade ? 1.05 - .1 * (y / h) : 1;
     for (let x = 0; x < w; x++) {
       const i = (y * w + x) * 4, r = data[i] / 255, k = Math.round(data[i + 1] / 20);
       let c;
@@ -46,9 +46,15 @@ function paintMap(map, colours, {flag = false, metalShade = true} = {}) {
         if (!fieldK && (k === 6)) c = c.map(v => v * shade);
         o[i] = c[0]; o[i + 1] = c[1]; o[i + 2] = c[2]; o[i + 3] = a; continue;
       }
-      const base = col[k] || PAPER;
+      const base = (k === 4 && colours.tunic ? hex(colours.tunic) : col[k]) || PAPER;
       c = k === 2 ? mix(base, SHEEN, r * .8) : mix(base, INK, r);
       o[i] = c[0]; o[i + 1] = c[1]; o[i + 2] = c[2]; o[i + 3] = 255;
+    }
+  }
+  if (flag) {                                   // darken metal at the emblem's outer edge so silver reads on light cards
+    for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+      const i = (y * w + x) * 4; if (!o[i + 3]) continue;
+      if (!o[i + 3 - 4] || !o[i + 3 + 4] || !o[i + 3 - 4 * w] || !o[i + 3 + 4 * w]) { o[i] *= .62; o[i + 1] *= .62; o[i + 2] *= .62; }
     }
   }
   return out;
@@ -86,27 +92,42 @@ export async function paintStudy(canvas, spec) {
   if (spec.kind !== 'uniform') return canvas;
   const meta = await loadMeta(spec.id);
   if (!meta) return canvas;
-  // Division insignia from PDF 65, scaled into the drawn D.I. position.
+  // Division insignia from PDF 65, fitted into the drawn D.I. box (whose outline was absorbed into the badge region).
   if (meta.badge && spec.division) {
     const bm = await loadMap(`${spec.division}-badge`);
     const b = toCanvas(paintMap(bm, {badge: spec.colours.gold, device: spec.colours.black}, {flag: true, metalShade: false}));
-    const [x0, y0, x1, y1] = meta.badge, bh = (y1 - y0) * 1.08, bw = bh * b.width / b.height, cx = (x0 + x1) / 2;
-    ctx.drawImage(b, cx - bw / 2, y0 - (bh - (y1 - y0)) / 2, bw, bh);
+    const [x0, y0, x1, y1] = meta.badge, bw0 = x1 - x0, bh0 = y1 - y0, k = Math.min(bw0 / b.width, bh0 / b.height) * 1.04;
+    ctx.drawImage(b, (x0 + x1) / 2 - b.width * k / 2, (y0 + y1) / 2 - b.height * k / 2, b.width * k, b.height * k);
   }
   // Rank braid above the cuff of each sleeve.
   const pattern = RANKS[spec.rank || 'ensign'] || [];
   if (pattern.length) {
-    const braid = await braidCanvas(spec.colours.gold), ppc = meta.pxPerCm || 8.3, H = 1.25 * ppc, gap = .45 * ppc, start = .7 * ppc;
+    const braid = await braidCanvas(spec.colours.gold), g = hex(spec.colours.gold), edge = mix(g, INK, .72);
     for (const cf of meta.cuffs) {
       const [ax, ay] = cf.a, [bx, by] = cf.b, [ux, uy] = cf.up, len = Math.hypot(bx - ax, by - ay), ang = Math.atan2(by - ay, bx - ax);
+      const H = len * .24, gap = H * .32, start = H * .35;          // PDF 65: broad braid, about a quarter of the sleeve width
       pattern.forEach((full, i) => {
-        const off = start + i * (H + gap), h = full ? H : H * .6;
-        ctx.save(); ctx.translate(ax + ux * (off + h / 2), ay + uy * (off + h / 2)); ctx.rotate(ang);
-        if (full) ctx.drawImage(braid, 0, -h / 2, len, h);
-        else for (let s = 0; s < 3; s++) ctx.drawImage(braid, 0, 0, braid.width * .3, braid.height, len * (s / 3 + .04), -h / 2, len * .25, h);
+        const off = start + i * (H + gap);
+        ctx.save(); ctx.translate(ax + ux * (off + H / 2), ay + uy * (off + H / 2)); ctx.rotate(ang);
+        ctx.beginPath(); ctx.rect(0, -H / 2, len, H); ctx.clip();
+        if (full) ctx.drawImage(braid, 0, -H / 2 - H * .25, len, H * 1.5);   // stamp's rope fills ~2/3 of its height
+        else {                                                               // broken stripe: a row of separate diamonds (PDF 65)
+          const step = H * 1.35, n = Math.ceil(len / step) + 1;
+          for (let k = -1; k < n; k++) {
+            const cx = k * step + step / 2 + (len % step) / 2;
+            ctx.beginPath(); ctx.moveTo(cx - step * .42, 0); ctx.lineTo(cx, -H * .46); ctx.lineTo(cx + step * .42, 0); ctx.lineTo(cx, H * .46); ctx.closePath();
+            ctx.fillStyle = `rgb(${g.join(',')})`; ctx.fill(); ctx.lineWidth = Math.max(1, H * .08); ctx.strokeStyle = `rgb(${edge.join(',')})`; ctx.stroke();
+          }
+        }
         ctx.restore();
       });
     }
+  }
+  // Optional single view (front / side / back) for small screens.
+  if (spec.view && spec.view !== 'all' && meta.views?.[spec.view]) {
+    const [a, b] = meta.views[spec.view], tmp = OffscreenCanvasOr(b - a, canvas.height);
+    tmp.getContext('2d').drawImage(canvas, a, 0, b - a, canvas.height, 0, 0, b - a, canvas.height);
+    canvas.width = b - a; ctx.drawImage(tmp, 0, 0);
   }
   return canvas;
 }

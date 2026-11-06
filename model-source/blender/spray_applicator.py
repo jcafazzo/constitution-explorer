@@ -50,8 +50,11 @@ def vial(parent=None, base_z=0.0):
     g = kit.group('(C) Interchangeable vial', parent)
     zb = lambda py: base_z + (555.0 - py) / PPC           # vial-alone rows, barrel foot at y 555
     R = r(1278 - 1145) - .004                             # 0.966 drawn (crest of the flutes; body is 0.955)
-    fluted('vial barrel (fluted, transparent)', rounded_pts(R, zb(555), zb(322.5), rc_top=.11, rc_bot=.03), 'glass', n=40, depth=.025, parent=g,
-           zr=(zb(548), zb(332)))
+    # forty ribs (the elevation draws ~20 across the visible half; the end view's knurled rim has ~40 teeth, ~0.05 cm deep)
+    pts = rounded_pts(R, zb(555), zb(322.5), rc_top=.11, rc_bot=.03)
+    k = next(i for i, p_ in enumerate(pts) if p_[1] > zb(548))           # rings where the ribs start and stop (the fluted() cut
+    pts = pts[:k] + [(R, zb(548) - .004), (R, zb(548)), (R, zb(440)), (R, zb(332)), (R, zb(332) + .004)] + pts[k:]   # needs them)
+    fluted('vial barrel (fluted, transparent)', pts, 'glass', n=40, depth=.055, parent=g, zr=(zb(548) - .001, zb(332) + .001))
     # bayonet neck (inside the applicator body when assembled) with its two L-shaped lock slots
     kit.revolve('vial neck (bayonet)', rounded_pts(r(1271 - 1153), zb(590), zb(555), rc_bot=.06), 'glass', axis='Z', parent=g)
     for s in (-1, 1):
@@ -75,18 +78,31 @@ def build(parent=None, name='Spray Applicator'):
     kit.cyl('band groove', RB - .03, z(625.5) - z(629) + .02, (0, 0, (z(625.5) + z(629)) / 2), 'antimony', 'Z', parent=root)
     # (C) vial: its barrel foot sits on the upper band; neck + teat hidden inside the bands
     vial(root, base_z=z(558.5))
-    # (B) spray trigger: round push button facing front, outer ring dia 0.70 / inner 0.58, centre at y 726
-    zt = z(726)
-    kit.cyl('(B) spray trigger bezel', r(48), .06, (0, -RB - .005, zt), 'antimony', 'Y', parent=root)
-    kit.cyl('(B) spray trigger (press to spray)', r(40), .1, (0, -RB - .03, zt), 'antimony', 'Y', bev=.015, parent=root)
-    kit.torus('trigger ring line', r(44), .006, (0, -RB - .035, zt), 'dark', 'Y', parent=root)
-    # (E) interchangeable nozzle on the end face (end view centre 865,907): ring dia 0.99 with four notches, orifice ring, orifice
-    kit.cyl('(E) interchangeable nozzle', r(68), .04, (0, 0, -.01), 'antimony', 'Z', parent=root)
-    kit.torus('nozzle ring line', r(68), .008, (0, 0, -.03), 'dark', 'Z', parent=root)
+    # (B) spray trigger: round push button facing front — elevation rings at x 838.5-893.5 / 843.5-887.5, y 700.5-757 / 706-751:
+    # bezel dia 0.82, button dia 0.65, centre (866, 728.5)
+    zt, xt = z(728.5), (866 - 864.5) / PPC
+    kit.cyl('(B) spray trigger bezel', r(56), .06, (xt, -RB - .005, zt), 'antimony', 'Y', parent=root)
+    kit.cyl('(B) spray trigger (press to spray)', r(44) - .01, .1, (xt, -RB - .03, zt), 'antimony', 'Y', bev=.015, parent=root)
+    kit.torus('trigger ring line', r(44), .006, (xt, -RB - .035, zt), 'dark', 'Y', parent=root)
+    # (E) interchangeable nozzle on the end face (end view centre 865,907): ring dia 1.03 with four open half-round notches
+    # (radius ~0.09, bulging inward from the ring line), orifice ring dia 0.36, orifice
+    RN = r(70.5)
+    kit.cyl('(E) interchangeable nozzle', RN, .04, (0, 0, -.01), 'antimony', 'Z', parent=root)
+    kit.torus('nozzle ring line', RN, .008, (0, 0, -.03), 'dark', 'Z', parent=root)
     for k in range(4):
-        a = k * math.pi / 2
-        kit.cyl('nozzle notch', .045, .02, (r(68) * math.cos(a), r(68) * math.sin(a), -.03), 'dark', 'Z', parent=root)
-    kit.torus('orifice ring', r(20), .008, (0, 0, -.03), 'dark', 'Z', parent=root)
+        a = k * math.pi / 2; c, s_ = math.cos(a), math.sin(a)
+        bm = bmesh.new(); rings = []; rn, w = .09, .008
+        for i in range(17):                                # half circle centred on the ring line, opening outward
+            t = a + math.pi / 2 + math.pi * i / 16
+            px, py = RN * c + rn * math.cos(t), RN * s_ + rn * math.sin(t)
+            rings.append([bm.verts.new((px + w * math.cos(u) * math.cos(t), py + w * math.cos(u) * math.sin(t), -.03 + w * math.sin(u)))
+                          for u in [2 * math.pi * j / 6 for j in range(6)]])
+        for r0_, r1_ in zip(rings, rings[1:]):
+            for j in range(6): bm.faces.new((r0_[j], r0_[(j + 1) % 6], r1_[(j + 1) % 6], r1_[j]))
+        bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+        me = bpy.data.meshes.new('nozzle notch'); bm.to_mesh(me); bm.free()
+        kit.smooth(kit._obj('nozzle notch (outline)', me, 'dark', root), 60)
+    kit.torus('orifice ring', r(24.5), .008, (0, 0, -.03), 'dark', 'Z', parent=root)
     kit.cyl('nozzle orifice', .03, .02, (0, 0, -.035), 'black', 'Z', parent=root)
     return root
 

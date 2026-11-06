@@ -29,3 +29,24 @@
 
 ## Handoff
 - Shipped by push to main (GitHub Pages workflow). Later candidates: printable equipment STLs; interiors & small craft (PDF 83–102, 123, 135–148); star charts (115–122); tricorder head tilt (side views show ≈30–45°).
+
+## Round 2 — accuracy rework + raster colour plates (2026-11-06)
+- **User request:** models "seem off"; use other tools / adversarial review; no SVG for uniforms. Agreed plan: Blender rebuild of all 13 scored against plates; colourised scans for uniforms, flags, insignia; PNG silhouettes; ~4 h window.
+- **Tooling:** model-source/accuracy (exact-scale Blender ortho renders vs plate silhouettes: IoU + outline distance + overlays); model-source/blender (kit.py + one script per item, profile-driven from measured plate silhouettes).
+- **Arrangement:** owner built harness + Phaser I pilot; 4 bounded builder agents (disjoint files) rebuilt the other 12; 3 independent adversarial reviewers (weapons/comms, tricorders/medical, colour plates).
+
+| Check | Candidate | Layer | Provenance | State | Observation |
+|---|---|---|---|---|---|
+| Silhouette scores, all reliable views | a5eb149 | digital geometry | builders, directly observed | PASS | every reliable view IoU ≥ 0.94 and ≤ 0.6 mm mean; exceptions: ear-receiver profile 0.925 (drawing inconsistency, disclosed) |
+| Baseline vs new | a5eb149 | digital geometry | builders | PASS | e.g. phaser-2 side 0.59→0.97, protoplaser-2 side 0.76→0.99, communicator end 0.71→0.98 |
+| Raster colour plates | d08e2fb | local runtime | directly observed | PASS (spot) | 8 studies paint on canvas, no console errors; braid + badge per grade/division |
+| Compare page skew | 7c… (deployed) | live | directly observed | PASS | silhouettes aspect 3.56 on live |
+| Adversarial review ×3 | a5eb149 | all | independent | FAIL → repaired | weapons/comms: phaser-1 rework, dome shading (kit), comm grille, translator surfaces, ear materials; medical: heartbeat head, scanner screen/vanes + 10 flutes, protoplaser-2 J/K/F, vial ribs, scalpel triggers, tricorder strap/grille/rim/banding; colour: braid placement/size/diamonds, text damage, grade label, leaks, badge ghost, phone views |
+| Re-score after repairs | working tree → push | digital geometry | builders + owner | PASS | all reliable views still IoU ≥ 0.94 / ≤ 0.6 mm (phaser-1 end view 0.92, ear profile 0.925 — disclosed) |
+| Local sweep | pre-push | local runtime | directly observed | PASS | 13 equipment pages load models; 8 colour studies paint; index/compare/colours/equipment/ship OK |
+
+### Open (not fixed this round)
+- Medical lower-lid label plate reads mid-grey when the lid is open (lighting angle, not material).
+- Scanner dial: "ROT 180° CW" read literally; silhouette identical either way — confirm with user if it matters.
+- Ray gun: faint banding and a small dent in the trigger panel crown (low).
+- Uniform scan-sample palette now affects swatches only (by design after review).

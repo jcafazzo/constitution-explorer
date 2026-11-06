@@ -29,31 +29,51 @@ def build(parent=None, origin=(0, 0, 0), name='Hand Phaser Type I'):
     kit.cyl('1.02 MeV photon emitter', .38, .1, (0, y(522) - .02, -.02), 'antimony', 'Y', parent=root)
     kit.cyl('emitter lens', .24, .05, (0, y(522) - .08, -.02), 'glass', 'Y', parent=root)
     kit.box('sight', (.5, .3, .25), (x(458), y(525), zs(716)), 'antimony', bev=.03, parent=root)
-    # Top surface: electron aspirator pile, trigger, force wheel, operational light, force indicator dial.
-    zt = ztop(700)
-    kit.box('electron aspirator pile', (x(482) - x(308), y(800) - y(590), .12), (x(395), y(695), ztop(695) - .02), 'antimony', bev=.03, parent=root)
-    for i in range(8):
-        kit.box('pile lattice', (x(478) - x(312), .05, .05), (x(395), y(600 + i * 26), ztop(600 + i * 26) + .05), 'dark', parent=root)
-    kit.box('trigger', (x(482) - x(307), y(850) - y(803), .16), (x(395), y(826), ztop(826) - .03), 'black', bev=.05, parent=root)
-    kit.box('trigger frame', (x(486) - x(303), y(855) - y(798), .08), (x(395), y(826), ztop(826) - .06), 'antimony', bev=.04, parent=root)
-    for i in range(10):
-        kit.box('force setting wheel', (x(325) - x(297), .08, .34), (x(311), y(912 + i * 12.5), ztop(970) + .02), 'dark', parent=root)
-    kit.cyl('operational light (blue)', .14, .14, (x(367), y(970), ztop(970)), 'blue', 'Z', parent=root)
-    kit.torus('light bezel', .18, .03, (x(367), y(970), ztop(970) + .05), 'antimony', 'Z', parent=root)
-    kit.box('force indicator dial', (x(478) - x(410), y(1050) - y(893), .08), (x(444), y(972), ztop(972) - .01), 'white', parent=root)
-    for i in range(6):
-        kit.box('dial graduation', (.36, .03, .03), (x(444), y(905 + i * 26), ztop(905 + i * 26) + .04), 'black', parent=root)
-    # Sides: deflector shield slot (antimony strip) running most of the length.
+    # Top surface: electron aspirator pile (white field with a zig-zag lattice), trigger, force wheel, light, dial.
+    px0, px1, py0, py1 = 308, 482, 590, 800
+    kit.box('electron aspirator pile', (x(px0) - x(px1), y(py1) - y(py0), .12), (x(395), y(695), ztop(695) - .03), 'white', bev=.03, parent=root)
+    for row in range(7):                       # zig-zag lattice: chevrons in alternating rows, as drawn
+        for col in range(5):
+            cx = x(px0 + 18 + col * 35); cy = y(py0 + 16 + row * 29)
+            for k in (-1, 1):
+                kit.box('pile lattice', (.2, .035, .035), (cx + k * .06, cy, ztop(py0 + 16 + row * 29) + .04), 'dark', rot=(0, 0, k * (.7 if row % 2 else -.7)), parent=root)
+    kit.box('trigger', (x(482) - x(307), y(850) - y(803), .14), (x(395), y(826), ztop(826) + .02), 'white', bev=.05, parent=root)
+    kit.box('trigger frame', (x(486) - x(303), y(855) - y(798), .06), (x(395), y(826), ztop(826) - .01), 'dark', bev=.03, parent=root)
+    # Force setting wheel: a ribbed thumbwheel across X whose rim rises above the top as the side view's semicircle.
+    wr = (1025 - 915) / PPC / 2; wy = y(970); wz = ztop(970) + (655 - 630) / PPC - wr
+    kit.cyl('force setting wheel', wr, x(297) - x(325), (x(311), wy, wz), 'dark', 'X', seg=48, parent=root)
+    import math
+    for i in range(36):
+        a = 2 * math.pi * i / 36
+        kit.box('wheel rib', (x(297) - x(325) - .02, .05, .06), (x(311), wy + math.sin(a) * wr, wz + math.cos(a) * wr), 'black', rot=(-a, 0, 0), parent=root)
+    kit.cyl('operational light (blue)', .14, .1, (x(367), y(970), ztop(970) + .02), 'blue', 'Z', parent=root)
+    kit.torus('light bezel', .18, .03, (x(367), y(970), ztop(970) + .04), 'antimony', 'Z', parent=root)
+    dz = ztop(972)
+    kit.box('force indicator dial', (x(410) - x(478), y(1050) - y(893), .06), (x(444), y(972), dz + .01), 'white', parent=root)
+    for i, py in enumerate((903, 925, 948, 972, 996, 1019, 1041)):
+        kit.box('dial graduation', (.3 if i != 3 else .4, .03, .02), (x(450), y(py), dz + .05), 'black', parent=root)
+    # Sides: deflector shield — one continuous antimony rail standing proud of the body (front view), z from the side view.
     half = lambda py: kit.sample(plan, (py - TOP_O[1]) / PPC, 6)
-    for s in (-1, 1):
-        for i in range(0, 64):
-            py = 572 + i * 10
-            lo, hi = half(py); xx = (-lo if s > 0 else -hi) - s * .005
-            kit.box('deflector shield', (.06, .16, .14), (xx, y(py), zs(718)), 'antimony', parent=root)
-    # Bottom: magnatomic adhesion area, access plate and screw.
+    zr = zs(718)
+    for sgn in (-1, 1):
+        secs = []
+        for py in range(545, 1212, 8):
+            lo, hi = half(py); xe = (-lo if sgn > 0 else -hi)
+            secs.append((y(py), xe - .07 if sgn > 0 else xe - .04, xe + .04 if sgn > 0 else xe + .07, zr - .09, zr + .09))
+        kit.loft('deflector shield', secs, 'antimony', p=2.2, seg=20, parent=root)
+    # Bottom: access plate seam (rear panel from row ~728), magnatomic adhesion area following the curved bottom, Phillips screw.
     zb = lambda py: -kit.sample(side, (py - SIDE_O[1]) / PPC, 6)[1]
-    kit.box('magnatomic adhesion area', (x(1170) - x(995) , y(1025) - y(850), .06), (0, y(938), zb(938) + .01), 'dark', bev=.15, parent=root)
-    kit.cyl('access plate screw', .17, .06, (0, y(1148), zb(1148)), 'antimony', 'Z', parent=root)
+    lo, hi = half(728)
+    kit.box('access plate seam', ((hi - lo) * .5, .05, .03), (0, y(728), zb(728) + .012), 'dark', parent=root)
+    secs = []
+    for i in range(25):
+        u = -1 + 2 * i / 24; py = 938 + u * 87.5
+        hw = 1.28 * max(1 - abs(u) ** 6, 1e-3) ** (1 / 6)
+        secs.append((y(py), -hw, hw, zb(py) - .02, zb(py) + .03))
+    kit.loft('magnatomic adhesion area', secs, 'dark', p=6, seg=32, parent=root)
+    kit.cyl('access plate screw', .17, .05, (0, y(1148), zb(1148) - .01), 'antimony', 'Z', parent=root)
+    for r in (0, math.pi / 2):
+        kit.box('screw slot', (.24, .04, .03), (0, y(1148), zb(1148) - .03), 'dark', rot=(0, 0, r), parent=root)
     return root
 
 if __name__ == '__main__':

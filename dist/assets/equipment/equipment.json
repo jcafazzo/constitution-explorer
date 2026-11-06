@@ -7,11 +7,11 @@
    103
   ],
   "size": [
-   4.94,
-   10.72,
-   2.7
+   5.01,
+   10.82,
+   3.03
   ],
-  "sizeBasis": "printed W.O.A × L.O.A × D.O.A",
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Standard field equipment",
   "model": "Hand Phaser — Type I",
   "codes": {
@@ -97,7 +97,7 @@
    "Access plate",
    "Magnatomic adhesion area"
   ],
-  "interpretation": "Plan and depth profiles follow the sheet’s body lines and sections. The lattice of the aspirator pile, the dial markings and the gloss finish are simplified.",
+  "interpretation": "The shell is lofted from the plan and side silhouettes measured on the sheet, with the force wheel and trigger tab kept out of the body profile (IoU ≥ 0.96 top, side and bottom; the end view, 0.92, is drawn less consistently). The deflector shield is one continuous antimony rail, the force wheel is a ribbed thumbwheel whose rim rises above the top as drawn, and the access-plate seam, adhesion pad and Phillips screw follow the bottom view. The zig-zag aspirator lattice and the dial graduations are simplified.",
   "derived": [],
   "thumb": "assets/equipment/thumb-phaser-1.webp",
   "printedSize": "107.2 × 49.4 × 27 mm"
@@ -111,18 +111,18 @@
    105
   ],
   "size": [
-   4.94,
-   22.1,
-   15.75
+   5.01,
+   22.0,
+   16.05
   ],
-  "sizeBasis": "printed W.O.A × L.O.A × D.O.A",
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Standard field equipment",
   "model": "Hand Phaser — Type II",
   "codes": {
    "104": "01:08:52",
    "105": "01:08:53"
   },
-  "summary": "The pistol assembly with a Type I locked on top, as the sheet requires. In front are the topaz beam shield and emitter and the knurled photon accelerator. The blue-grey body carries the dilithium crystal cell, and the grip is raked back with S/T firing triggers.",
+  "summary": "The pistol assembly with a Type I locked on top, as the sheet requires. In front are the topaz beam shield and emitter and the knurled photon accelerator. The gloss-black body carries the dilithium crystal cell and a blue-grey aft section with the force setting dial, and the grip is raked back with S/T firing triggers.",
   "description": "A long-range pistol built around the Type I. The printed overall width of 49.40 mm equals the Type I’s own width, which confirms the two are dimensioned as one assembly.",
   "specs": [
    {
@@ -218,7 +218,7 @@
    "Lock release",
    "Force setting dial"
   ],
-  "interpretation": "The side profile and grip rake come from the lines-and-sections sheet (PDF 105). The grip’s cross-section between stations, the accelerator knurl count and the lockplate recesses are simplified.",
+  "interpretation": "Lofted from the side and plan drawings with the Type I removed, since the sheet draws it only as a phantom (side IoU 0.97, 0.35 mm). The end view isn’t a consistent projection, so the grip’s width is inferred from it and from View B-B. Only the aft section is blue-grey, following the colour key’s leader. The S/T trigger colour isn’t keyed. Overall depth is 16.1 cm against the printed 15.75, because the finished Type I stands slightly taller than the phantom outline.",
   "thumb": "assets/equipment/thumb-phaser-2.webp",
   "printedSize": "221 × 49.4 × 157.5 mm"
  },
@@ -230,17 +230,17 @@
    106
   ],
   "size": [
-   8.4,
-   23.5,
-   8.4
+   8.42,
+   23.47,
+   8.7
   ],
-  "sizeBasis": "printed length overall; printed maximum diameter",
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Offensive/defensive area weapon",
   "model": "Ray Gun — Type I",
   "codes": {
    "106": "01:08:58"
   },
-  "summary": "A turned grey body housing that tapers to a rounded tail. An antimony collette steps up to the translucent diamond emitter tube, and a split antimony trigger strip on top selects offensive or defensive fire.",
+  "summary": "A turned grey body housing tapering to a rounded tail. An antimony collette steps up to the translucent six-step diamond emitter tube, and a raised black trigger panel on top carries the offensive and defensive pads.",
   "description": "An area weapon. Its printed effective areas (3 m at 90 m, 8 m at 180 m) describe a widening field rather than a beam.",
   "specs": [
    {
@@ -315,7 +315,7 @@
    "Body housing",
    "Triggers: offensive / defensive"
   ],
-  "interpretation": "The broken-out side view and the circular front view both show a round body, so it is modelled as a solid of revolution. Its radii are measured on the plan at the 0–5 cm bar.",
+  "interpretation": "The body and collette are turned from the measured plan silhouette (IoU 0.99, 0.18 mm). The broken-out side view is partial and isn’t scored. The trigger panel’s rise is measured from the bump in the front view.",
   "derived": [],
   "thumb": "assets/equipment/thumb-ray-gun.webp",
   "printedSize": "23.5 cm long · ⌀ 8.4 cm"
@@ -329,15 +329,10 @@
   ],
   "size": [
    6.35,
-   11.35,
-   2.8
+   14.22,
+   10.01
   ],
-  "sizeBasis": "printed W.O.A × L.O.A × H.O.A, checked on the closed pose",
-  "checkAxes": [
-   1,
-   1,
-   1
-  ],
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Standard field equipment item",
   "model": "Communicator — Type I",
   "codes": {
@@ -412,7 +407,7 @@
    "On/off switch (SW)",
    "Magnatomic adhesion surface"
   ],
-  "interpretation": "Closed, it measures the printed 113.5 × 63.5 × 28 mm. The grille swings out past vertical, about 110°, as the sheet’s dash-dot “antenna open” outline shows, and the layout of the switches under the grille is interpreted from callouts the sheet draws only through the perforations.",
+  "interpretation": "The shells and gold band are lofted from the side, end and top drawings (IoU ≥ 0.98 in every view, checked closed). The perforated gold grille swings out past vertical, about 110°, as the sheet’s dash-dot “antenna open” outline shows. Its 297 holes and 27 edge notches follow the hole lattice measured on the plate. LED and switch positions are read from leader lines that end inside the hole pattern, so they’re approximate. The energy unit, speaker and on/off switch are drawn dashed (hidden) and aren’t modelled.",
   "derived": [],
   "thumb": "assets/equipment/thumb-communicator.webp",
   "printedSize": "113.5 × 63.5 × 28 mm"
@@ -425,17 +420,11 @@
    138
   ],
   "size": [
-   3.15,
-   2.6,
-   6.55
+   3.85,
+   2.67,
+   7.52
   ],
-  "sizeBasis": "printed width overall; printed maximum diameter; printed length overall",
-  "checkAxes": [
-   1,
-   1,
-   1
-  ],
-  "tolerance": 0.08,
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "For non-public reception",
   "model": "SFAF/CC-MK05-0",
   "codes": {
@@ -503,7 +492,7 @@
    "High gain antenna grid and heat sink",
    "Ear-piece swivels stiffly here"
   ],
-  "interpretation": "The ear-piece is moulded to each user’s ear, so its shape here is generic. The sheet marks 40° on the plan without saying what it is measured from (the drawn housing axis measures ≈35°), so the swivel is posed between the two. The drawing measures about 3% longer than the printed 6.55 cm, and the model follows the drawing.",
+  "interpretation": "The housing, fins and stem are turned and lofted from the plan and profile drawings. The earphone housing is set at the 39.8° the plan draws, which agrees with the marked 40°. The drawing is about 3% longer than the printed 6.55 cm, and the model follows the drawing. The ear-piece is moulded to each user, so its shape is the plan’s outline. The antimony parts follow the colour key. The profile view can’t show the ear-piece lip the plan draws, so that view fits less closely (IoU 0.93).",
   "derived": [],
   "thumb": "assets/equipment/thumb-ear-receiver.webp",
   "printedSize": "6.55 × 3.15 cm · ⌀ 2.6 cm"
@@ -516,11 +505,11 @@
    139
   ],
   "size": [
-   4.8,
-   28,
-   4.8
+   4.86,
+   28.09,
+   4.86
   ],
-  "sizeBasis": "printed maximum diameter; printed length overall",
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "U.F.P. standard",
   "model": "SFAF/CC-MK-01 — Type I",
   "codes": {
@@ -586,7 +575,7 @@
    "Rear cover",
    "Housing"
   ],
-  "interpretation": "The display panel’s lit cells form an illustrative pattern, not a readout from the sheet. All other proportions are measured at the sheet’s 0–6 cm bar.",
+  "interpretation": "Turned and lofted from the side, plan and front drawings (IoU ≥ 0.975). The display’s cells are sampled from the drawn pattern, under a clear cover. The operator’s speaker maze is an illustrative labyrinth, not a copy of the drawn one. The side view prints OFF at switch G and the plan prints ON; the model follows the plan, where G is called out.",
   "derived": [],
   "thumb": "assets/equipment/thumb-universal-translator.webp",
   "printedSize": "28 cm long · ⌀ 4.8 cm"
@@ -601,12 +590,11 @@
    114
   ],
   "size": [
-   11.43,
-   4.83,
-   19.33
+   12.71,
+   9.99,
+   19.36
   ],
-  "sizeBasis": "printed W.O.A × D.O.A; height with display head raised measured on PDF 113 (printed closed height 177.8 mm)",
-  "tolerance": 0.06,
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Type I",
   "model": "Sciences Tricorder — Type I",
   "codes": {
@@ -614,7 +602,7 @@
    "113": "02:04:01",
    "114": "02:04:03"
   },
-  "summary": "Shown in the open arrangement. The display-control head is raised to expose the video display, sensor array, three indicator lights and three selector knobs. Below are the eight removable record/play discs and the speaker/mic, and the circuitry section stays closed.",
+  "summary": "Shown open as the sheets draw it. The display-control head is swung back on its pivot to expose the video display, sensor array, three indicator lights and three knurled selector knobs. Below are the eight record/play discs and the speaker/mic with its arc-and-star grille, behind an open record-compare lid, and the circuitry section stays closed.",
   "description": "Senses, measures, analyses, compares and identifies the surrounding environment, with multi-channel recording and a choice of display modes.",
   "specs": [
    {
@@ -671,8 +659,12 @@
   ],
   "derived": [
    {
-    "label": "Height, head raised (front view)",
-    "value": "≈ 193 mm"
+    "label": "Head swing, closed → open",
+    "value": "≈ 126°"
+   },
+   {
+    "label": "Height, head open",
+    "value": "≈ 193.5 mm"
    },
    {
     "label": "Video display",
@@ -710,7 +702,7 @@
    "Case frames (brushed)",
    "Shoulder strap"
   ],
-  "interpretation": "Every side view shows the open head swung back on its pivot (roughly 30–45°; no angle is printed). This study keeps it upright as the front views draw it, so the head-raised height is a front-view figure. Olive and black can’t be told apart in the halftone, so the case is shown black. The 127 cm strap is shown only by its lugs, and the speaker grille’s concentric-arc pattern and the sensor lattice are simplified. The 1.27 mm frame wall is from the PDF 113 section; PDF 114 separately prints a 2.54 mm frame.",
+  "interpretation": "The case is built from the measured front and side silhouettes (IoU ≥ 0.975 open and closed). The head swings 125.6° about the pivot printed 18.54 mm below the top, measured along the dash-dot arc on PDF 112, which leaves the faceplate leaning back about 31° as the PDF 126 section draws it. The record-compare lid opens 103.5°, from PDF 113. The drawings place the pivot 4.8 mm off-centre where the print says 3.08 mm, and the model follows the drawings. The strap tab is cut at the drawn break line, 5.4 cm down. Olive and black can’t be told apart in the halftone.",
   "thumb": "assets/equipment/thumb-sciences-tricorder.webp",
   "printedSize": "177.8 × 114.3 × 48.3 mm closed"
  },
@@ -724,17 +716,11 @@
    126
   ],
   "size": [
-   11.43,
-   4.83,
+   12.26,
+   13.47,
    19.36
   ],
-  "sizeBasis": "printed W.O.A × D.O.A; height with display head raised measured on PDF 125; depth not compared (lower lid drawn partially open)",
-  "checkAxes": [
-   1,
-   0,
-   1
-  ],
-  "tolerance": 0.06,
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Standard field equipment item — Type I",
   "model": "Medical Tricorder — Type I",
   "codes": {
@@ -742,7 +728,7 @@
    "125": "02:11:01",
    "126": "02:11:02"
   },
-  "summary": "The medical variant shares the sciences case. Its open arrangement adds the life-form functions sensor/analyzer bay and a lower compartment lid drawn partly open; LEDs A–C and controls D–F sit beside the video display.",
+  "summary": "The medical variant shares the sciences case. Opened, it shows the life-form functions sensor/analyzer in the exposed bay below the R/P lid, a lower compartment lid swung out, LEDs A–C and controls D–F beside the video display, and a speaker/mic with a wavy grille.",
   "description": "A 900-gram field diagnostic unit with 24-channel capability. The sheet notes that its internal circuitry is classified.",
   "specs": [
    {
@@ -793,12 +779,12 @@
   ],
   "derived": [
    {
-    "label": "Height, head raised (front view)",
-    "value": "≈ 194 mm"
+    "label": "Head swing, closed → open",
+    "value": "≈ 126°"
    },
    {
-    "label": "Lower compartment lid",
-    "value": "≈ 54 mm tall"
+    "label": "Lower lid opening",
+    "value": "≈ 57°"
    }
   ],
   "colourKey": [
@@ -830,7 +816,7 @@
    "Lower compartment lid (partially open)",
    "Removable play/record discs (8)"
   ],
-  "interpretation": "As on the sciences unit, the open head is kept upright although the side views show it swung back on its pivot. The analyzer is shown in olive to set it apart, since the halftone doesn’t settle its colour. The lower lid is swung out 14° to show “partially open”, and the hidden internal arrangement is interpreted. The strap is shown only by its lugs, and the speaker grille is simplified.",
+  "interpretation": "The case is built from the measured silhouettes, and its sections match PDF 126 (IoU ≈ 0.97). The head geometry and pivot are as on the sciences unit. The R/P lid opens 100.3°. The lower lid opens 57°, from two separate checks on PDF 125, though PDF 126 sketches it nearer 30°. The strap tab is cut at the drawn break line, 2.4 cm down. The analyzer’s colour isn’t settled by the halftone.",
   "thumb": "assets/equipment/thumb-medical-tricorder.webp",
   "printedSize": "177.8 × 114.3 × 48.3 mm closed"
  },
@@ -842,11 +828,11 @@
    127
   ],
   "size": [
-   5.2,
-   5.2,
-   17.75
+   5.26,
+   5.26,
+   17.92
   ],
-  "sizeBasis": "printed maximum diameter; printed length overall",
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Star Fleet College of Medicine standard",
   "model": "SFAF/SG-MK06 — Type M",
   "codes": {
@@ -910,7 +896,7 @@
    "Solo/multiple reading selector",
    "Audible volume control"
   ],
-  "interpretation": "The screen mesh is drawn as a coarse wire lattice. The printed length is about 1% longer than the drawing, so the vertical measurements are scaled to meet it.",
+  "interpretation": "The body, screens and base are turned from the measured front elevation (IoU 0.98). The base end view is scored separately. The sensor head is a light antimony sphere under a fine woven grid, as drawn. The sheet doesn’t label the indicator colours, so blue (cancel) and red (go) are inferred from the stipple in the colour key. The drawing is about 0.8% longer than printed, and the model follows the drawing.",
   "derived": [],
   "thumb": "assets/equipment/thumb-heartbeat-reader.webp",
   "printedSize": "17.75 cm long · ⌀ 5.2 cm"
@@ -923,11 +909,11 @@
    128
   ],
   "size": [
-   1.9,
-   1.9,
-   6.5
+   1.93,
+   2.0,
+   6.53
   ],
-  "sizeBasis": "printed maximum diameter; printed length overall (loaded)",
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Star Fleet College of Medicine standard",
   "model": "SFAF/SG-MK01-70 — Size 70",
   "codes": {
@@ -1001,7 +987,7 @@
    "(D) Dispensing teat",
    "(E) Interchangeable nozzle"
   ],
-  "interpretation": "The vial is shown clear because colour follows its contents, which vary.",
+  "interpretation": "Turned from the measured elevations of the applicator and the vial (IoU ≥ 0.97). The vial is clear because its colour follows its contents. Its forty ribs and the nozzle’s half-round notches follow the drawing. The teat, hidden inside the body when assembled, is grey.",
   "derived": [],
   "thumb": "assets/equipment/thumb-spray-applicator.webp",
   "printedSize": "6.5 cm long · ⌀ 1.9 cm"
@@ -1014,11 +1000,11 @@
    129
   ],
   "size": [
-   3.5,
-   3.5,
-   6.05
+   3.55,
+   3.6,
+   6.08
   ],
-  "sizeBasis": "printed maximum diameter; printed length overall",
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Star Fleet College of Medicine standard",
   "model": "Medical scanner",
   "codes": {
@@ -1081,7 +1067,7 @@
    "(G) Ground plane screen (48 mesh)",
    "(H) NT – normal Terran range"
   ],
-  "interpretation": "The 48-mesh screen is shown translucent so the rotating scanner can be seen through it. The scanner’s exact shape and the dial’s bar readings are illustrative, and the tiny letters on the life-form scale are illegible in the scan.",
+  "interpretation": "Turned from the measured elevation (IoU 0.99). The housing has the ten flutes the dial view’s scallops show, and the dial is turned as the sheet’s “ROT 180° CW” note directs (the note is ambiguous; the silhouette is the same either way). The dark 48-mesh screen is partly see-through, so the rotating scanner’s twisted white vanes show through it as drawn. The life-form scale letters are illegible in the scan.",
   "derived": [],
   "thumb": "assets/equipment/thumb-medical-scanner.webp",
   "printedSize": "6.05 cm long · ⌀ 3.5 cm"
@@ -1095,16 +1081,11 @@
    131
   ],
   "size": [
-   11.5,
-   35,
-   6.95
+   11.96,
+   35.31,
+   7.09
   ],
-  "sizeBasis": "printed size-2 length and height (the study shows size 0 and size 2 side by side; width not compared)",
-  "checkAxes": [
-   0,
-   1,
-   1
-  ],
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Portable wound healer",
   "model": "SFAF/SG-MK08-0 and -2",
   "codes": {
@@ -1190,7 +1171,7 @@
    "Recharging chamber",
    "Intensity force light"
   ],
-  "interpretation": "Each size is modelled from its own sheet: size 0 at 44 px/cm on PDF 130 and size 2 at 34 px/cm on PDF 131. Section shapes between the drawn views and the depth of the recessed duct are interpreted.",
+  "interpretation": "Each size is lofted from its own plan and side drawings (IoU ≥ 0.94; size-2 side view 0.99). The size-0 front elevation is drawn 3.56 cm wide against a printed 3.8, and the model follows the plan and the print. Size 2’s side switch is shown, though its front elevation omits it. Drawn heights run 2–3% over the printed figures.",
   "derived": [],
   "thumb": "assets/equipment/thumb-anabolic-protoplaser.webp",
   "printedSize": "25 cm (size 0) · 35 cm (size 2)"
@@ -1203,16 +1184,11 @@
    132
   ],
   "size": [
-   12.6,
-   3.75,
-   6.97
+   12.35,
+   3.86,
+   7.02
   ],
-  "sizeBasis": "no dimensions printed; MK10-0 height and body diameter measured at the sheet's 0–4 cm bar; three models side by side",
-  "checkAxes": [
-   0,
-   1,
-   1
-  ],
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Star Fleet College of Medicine standard",
   "model": "SFAF/SG-MK10-000, -00, -0",
   "codes": {
@@ -1248,8 +1224,8 @@
     "value": "≈ 5.6 / 5.8 / 7.0 cm"
    },
    {
-    "label": "Body diameter",
-    "value": "≈ 3.75 cm"
+    "label": "Grip diameters",
+    "value": "≈ 3.8 / 3.6 / 3.3 cm"
    }
   ],
   "colourKey": [
@@ -1267,7 +1243,7 @@
    "Body",
    "Surgeon’s grip"
   ],
-  "interpretation": "The sheet prints no dimensions; all sizes are measured at its 0–4 cm bar.",
+  "interpretation": "The sheet prints no dimensions. Each body is turned from its own elevation, measured at the 0–4 cm bar (IoU ≥ 0.96). The end views are drawn 2–3% smaller than the elevations, so grip radii split the difference. The triggers are the drawn ellipses projected onto the grip.",
   "thumb": "assets/equipment/thumb-surgical-scalpels.webp",
   "printedSize": "Not dimensioned on the sheet"
  }
