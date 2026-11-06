@@ -22,7 +22,7 @@ Provide these assets using the same id:
 - `assets/fleet/<id>-100mm.stl`: a validated binary STL with exactly 100 mm length along Y. Export rescales this file in the browser; normals remain unchanged under positive uniform scaling.
 - `<id>-plate.webp`: reviewed source page, with its PDF page recorded in the data.
 - `<id>-plan.webp`: a plan-view excerpt for browsing.
-- `<id>-silhouette.svg`: side projection using a shared 320-by-100 view box, front at X=0.
+- `<id>-silhouette.png`: side projection, 1600 × 450 px transparent PNG on the shared length scale (320 m across, front at the left).
 
 Every new model must have a separate geometry report, dimensional checks, and an honest slicing/physical-validation status. Do not label a closed mesh as a completed successful print. Keep source numbers separate from inferred shape and fabrication reinforcement.
 
