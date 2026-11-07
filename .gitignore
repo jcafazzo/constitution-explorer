@@ -1,2 +1,5 @@
 model-source/accuracy/out/
 __pycache__/
+
+# Owner-generated page images of the scanned manual (copyrighted; never commit or publish)
+dist/book/pages/
