@@ -35,11 +35,13 @@ const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
 const ease = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
 const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 
-export function renderBook(main, path) {
+// opts.standalone: running as its own page (the owner's private copy), not inside the site.
+export function renderBook(main, path, opts = {}) {
  let alive = true;
- const initial = parseInt(path.split('/')[2], 10);
+ const SA = !!opts.standalone, HASH = SA ? '#p' : '#/book/';
+ const initial = SA ? parseInt(String(opts.initial ?? ''), 10) : parseInt(path.split('/')[2], 10);
  main.classList.add('book-route');
- main.innerHTML = `<div class="folio"><span><a href="#/">COMMAND SECTION</a> / THE MANUAL, 1975</span><span>TM: 379260 · STARDATE 7511.01</span></div>
+ main.innerHTML = `<div class="folio"><span>${SA ? 'PRIVATE READING COPY' : '<a href="#/">COMMAND SECTION</a>'} / THE MANUAL, 1975</span><span>TM: 379260 · STARDATE 7511.01</span></div>
 <section class="bk" aria-labelledby="bk-title">
  <h1 id="bk-title" class="sr-only">Star Fleet Technical Manual: virtual book</h1>
  <div class="bk-stage" id="bk-stage" tabindex="0" role="region" aria-roledescription="book" aria-label="The book. Left and right arrows turn the page; drag a page corner to curl it. Scroll, pinch, double-click or plus and minus zoom in place; drag to pan while zoomed; zero or Escape resets.">
@@ -71,7 +73,7 @@ export function renderBook(main, path) {
 </section>
 <section class="bk-notes" aria-label="About this edition">
  <div><strong>01 / THE OBJECT</strong><p>Ballantine Books published Franz Joseph’s manual in November 1975, stardate 7511.01 on the copyright page. Booksellers describe the first printing as a red softcover inside a removable black vinyl binder stamped in gold, like a real service manual. Later printings were paperbacks with printed covers.</p></div>
- <div><strong>02 / THIS COPY</strong><p>The pages are the owner’s own copy, a later paperback printing, scanned at 150 dpi. They are cleaned and sharpened on the owner’s computer and are not published with this site. Choose <em>Owner’s copy</em> to read it in its own printed cover.</p></div>
+ <div><strong>02 / THIS COPY</strong><p>The pages are the owner’s own copy, a later paperback printing, scanned at 150 dpi. They are cleaned and sharpened on the owner’s computer${SA ? '. This copy is private to the owner’s account' : ' and are not published with this site'}. Choose <em>Owner’s copy</em> to read it in its own printed cover.</p></div>
  <div><strong>03 / THE RECONSTRUCTION</strong><p>The binder is drawn from booksellers’ descriptions, not from a photograph, so its lettering layout is an approximation. Leaves bend by arc length from a glued spine. Paper grain, gutter shading and stack edges are rendered live.</p></div>
 </section>`;
 
@@ -706,8 +708,8 @@ export function renderBook(main, path) {
   main.querySelectorAll('.bk-toc button[data-page]').forEach(b => { const on = here.has(+b.dataset.page); b.classList.toggle('here', on); if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
   if (announce && txt !== lastAnnounce) { live.textContent = txt; lastAnnounce = txt; }
   const n = (single ? (focus === 'right' ? spreadPages(target)[1] : spreadPages(target)[0]) : null) || spreadPages(target)[0] || spreadPages(target)[1];
-  const h = n ? `#/book/${n}` : '#/book';
-  if (location.hash !== h) history.replaceState(null, '', h);
+  const h = n ? `${HASH}${n}` : SA ? '' : '#/book';
+  try { if (location.hash !== h && (h || location.hash)) history.replaceState(null, '', h || location.pathname + location.search); } catch {}
   dirty = true;
  };
  const currentPages = () => { const [l, r] = spreadPages(target); return single ? [focus === 'right' ? r : l].filter(Boolean) : [l, r].filter(Boolean); };

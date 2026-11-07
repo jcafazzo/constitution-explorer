@@ -26,6 +26,10 @@ python3 -m http.server 4174 -d dist
 
 Requirements: poppler (`pdftoppm`, `pdfinfo`), `cwebp`, Python 3 with Pillow and numpy.
 
+## Owner's private copy
+
+`model-source/book/build-private.py OUT_DIR` assembles a standalone copy outside the repo: a wrapper page, `book.js` (loading three.js r180 from jsDelivr), the CSS and the rendered pages. It is published as a **private** claude.ai artifact that only the owner's account can open. Don't share it or make it public. Deep links there use `#p75`.
+
 ## Research: the physical book
 
 - Ballantine published the first edition in November 1975. The copyright page carries the stardate 7511.01 edition marker and the SBN 345-24730-2-695. ([Wikipedia](https://en.wikipedia.org/wiki/Star_Trek_Star_Fleet_Technical_Manual), [Memory Alpha](https://memory-alpha.fandom.com/wiki/Star_Trek_Star_Fleet_Technical_Manual), [Authorwars](https://authorwars.com/publications/star-fleet-technical-manual-253748.html))
