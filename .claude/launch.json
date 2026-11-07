@@ -1,26 +1,6 @@
 {
   "version": "0.0.1",
   "configurations": [
-    {
-      "name": "explorer",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": [
-        "-m",
-        "http.server",
-        "4173",
-        "-d",
-        "dist"
-      ],
-      "port": 4173
-    },
-    {
-      "name": "book",
-      "runtimeExecutable": "/bin/sh",
-      "runtimeArgs": [
-        "-c",
-        "cd '/Users/joe/Documents/Codex/2026-10-23/can-you-create-a-3d-print/sites/constitution-explorer/.claude/worktrees/virtual-book-78b56c/dist' && exec python3 -m http.server 4174"
-      ],
-      "port": 4174
-    }
+    { "name": "explorer", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "4173", "-d", "dist"], "port": 4173 }
   ]
 }
