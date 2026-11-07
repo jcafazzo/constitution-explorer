@@ -16,13 +16,13 @@
  ],
  "communicator": [
   6.35,
-  14.22,
+  14.21,
   10.01
  ],
  "ear-receiver": [
-  3.85,
+  3.16,
   2.67,
-  7.52
+  6.77
  ],
  "universal-translator": [
   4.86,
@@ -42,7 +42,7 @@
  "heartbeat-reader": [
   5.26,
   5.26,
-  17.92
+  17.91
  ],
  "spray-applicator": [
   1.93,
@@ -51,7 +51,7 @@
  ],
  "medical-scanner": [
   3.55,
-  3.6,
+  3.61,
   6.08
  ],
  "anabolic-protoplaser": [

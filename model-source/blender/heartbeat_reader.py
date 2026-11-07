@@ -76,7 +76,7 @@ def build(variant='full'):
     top = max(zz for r, zz in sph)
     outline = [(0, sph[0][1])] + sph + [(0, top + .001)]
     # Screens: a light antimony sphere under a fine woven wire mesh (the plate stipples ~1.5 mm cells over the whole head).
-    # The mesh is a geodesic (icosphere, 4 subdivisions: ~1.6 mm cells, no poles) wire grid; every vertex is pushed out
+    # The mesh is a square-weave wire grid (a subdivided cube projected to the sphere: ~1.3 mm cells, no poles); every vertex is pushed out
     # radially from the sphere centre onto the measured silhouette, so the head follows the drawn outline.
     import bpy, bmesh
     pol = sorted((math.atan2(zz - cz, r), math.hypot(r, zz - cz)) for r, zz in sph if r > .02)
@@ -85,16 +85,20 @@ def build(variant='full'):
         if phi >= pol[-1][0]: return pol[-1][1]
         for (a0, r0), (a1, r1) in zip(pol, pol[1:]):
             if a0 <= phi <= a1: return r0 + (r1 - r0) * (phi - a0) / max(a1 - a0, 1e-9)
-    def geo(name, inset, material):
-        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=4, radius=1.0)
+    def geo(name, inset, material, cube=0):
+        bm = bmesh.new()
+        if cube:               # quad-sphere: a subdivided cube projected outward — an even square weave with no poles
+            bmesh.ops.create_cube(bm, size=2.0)
+            bmesh.ops.subdivide_edges(bm, edges=bm.edges[:], cuts=cube, use_grid_fill=True)
+        else: bmesh.ops.create_icosphere(bm, subdivisions=4, radius=1.0)
         for v in bm.verts:
             d = v.co.normalized(); phi = math.asin(max(-1, min(1, d.z)))
             v.co = d * (rho(phi) - inset); v.co.z += cz
         me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free()
         return kit._obj(name, me, material, root)
     kit.smooth(geo('omnidirectional sensor screens (antimony)', .03, 'antimony'), 60)
-    wire = geo('screen wire mesh (woven)', .006, 'grey')
-    m = wire.modifiers.new('wire', 'WIREFRAME'); m.thickness = .022; m.offset = 0; m.use_even_offset = True; m.use_replace = True
+    wire = geo('screen wire mesh (woven)', .006, 'grey', cube=30)
+    m = wire.modifiers.new('wire', 'WIREFRAME'); m.thickness = .012; m.offset = 0; m.use_even_offset = True; m.use_replace = True
     bpy.context.view_layer.objects.active = wire; bpy.ops.object.modifier_apply(modifier='wire')
     for f in wire.data.polygons: f.use_smooth = True
     # clamp band (y 476..513, 5.27 cm across): a flat, square-edged band

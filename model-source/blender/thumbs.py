@@ -12,7 +12,7 @@ for it in items:
     bpy.ops.wm.read_factory_settings(use_empty=True)
     bpy.ops.import_scene.gltf(filepath=os.path.join(ROOT, 'dist/assets/equipment', it['id'] + '.glb'))
     objs = [o for o in bpy.context.scene.objects if o.type == 'MESH']
-    pts = [o.matrix_world @ Vector(c) for o in objs for c in o.bound_box]
+    pts = [o.matrix_world @ v.co for o in objs for v in o.data.vertices]   # true vertex extents
     mn = Vector([min(p[i] for p in pts) for i in range(3)]); mx = Vector([max(p[i] for p in pts) for i in range(3)])
     size = [round((mx[i] - mn[i]) * 100, 2) for i in range(3)]; env[it['id']] = size
     sc = bpy.context.scene; sc.render.engine = 'BLENDER_WORKBENCH'

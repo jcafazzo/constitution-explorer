@@ -73,12 +73,15 @@ def build_one(key, parent=None, x0=0.0):
     z = lambda py: (bot - py) / PPC
     g = kit.group(f'Scalpel SFAF/SG-MK10-{key}', parent); g.location = (x0, 0, 0)
     # housing outline: revolve the measured elevation (radius = half the drawn width each row), split at the drawn joints
-    def piece(name, y0, y1, mat='antimony', k=1.0):
+    def piece(name, y0, y1, mat='antimony', k=1.0, tol=.003, flat_top=False):
         rad = lambda py: (lambda lo_hi: max((lo_hi[1] - lo_hi[0]) / 2, 0.0))(kit.sample(prof, (py - p['top']) / PPC, 1))
         ys = [y0] + [p['top'] + r[0] * PPC for r in prof['rows'] if y0 < p['top'] + r[0] * PPC < y1] + [y1]
-        pts = [(0.0, z(y0))] + rdp([(k * rad(py), z(py)) for py in ys], .003) + [(0.0, z(y1))]
+        prof_pts = rdp([(k * rad(py), z(py)) for py in ys], tol)
+        if flat_top: prof_pts[0] = (prof_pts[0][0], z(y0))       # a true flat cap: no slanted (dome-shaded) top ring
+        pts = [(0.0, z(y0))] + prof_pts + [(0.0, z(y1))]
         return kit.revolve(name, pts[::-1], mat, axis='Z', parent=g)
-    piece('prime focus cone' if not p['flat'] else 'prime focus cone (cutting tip flat)', p['top'], p['ring'][0])
+    # the cone is drawn straight-sided: a coarse tolerance keeps it a true frustum (no highlight bands from scan jitter)
+    piece('prime focus cone' if not p['flat'] else 'prime focus cone (cutting tip flat)', p['top'], p['ring'][0], tol=.02, flat_top=p['flat'])
     piece('intensity scale ring', p['ring'][0], p['ring'][1])
     piece("surgeon's grip", p['ring'][1], p['skirt'][0], k=GRIP_K)
     piece('body', p['skirt'][0], bot)

@@ -84,13 +84,26 @@ def build(pose='plan'):
     kit.sphere('(B) retention plate dome', 27 / PPC, (0, 0, H / 2 - .02), 'antimony', scale=(.32, 1, .7), parent=head)  # PROFILE knob 55 px wide, 18 px proud
     # housing C: PLAN square a 0.12..1.05 cm, u -0.71..+0.46 cm
     kit.cyl('(C) earphone housing', .58, .98, (.12 + .98 / 2, 0, -.13), 'antimony', 'X', parent=head)
-    kit.torus('(G) swivel', .5, .035, (.08, 0, -.13), 'grey', axis='X', parent=head)
+    kit.torus('(G) swivel', .5, .035, (.08, 0, -.13), 'antimony', axis='X', parent=head)
     # ear-piece A: PLAN outline extruded across (end-on in PROFILE it is the 80 px circle -> 1.17 cm)
     poly = ep['poly']
     if sum((poly[i][0] * poly[(i + 1) % len(poly)][1] - poly[(i + 1) % len(poly)][0] * poly[i][1]) for i in range(len(poly))) < 0: poly = poly[::-1]
     # (the PROFILE draws only plate B and two circles for the head; the PLAN ear-piece outline, whose lip reaches below the
     # plate, cannot hide behind B in any swivel position - accepted as a drawing inconsistency, not posed away)
-    kit.extrude('(A) molded plastic ear-piece', [(p[0], p[1]) for p in poly], 80 / PPC, 'glass', plane='XZ', bev=.05, parent=head)
+    # Moulded, not slab-sided: lofted along u, each section a rounded superellipse spanning the PLAN outline's a-range at that
+    # u (so the PLAN silhouette is kept) and, across, tapering from the PROFILE's 1.17 cm circle to rounded ends.
+    kit.PALETTE.setdefault('clear', ('dde4e6', .06, 0, .3))          # "transparent" half-hard plastic: near-colourless
+    us = [q[1] for q in poly]; u0, u1 = min(us) + .005, max(us) - .005; secs = []
+    for i in range(41):
+        uu = u0 + (u1 - u0) * i / 40; hits = []
+        for (a1, v1), (a2, v2) in zip(poly, poly[1:] + poly[:1]):
+            if (v1 - uu) * (v2 - uu) <= 0 and v1 != v2: hits.append(a1 + (a2 - a1) * (uu - v1) / (v2 - v1))
+        if len(hits) < 2: continue
+        lo, hi = min(hits), max(hits); t = 2 * (uu - u0) / (u1 - u0) - 1
+        hw = min(80 / PPC / 2 * max(1 - abs(t) ** 4, 0) ** .25, max((hi - lo) * .8, .12))
+        secs.append((uu, lo, hi, -max(hw, .03), max(hw, .03)))
+    ear = kit.loft('(A) molded plastic ear-piece', secs, 'clear', p=2.4, seg=48, parent=head)
+    ear.rotation_euler = (math.pi / 2, 0, 0)                          # loft Y (= u) -> head Z', loft Z (across) -> head Y
     return root
 
 if __name__ == '__main__':

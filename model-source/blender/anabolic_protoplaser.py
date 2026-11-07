@@ -112,10 +112,14 @@ def size2(parent=None, name='Anabolic Protoplaser size 2 (SFAF/SG-MK08-2)'):
         housing.append((S.y(py), -w * k, w * k, S.bottom(py) - .03, ztop(py)))   # bottom panel line drawn heavy: 0.3 mm below its centre
     kit.loft('(A) housing', housing, 'grey', p=4.2, parent=g)
     # (B) removable bottom panel (grey on this sheet): the seam line along the lower side faces
-    for i in range(0, 61):
-        py = R0 + 10 + i * (F0 - R0 - 20) / 60; w = S.half_w(py); zs = S.bottom(py) + .45
-        for s in (-1, 1):
-            kit.box('(B) bottom panel seam', (.02, (F0 - R0 - 20) / 60 / S.P + .01, .02), (s * (w - .005), S.y(py), zs), 'dark', parent=g)
+    # one continuous swept strip per side following the tapered face, trimmed short of the end radii
+    for sg in (-1, 1):
+        secs = []
+        for i in range(0, 41):
+            py = R0 + 28 + i * (F0 - R0 - 56) / 40; w = S.half_w(py); zs = S.bottom(py) + .45
+            xc = sg * (w - .005)
+            secs.append((S.y(py), xc - .012, xc + .012, zs - .012, zs + .012))
+        kit.loft('(B) bottom panel seam', secs, 'dark', p=2.0, seg=12, parent=g)
     # (D) intensity control: wedge on the top centre line — grey base 2.1 wide and antimony top 1.8 wide (front elevation tiers),
     # rising from the rear end to a 1.35 cm step at row 1030 (side-profile outer line)
     zD = lambda py: S.z(lerp_pts([(312, 1025), (320, 1020), (400, 1008), (500, 994), (600, 980), (700, 968), (800, 957), (900, 950), (1000, 945), (1030, 944)], py))

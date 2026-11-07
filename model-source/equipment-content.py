@@ -80,7 +80,7 @@ dict(id='spray-applicator',category='medical',subtitle='Star Fleet College of Me
  components=['(A) Applicator body','(B) Spray trigger (press to spray)','(C) Interchangeable vial','(D) Dispensing teat','(E) Interchangeable nozzle'],
  interpretation='The vial is shown clear because colour follows its contents, which vary.'),
 dict(id='medical-scanner',category='medical',subtitle='Star Fleet College of Medicine standard',model='Medical scanner',codes={'129':'02:11:07'},
- summary='A grey computer housing with eight flutes. Its top dial reads six emission groups against the normal Terran range. Below the collar, the rotating scanner turns inside a 48-mesh screen above the ground-plane screen and life-form scale.',
+ summary='A grey computer housing with ten flutes. Its top dial reads six emission groups against the normal Terran range. Below the collar, the rotating scanner turns inside a 48-mesh screen above the ground-plane screen and life-form scale.',
  description='Assesses the general medical condition of intelligent life forms by sensing body emanations in alpha, beta, gamma, Kirlian, theta and xi groups.',
  specs=[S('Length overall','6.05','cm',129),S('Maximum diameter','3.5','cm',129),S('Weight','230','gm',129),S('Sensitivity','to .0001','EmV/AU²',129),S('Reading groups','A, B, Γ, K, Θ, Ξ',None,129)],
  colourKey=[C('SF02UC','Antimony'),C('SF30UC','Gray'),C('SF32UC','Black')],

@@ -133,7 +133,7 @@ def build():
     for sgn in (1, -1):
         th0 = math.acos(.92 / 1.62); arc = [(sgn * 1.62 * math.cos(a), 1.62 * math.sin(a)) for a in [-th0 + 2 * th0 * k / 24 for k in range(25)]]
         outline = [(sgn * .92, -1.33)] + arc + [(sgn * .92, 1.33)]
-        g = kit.extrude('Other party speaker/microphone (B)', outline, .05, 'white', plane='XZ', loc=(0, y(410) - .02, 0))
+        g = kit.extrude('Other party speaker/microphone (B)', outline, .05, 'antimony', plane='XZ', loc=(0, y(410) - .02, 0))
         # light grille with a dark cross-hatch (plate: fine dark lattice on white, ~0.11 cm cells)
         bm = bmesh.new(); yf = y(410) - .045; t, w = .02, .022; ri, xi, zi = 1.58, .95, 1.29   # bars clipped to the inset outline
         for k in range(9, 15):
@@ -154,15 +154,15 @@ def build():
     for j, row in enumerate(rows):          # cell pattern sampled from the plate: x = stippled, . = white
         for i, ch in enumerate(row):
             xx = xp(cx[i]); a = math.asin(xx / 1.68)
-            kit.box('display cell', (.22, .22, .04), (1.68 * math.sin(a), y(cy[j]), 1.68 * math.cos(a)), 'grey' if ch == 'x' else 'white', rot=(0, a, 0), parent=D)
+            kit.box('display cell', (.19, .19, .03), (1.665 * math.sin(a), y(cy[j]), 1.665 * math.cos(a)), 'dark' if ch == 'x' else 'white', rot=(0, a, 0), parent=D)  # inset in a heavy black grid
     # (J) clear, colourless cover so D reads as on the plate (white and stippled cells in a black grid)
-    kit.PALETTE.setdefault('clear', ('f4f4f2', .05, 0, .1))
+    kit.PALETTE.setdefault('clear', ('f4f4f2', .05, 0, .04))
     J = kit.group('Transparent cover (J)')
     kit.box('cover top', (2.14, y(816) - y(649), .06), (0, (y(649) + y(816)) / 2, 1.915), 'clear', parent=J)
     for sgn in (1, -1):
         kit.box('cover side', (.06, y(816) - y(649), .5), (sgn * 1.07, (y(649) + y(816)) / 2, 1.67), 'clear', parent=J)
     # (F) light panel with a dark maze pattern (plate: labyrinth of short dark strokes on white, ~0.11 cm cells, 22 x 30)
-    F = arc_slab("Operator's speaker/microphone (F)", 1.62, 1.82, 1.17, 817, 962, 'white')
+    F = arc_slab("Operator's speaker/microphone (F)", 1.62, 1.82, 1.17, 817, 962, 'antimony')
     nc, nr = 22, 30; th = math.asin(1.17 / 1.82); ya, yb_ = y(817), y(962); ch, cw = (yb_ - ya) / nr, 2 * th / nc
     bm = bmesh.new(); rw, hw, wt = 1.83, .022, .03
     for kind, i, j in maze_walls(nc, nr, 139):

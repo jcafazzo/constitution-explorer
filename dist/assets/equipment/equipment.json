@@ -329,7 +329,7 @@
   ],
   "size": [
    6.35,
-   14.22,
+   14.21,
    10.01
   ],
   "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
@@ -420,9 +420,9 @@
    138
   ],
   "size": [
-   3.85,
+   3.16,
    2.67,
-   7.52
+   6.77
   ],
   "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "For non-public reception",
@@ -830,7 +830,7 @@
   "size": [
    5.26,
    5.26,
-   17.92
+   17.91
   ],
   "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
   "subtitle": "Star Fleet College of Medicine standard",
@@ -1001,7 +1001,7 @@
   ],
   "size": [
    3.55,
-   3.6,
+   3.61,
    6.08
   ],
   "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)",
@@ -1010,7 +1010,7 @@
   "codes": {
    "129": "02:11:07"
   },
-  "summary": "A grey computer housing with eight flutes. Its top dial reads six emission groups against the normal Terran range. Below the collar, the rotating scanner turns inside a 48-mesh screen above the ground-plane screen and life-form scale.",
+  "summary": "A grey computer housing with ten flutes. Its top dial reads six emission groups against the normal Terran range. Below the collar, the rotating scanner turns inside a 48-mesh screen above the ground-plane screen and life-form scale.",
   "description": "Assesses the general medical condition of intelligent life forms by sensing body emanations in alpha, beta, gamma, Kirlian, theta and xi groups.",
   "specs": [
    {

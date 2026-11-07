@@ -12,7 +12,7 @@ import sys, os, math
 sys.path.insert(0, os.path.dirname(__file__))
 import kit, bpy, bmesh
 kit.PALETTE.setdefault('grey30', ('a7abac', .55, .1, 1))         # gray SF30UC as drawn: light stipple
-kit.PALETTE.setdefault('screen48', ('141516', .85, 0, .7))     # 48-mesh screen: dark, see-through
+kit.PALETTE.setdefault('screen48', ('141516', .85, 0, .55))    # 48-mesh screen: dark, see-through (vanes read white)
 
 PPC = 68.52
 AX = 794.0                                 # elevation axis x
@@ -49,8 +49,12 @@ def build(parent=None, name='Medical Scanner'):
     # (B) activating switch: flat push pad 0.54 x 0.99 cm, x 793-830, y 480-548 (on the housing just above the collar)
     xs = cm((793 + 830) / 2 - AX); yS = -math.sqrt(RH ** 2 - xs ** 2)
     a = math.atan2(xs, -yS)
-    kit.box('(B) activating switch (press on-off)', (cm(830 - 793), .05, cm(546 - 480)), (xs, yS - .005, z((480 + 546) / 2)), 'antimony',
+    kit.box('(B) activating switch (press on-off)', (cm(830 - 793), .05, cm(546 - 480)), (xs, yS - .005, z((480 + 546) / 2)), 'grey',
             rot=(0, 0, a), bev=.02, parent=root)
+    for i in range(7):                       # fine vertical ribbing, as on the housing finish
+        u = (i - 3) * cm(830 - 793) / 8
+        kit.box('(B) switch rib', (.015, .02, cm(546 - 480) - .08), (xs + u * math.cos(a), yS - .035 + u * math.sin(a), z((480 + 546) / 2)), 'dark',
+                rot=(0, 0, a), parent=root)
     # collar (antimony, y 546-567) and step ring (y 567-584, dia 2.98)
     kit.cyl('collar', RH, z(546) - z(567), (0, 0, (z(546) + z(567)) / 2), 'antimony', 'Z', bev=.01, parent=root)
     RS = (896 - 692) / 2 / PPC
@@ -71,7 +75,7 @@ def build(parent=None, name='Medical Scanner'):
     # (D) rotating scanner inside the screen: a dark hub carrying two twisted white vanes (a 100° twist over the height;
     # drawn as the broad white band twisting across the centre and the narrower one at the left) and the domed lens
     zd0, zd1 = z(717), z(590)
-    kit.cyl('(D) rotating scanner hub', .3, zd1 - zd0, (0, 0, (zd0 + zd1) / 2), 'black', 'Z', parent=root)
+    kit.cyl('(D) rotating scanner hub', .3, zd1 - zd0, (0, 0, (zd0 + zd1) / 2), 'white', 'Z', parent=root)   # plate: white down the centre
     def vane(name, th0, twist, ri, ro, t=.035, nz=24, nr=4):
         bm = bmesh.new(); grid = []
         for i in range(nz + 1):
@@ -98,8 +102,11 @@ def build(parent=None, name='Medical Scanner'):
     for k in range(2):
         vane('(D) rotating scanner vane', math.radians(-55 + 180 * k), math.radians(100), .28, r1 - .1)
     lx = cm(752 - AX); ly = -math.sqrt(max((r1 - .25) ** 2 - lx ** 2, 0))
-    kit.sphere('(D) rotating scanner lens', cm(22), (lx, ly, z(656)), 'white', scale=(1, .8, 1), parent=root)
-    kit.cyl('(D) lens collar', cm(24), .1, (lx, ly + .12, z(656)), 'black', 'Y', parent=root)
+    # domed lens drawn in profile: a "D" whose flat back sits on a black collar and whose dome bulges toward +X
+    rl = cm(22); n = 12
+    dome = [(rl * math.cos(math.pi / 2 * i / n), lx + rl * math.sin(math.pi / 2 * i / n)) for i in range(n + 1)]
+    kit.revolve('(D) rotating scanner lens', [(0.0, lx)] + dome, 'white', axis='X', seg=48, parent=root, loc=(0, ly, z(656)))
+    kit.cyl('(D) lens collar', cm(24), .08, (lx - .04, ly, z(656)), 'black', 'X', parent=root)
     kit.box('(D) lens arm', (.12, abs(ly) - .15, .3), (lx / 2, ly / 2, z(656)), 'black', rot=(0, 0, math.atan2(lx, -ly)), parent=root)
     # flange at the scanner end (y 723-737.5, dia 2.57)
     RF = cm(882 - 706) / 2

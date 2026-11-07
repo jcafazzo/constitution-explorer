@@ -2,7 +2,7 @@ import * as THREE from './vendor/three.module.js';
 import {OrbitControls} from './vendor/OrbitControls.js';
 import {GLTFLoader} from './vendor/GLTFLoader.js';
 
-const V='eq4';
+const V='eq5';
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const plateUrl=p=>`assets/equipment/page-${p}.webp`;
 const categories=['all','weapons','communications','sciences','medical'];

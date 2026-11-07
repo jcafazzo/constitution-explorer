@@ -50,3 +50,18 @@
 - Scanner dial: "ROT 180° CW" read literally; silhouette identical either way — confirm with user if it matters.
 - Ray gun: faint banding and a small dent in the trigger panel crown (low).
 - Uniform scan-sample palette now affects swatches only (by design after review).
+
+## Round 3 — final independent re-review (2026-11-07)
+Two fresh reviewers (weapons/comms; tricorders/medical) judged the models from the plates and their own EEVEE renders, without prior scores.
+
+| Check | Candidate | Layer | Provenance | State | Observation |
+|---|---|---|---|---|---|
+| Re-review, tricorders/medical | 78a7030 | geometry/finish | independent | minor issues | no high findings; scanner window (lens orientation, dark hub, switch finish, 8-vs-10 flute text), heartbeat triangle wire mesh, scalpel cone banding/domed tip, protoplaser stepped seam |
+| Re-review, weapons/comms | 78a7030 | geometry/finish | independent | 1 high | phaser-1 shell poking through the aspirator pile (also on phaser-2's Type I); slab ear-piece; translator display low contrast; phaser-2 rib jog; ear-receiver envelope from rotated bound_box; off-key cream "white" parts |
+| Repairs | working tree → push | geometry | owner, renders observed | PASS | pile ray-cast onto shell + full X-hatch; ear-piece lofted round, clear; display black grid; scanner D lens in profile, white hub, lighter screen, ribbed grey switch; quad-sphere weave; scalpel frustums + flat caps; swept seam; ribs every 2 px; bounds from vertices (ear-receiver 3.16 × 2.67 × 6.77 cm) |
+| Re-score | working tree | geometry | owner | PASS | unchanged: all reliable views ≥ 0.94 (phaser-1 front 0.918 disclosed) |
+
+### Still open (low)
+- Tricorder vent holes sit in the inner frame (PDF 114 section C-C) and are hidden from outside — kept as drawn.
+- Heartbeat BPM/ACTIVATE/AUDIBLE and scanner dial Greek letters are bars, not lettering; scanner 48-mesh grid lines not drawn.
+- Phaser-1 access-plate longitudinal seams; phaser-2 lock release drawn round with a cross (model square); ray-gun faint banding.

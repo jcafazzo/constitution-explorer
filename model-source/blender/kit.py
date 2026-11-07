@@ -244,7 +244,7 @@ def export(item_id, out_dir=None):
     bpy.ops.export_scene.gltf(filepath=path, export_format='GLB', use_selection=True, export_apply=True, export_yup=True,
                               export_materials='EXPORT', export_extras=False)
     # bounds in cm for the envelope check
-    pts = [o.matrix_world @ Vector(c) for o in scene.objects if o.type == 'MESH' for c in o.bound_box]
+    pts = [o.matrix_world @ v.co for o in scene.objects if o.type == "MESH" for v in o.data.vertices]   # true vertex extents (rotated parts overshoot bound_box)
     mn = [min(p[i] for p in pts) / CM for i in range(3)]; mx = [max(p[i] for p in pts) / CM for i in range(3)]
     size = [round(mx[i] - mn[i], 3) for i in range(3)]
     print('EXPORTED', item_id, 'size_cm', size, os.path.getsize(path), 'bytes')

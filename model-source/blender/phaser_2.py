@@ -162,10 +162,10 @@ def build():
     ds = kit.group('Deflector shield', root)
     for px, py_end in ((1005, 1157), (1016, 1128), (1027, 1140)):
         z = zs(px); pts = []
-        for py in list(range(548, py_end, 8)) + [py_end]: pts.append((face_x(py, z), yv(py)))
+        for py in list(range(548, py_end, 2)) + [py_end]: pts.append((face_x(py, z), yv(py)))   # fine steps: crisp at the head/neck step
         verts, faces = [], []
         for k, (x_, y_) in enumerate(pts):
-            verts += [Vector((x_ - .05, y_, z - .06)), Vector((x_ + .05, y_, z - .06)), Vector((x_ + .05, y_, z + .06)), Vector((x_ - .05, y_, z + .06))]
+            verts += [Vector((x_ - .03, y_, z - .06)), Vector((x_ + .05, y_, z - .06)), Vector((x_ + .05, y_, z + .06)), Vector((x_ - .03, y_, z + .06))]   # 0.5 mm proud
         for k in range(len(pts) - 1):
             for i in range(4): faces.append((4 * k + i, 4 * k + (i + 1) % 4, 4 * (k + 1) + (i + 1) % 4, 4 * (k + 1) + i))
         faces += [(3, 2, 1, 0), tuple(4 * (len(pts) - 1) + i for i in range(4))]
