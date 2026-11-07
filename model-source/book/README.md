@@ -58,7 +58,12 @@ The scan is 150 ppi for almost every page; p2 is at 300. Pages render at their n
 - Click or tap a page to turn it. Drag a page to curl it, and release past halfway (or flick) to complete the turn. Mouse hover lifts the corner as a hint.
 - Keys: ← → / PageUp / PageDown / Space to turn, Home and End to close, Enter or + to magnify.
 - Contents panel (section and technical-order titles, numbered by scan page), a position slider, and deep links `#/book/<page>`.
-- Magnifier: wheel or pinch to zoom, drag to pan, double-tap to zoom, ← → to move through pages; Esc closes it and the book opens at that page.
+- In-place zoom, on the book itself:
+  - Zooming in: scroll, pinch, double-click/double-tap, or the − / + buttons and keys zoom toward the point under the cursor or fingers, up to 450%. The camera flattens its tilt as it closes in.
+  - Moving around: drag (or ↑ ↓) pans while zoomed.
+  - Returning: double-click, *Whole book*, 0 or Esc returns to the whole book, as does turning a page.
+  - While zoomed, the visible pages switch to the 2048 px images.
+- *Page view* (the earlier magnifier) opens one page flat with its own zoom, and ← → move through pages there.
 - Phones and narrow windows show one page at a time with a slight tilt, and taps go page by page.
 - With `prefers-reduced-motion`, turns and camera moves are instant, and there's no hover lift and no sound.
 - Sound: a synthesised paper rustle and a board thump (Web Audio). It can be switched off, and the setting is remembered along with the edition and paper tone.

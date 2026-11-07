@@ -1,6 +1,6 @@
 import {renderColours} from './colour-plates.js?v=r3';
 import {renderEquipment} from './equipment.js?v=eq5';
-import {renderBook} from './book.js?v=b2';
+import {renderBook} from './book.js?v=b3';
 import {mountViewer,studiesFor} from './detail-viewer.js?v=quality5';
 import {scaleBinarySTL} from './stl-export.js';
 const main=document.querySelector('#main');

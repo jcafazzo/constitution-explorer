@@ -42,7 +42,8 @@ export function renderBook(main, path) {
  main.innerHTML = `<div class="folio"><span><a href="#/">COMMAND SECTION</a> / THE MANUAL, 1975</span><span>TM: 379260 · STARDATE 7511.01</span></div>
 <section class="bk" aria-labelledby="bk-title">
  <h1 id="bk-title" class="sr-only">Star Fleet Technical Manual: virtual book</h1>
- <div class="bk-stage" id="bk-stage" tabindex="0" role="region" aria-roledescription="book" aria-label="The book. Left and right arrows turn the page; drag a page corner to curl it; Enter magnifies.">
+ <div class="bk-stage" id="bk-stage" tabindex="0" role="region" aria-roledescription="book" aria-label="The book. Left and right arrows turn the page; drag a page corner to curl it. Scroll, pinch, double-click or plus and minus zoom in place; drag to pan while zoomed; zero or Escape resets.">
+  <div class="bk-zhint" id="bk-zhint" hidden><span id="bk-zhint-t">Drag to pan · double-${matchMedia('(pointer: coarse)').matches ? 'tap' : 'click'} to return</span><button class="bk-btn" id="bk-zreset">Whole book</button></div>
   <span class="bk-loading" role="status">Opening the manual…</span>
  </div>
  <div class="bk-bar" role="toolbar" aria-label="Book controls">
@@ -51,7 +52,8 @@ export function renderBook(main, path) {
   <button class="bk-btn" id="bk-next" aria-label="Next page">›</button>
   <div class="bk-tools">
    <button class="bk-btn" id="bk-toc-btn" aria-expanded="false" aria-controls="bk-toc">Contents</button>
-   <button class="bk-btn" id="bk-zoom-btn">Magnify</button>
+   <div class="bk-zoom" role="group" aria-label="Zoom"><button class="bk-btn" id="bk-zout" aria-label="Zoom out">−</button><output id="bk-zval" aria-live="off">100%</output><button class="bk-btn" id="bk-zin" aria-label="Zoom in">+</button></div>
+   <button class="bk-btn" id="bk-zoom-btn" title="Open the page flat, on its own">Page view</button>
    <div class="bk-seg" role="group" aria-label="Edition"><button id="bk-ed-binder" aria-pressed="true">1975 binder</button><button id="bk-ed-copy" aria-pressed="false">Owner’s copy</button></div>
    <button class="bk-btn" id="bk-age" aria-pressed="false" title="Tone the paper as fifty years of shelf life would">Aged paper</button>
    <button class="bk-btn" id="bk-sound" aria-pressed="true">Sound</button>
@@ -220,7 +222,7 @@ export function renderBook(main, path) {
  };
  // The settled spread is re-textured from the 2048 px images when the page is shown large.
  const hiRes = new Map();
- const wantHi = () => stage.clientHeight * Math.min(devicePixelRatio, 2) > 1150;
+ const wantHi = () => zoom > 1.15 || stage.clientHeight * Math.min(devicePixelRatio, 2) > 1150;
  const refreshHi = () => {
   const want = new Set(manifest && wantHi() ? (single ? currentPages() : spreadPages(cur).filter(Boolean)) : []);
   for (const [n, e] of hiRes) if (!want.has(n)) { e.tex.dispose(); hiRes.delete(n); }
@@ -517,7 +519,7 @@ export function renderBook(main, path) {
  const goTo = (s, opts = {}) => {
   s = clamp(s, 0, N);
   if (drag) return;
-  clearPeek();
+  clearPeek(); unzoom();
   const from = target; target = s;
   if (s === from) { syncUI(); return; }
   const fwd = s > from, span = Math.abs(s - from);
@@ -532,10 +534,12 @@ export function renderBook(main, path) {
   syncUI(true);
  };
  const next = () => {
+  unzoom();
   if (single && focus === 'left' && target < N && target > 0) { focus = 'right'; dirty = true; syncUI(true); return; }
   goTo(target + 1);
  };
  const prev = () => {
+  unzoom();
   if (single && focus === 'right' && target > 0 && target < N) { focus = 'left'; dirty = true; syncUI(true); return; }
   if (target === 0) return;
   goTo(target - 1);
@@ -579,21 +583,52 @@ export function renderBook(main, path) {
   const fx = target === 0 ? 0 : target === N ? 0 : focus === 'right' ? off + W / 2 : off - W / 2;
   return {x: fx, w: W + .05, h: H + .06};
  };
+ // In-place zoom: the camera moves in toward a point on the page; it tilts flatter as it nears.
+ const ZMAX = 4.5;
+ let zoom = 1, zCur = 1, zx = 0, zy = 0, camY = 0;
  const placeCamera = (snap) => {
   const t = camTarget();
   const fov = THREE.MathUtils.degToRad(camera.fov), tan = Math.tan(fov / 2);
   const dist = Math.max(t.h / 2 / tan, t.w / 2 / (tan * camera.aspect)) * 1.02;
-  const tilt = THREE.MathUtils.degToRad(single ? 6 : 16);
-  camX = snap || reduceMQ.matches ? t.x : camX + (t.x - camX) * .14;
-  if (Math.abs(camX - t.x) > 1e-4) dirty = true;
+  const now = snap || reduceMQ.matches;
+  if (zoom <= 1.001) { zx = t.x; zy = 0; }
+  else { const off = book.position.x; zx = clamp(zx, off - W - .03, off + W + .03); zy = clamp(zy, -H / 2, H / 2); }
+  const k = now ? 1 : .16;
+  zCur += (zoom - zCur) * k; camX += (zx - camX) * k; camY += (zy - camY) * k;
+  if (Math.abs(zCur - zoom) > 1e-4 || Math.abs(camX - zx) > 1e-5 || Math.abs(camY - zy) > 1e-5) dirty = true;
   const prevD = camera.userData.d ?? dist;
-  const d = snap || reduceMQ.matches ? dist : prevD + (dist - prevD) * .14;
+  const d = now ? dist : prevD + (dist - prevD) * .14;
   if (Math.abs(d - dist) > 1e-4) dirty = true;
   camera.userData.d = d;
-  camera.position.set(camX, -Math.sin(tilt) * d, Math.cos(tilt) * d + .02);
+  const tilt = THREE.MathUtils.degToRad(single ? 6 : 16) / zCur, dd = d / zCur;
+  camera.position.set(camX, camY - Math.sin(tilt) * dd, Math.cos(tilt) * dd + .02);
   camera.up.set(0, 1, 0);
-  camera.lookAt(camX, 0, .02);
+  camera.lookAt(camX, camY, .02);
  };
+ const worldAt = (x, y) => {
+  const r = renderer.domElement.getBoundingClientRect();
+  ndc.set((x - r.left) / r.width * 2 - 1, -((y - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ndc, camera);
+  return ray.ray.intersectPlane(plane, hit) ? {x: hit.x, y: hit.y} : null;
+ };
+ const syncZoomUI = () => {
+  $('#bk-zval').textContent = `${Math.round(zoom * 100)}%`;
+  $('#bk-zin').disabled = zoom >= ZMAX - .01; $('#bk-zout').disabled = zoom <= 1;
+  const z = zoom > 1.02;
+  stage.classList.toggle('zoomed', z); $('#bk-zhint').hidden = !z;
+  stage.style.touchAction = z ? 'none' : '';
+ };
+ const setZoomTo = (z, P) => {
+  z = clamp(z, 1, ZMAX); if (z < 1.02) z = 1;
+  const C = zoom > 1.001 ? {x: zx, y: zy} : {x: camTarget().x, y: 0};
+  if (P && z > 1) { const k = zoom / z; zx = P.x + (C.x - P.x) * k; zy = P.y + (C.y - P.y) * k; } else { zx = C.x; zy = C.y; }
+  const was = wantHi(); zoom = z;
+  if (wantHi() !== was) refreshHi();
+  clearPeek(); syncZoomUI(); dirty = true;
+ };
+ const zoomAt = (f, x, y) => setZoomTo(zoom * f, x == null ? null : worldAt(x, y));
+ const panBy = (x0, y0, x1, y1) => { const a = worldAt(x0, y0), b = worldAt(x1, y1); if (!a || !b) return; zx -= b.x - a.x; zy -= b.y - a.y; dirty = true; };
+ const unzoom = () => { if (zoom > 1) setZoomTo(1); };
 
  // ---------- per-frame update ----------
  const update = (now) => {
@@ -688,16 +723,27 @@ export function renderBook(main, path) {
  };
  const clearPeek = () => leaves.forEach(l => { l.peekTo = 0; });
  const el = renderer.domElement;
+ const touches = new Map(); let tpinch = null;
+ const pinchState = () => { const [a, b] = [...touches.values()]; return {d: Math.hypot(a.x - b.x, a.y - b.y) || 1, mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2}; };
  el.addEventListener('pointerdown', (e) => {
-  if (e.button !== 0 || drag) return;
+  touches.set(e.pointerId, {x: e.clientX, y: e.clientY});
+  if (touches.size === 2) { if (drag && !drag.active) drag = null; if (!drag) { tpinch = pinchState(); clearTimeout(tapT); } return; }
+  if (e.button !== 0 || drag || tpinch) return;
   sound.unlock();
   const p = toBook(e); if (!p) return;
-  drag = {id: e.pointerId, x0: e.clientX, y0: e.clientY, p0: p, t0: performance.now(), active: false, leaf: -1, last: [], side: p.x >= 0 ? 'R' : 'L', spread: spreadPages(target), focus};
+  drag = {id: e.pointerId, x0: e.clientX, y0: e.clientY, lx: e.clientX, ly: e.clientY, p0: p, t0: performance.now(), active: false, leaf: -1, last: [], side: p.x >= 0 ? 'R' : 'L', spread: spreadPages(target), focus, zoomPan: zoom > 1.02};
   try { el.setPointerCapture(e.pointerId); } catch {}
  });
  el.addEventListener('pointermove', (e) => {
+  if (touches.has(e.pointerId)) touches.set(e.pointerId, {x: e.clientX, y: e.clientY});
+  if (tpinch && touches.size >= 2) {
+   const q = pinchState();
+   zoomAt(q.d / tpinch.d, q.mx, q.my); panBy(tpinch.mx, tpinch.my, q.mx, q.my);
+   tpinch = q; return;
+  }
   const p = toBook(e);
   if (!drag) {
+   if (zoom > 1.02) { el.style.cursor = 'grab'; return; }
    if (e.pointerType !== 'mouse' || reduceMQ.matches || busyLeaf() || !p) return;
    clearPeek();
    const v = p.y / H + .5;
@@ -710,6 +756,7 @@ export function renderBook(main, path) {
   }
   if (e.pointerId !== drag.id) return;
   const moved = Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0);
+  if (drag.zoomPan) { panBy(drag.lx, drag.ly, e.clientX, e.clientY); drag.lx = e.clientX; drag.ly = e.clientY; if (moved > 5) drag.moved = true; el.style.cursor = 'grabbing'; return; }
   if (!drag.active && !drag.pan && moved > 8 && p) {
    if (busyLeaf()) return;
    if (single) {
@@ -738,19 +785,29 @@ export function renderBook(main, path) {
    dirty = true;
   }
  });
+ let tapPrev = {t: 0, x: 0, y: 0};
+ // A second tap or click on the same spot zooms in place there (or back out).
+ const isDoubleTap = (e) => {
+  const now = performance.now(), dbl = now - tapPrev.t < 320 && Math.hypot(e.clientX - tapPrev.x, e.clientY - tapPrev.y) < 32;
+  tapPrev = dbl ? {t: 0, x: 0, y: 0} : {t: now, x: e.clientX, y: e.clientY};
+  if (dbl) { clearTimeout(tapT); if (zoom > 1.05) setZoomTo(1); else zoomAt(2.5, e.clientX, e.clientY); }
+  return dbl;
+ };
  const endDrag = (e) => {
+  if (touches.delete(e.pointerId) && touches.size < 2) tpinch = null;
   if (!drag || e.pointerId !== drag.id) return;
   const d = drag; drag = null;
+  if (d.zoomPan) { el.style.cursor = 'grab'; if (!d.moved && e.type !== 'pointercancel') isDoubleTap(e); return; }
   if (d.pan) { if (e.type !== 'pointercancel') (d.pan === 'next' ? next : prev)(); return; }
   if (!d.active) {
    if (e.type === 'pointercancel') return;
    const p = toBook(e); if (!p) return;
    clearPeek();
+   if (isDoubleTap(e)) return;
    const act = single ? ((e.clientX - el.getBoundingClientRect().left > el.clientWidth / 2) ? next : prev)
     : target === 0 ? next : target === N ? prev : (p.x >= 0 ? next : prev);
-   // Mouse clicks wait briefly so a double-click can magnify instead.
-   if (e.pointerType === 'mouse' && manifest) { clearTimeout(tapT); tapT = setTimeout(act, 230); lastDown = d; }
-   else act();
+   // Turns wait a moment, so a double-click or double-tap can zoom instead.
+   clearTimeout(tapT); tapT = setTimeout(act, 240);
    return;
   }
   const l = leaves[d.leaf];
@@ -769,14 +826,15 @@ export function renderBook(main, path) {
  el.addEventListener('pointerup', endDrag);
  el.addEventListener('pointercancel', endDrag);
  el.addEventListener('pointerleave', () => { if (!drag) { clearPeek(); dirty = true; } });
- let tapT = 0, lastDown = null;
- el.addEventListener('dblclick', (e) => {
-  clearTimeout(tapT);
-  const p = toBook(e); if (!p || !manifest) return;
-  const d = lastDown || {spread: spreadPages(target), focus};
-  const [l, r] = d.spread; const n = single ? (d.focus === 'right' ? r : l) : p.x >= 0 ? r : l;
-  if (n) openLoupe(n);
- });
+ let tapT = 0;
+ el.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);
+  zoomAt(Math.exp(-dy * (e.ctrlKey ? .01 : .0017)), e.clientX, e.clientY);
+ }, {passive: false});
+ $('#bk-zin').onclick = () => zoomAt(1.5);
+ $('#bk-zout').onclick = () => zoomAt(1 / 1.5);
+ $('#bk-zreset').onclick = () => { setZoomTo(1); stage.focus({preventScroll: true}); };
 
  const onKey = (e) => {
   if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
@@ -790,7 +848,11 @@ export function renderBook(main, path) {
   else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); prev(); }
   else if (k === 'Home') { e.preventDefault(); whenReady(0, () => goTo(0)); }
   else if (k === 'End') { e.preventDefault(); whenReady(N, () => goTo(N)); }
-  else if ((k === 'Enter' || k === '+' || k === '=') && manifest) { e.preventDefault(); const n = currentPages().at(-1); if (n) openLoupe(n); }
+  else if (k === '+' || k === '=') { e.preventDefault(); zoomAt(1.4); }
+  else if (k === '-' || k === '_') { e.preventDefault(); zoomAt(1 / 1.4); }
+  else if (k === '0' || (k === 'Escape' && zoom > 1)) { e.preventDefault(); setZoomTo(1); }
+  else if (zoom > 1.02 && (k === 'ArrowUp' || k === 'ArrowDown')) { e.preventDefault(); zy += (k === 'ArrowUp' ? .08 : -.08) / zoom; dirty = true; }
+  else if (k === 'Enter' && manifest && e.target.closest?.('.bk-stage')) { e.preventDefault(); const n = currentPages().at(-1); if (n) openLoupe(n); }
  };
  document.addEventListener('keydown', onKey);
 
@@ -907,7 +969,7 @@ export function renderBook(main, path) {
   target = s; cur = s;
   focus = s >= N ? 'left' : 'right';
   if (single && s > 0 && s < N && keepPage) { focus = spreadPages(s)[0] === keepPage ? 'left' : 'right'; }
-  preload(); syncUI(false); fit(); placeCamera(true); refreshHi(); dirty = true;
+  zoom = 1; syncZoomUI(); preload(); syncUI(false); fit(); placeCamera(true); refreshHi(); dirty = true;
  };
  let initialFocusLeft = false;
  Promise.all([
@@ -936,7 +998,7 @@ export function renderBook(main, path) {
   initialFocusLeft = false;
   syncUI(false);
   raf = requestAnimationFrame(loop);
-  if (phone) requestAnimationFrame(() => main.querySelector('.bk')?.scrollIntoView({block: 'start'}));
+  if (phone) setTimeout(() => { if (alive && scrollY < 40) main.querySelector('.bk')?.scrollIntoView({block: 'start'}); }, 80);
  });
 
  return () => {

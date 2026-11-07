@@ -26,6 +26,12 @@ main.book-route>.folio{padding:0 4vw;margin-bottom:14px}
 .bk-scrub output{font:10px var(--mono);letter-spacing:.6px;color:#cbbd9f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bk-tools{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .bk-seg{display:inline-flex;border:1px solid #5b4a35}
+.bk-zoom{display:inline-flex;align-items:center;border:1px solid #5b4a35}
+.bk-zoom .bk-btn{border:0;font-size:15px;padding:4px 10px}
+.bk-zoom output{font:10px var(--mono);color:#e9dfcb;min-width:42px;text-align:center}
+.bk-stage.zoomed canvas{cursor:grab}
+.bk-zhint{position:absolute;right:14px;top:14px;display:flex;gap:10px;align-items:center;padding:6px 6px 6px 12px;background:rgba(14,11,8,.82);border:1px solid #5b4a35;font:10px var(--mono);letter-spacing:.5px;color:#e9dfcb;z-index:2}
+.bk-zhint[hidden]{display:none}
 .bk-seg button{background:transparent;color:#cbbd9f;border:0;font:10px var(--mono);letter-spacing:.6px;text-transform:uppercase;padding:8px 10px;min-height:34px;cursor:pointer}
 .bk-seg button[aria-pressed=true]{background:#c9a34e;color:#16110b}
 .bk-seg button:disabled{opacity:.35;cursor:not-allowed}
@@ -61,5 +67,6 @@ main.book-route>.folio{padding:0 4vw;margin-bottom:14px}
  .bk-tools .bk-btn,.bk-seg button{padding:7px 7px;font-size:9px}
  .bk-stage{height:calc(100svh - 190px);min-height:340px}
  .bk-note{left:10px;right:10px;bottom:10px;max-width:none}
+ .bk-zhint{left:10px;right:10px;top:10px;justify-content:space-between}
 }
 @media (prefers-reduced-motion:reduce){.bk *{transition:none!important}}
