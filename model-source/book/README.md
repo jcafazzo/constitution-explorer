@@ -64,7 +64,34 @@ The scan is 150 ppi for almost every page; p2 is at 300. Pages render at their n
 - Sound: a synthesised paper rustle and a board thump (Web Audio). It can be switched off, and the setting is remembered along with the edition and paper tone.
 - Performance: rendering happens only when something changes. Textures load lazily for ±3 leaves and are pruned beyond ±4. A long jump waits up to 0.7 s for the destination pages, then turns the last 7 leaves visibly and snaps the rest. Shadow maps are 1024 px on phones.
 
+## Independent review (applied)
+
+A separate reviewer read the code and screenshots cold. Fixed after its report:
+
+- Double-click magnifies the page that was clicked. Before, the first click turned the page and the next page was magnified.
+- On the public site, the placeholder sheets' textures are now pruned, so they no longer accumulate on phones.
+- Rapid jumps can't land out of order (a jump sequence token).
+- A second finger no longer orphans a half-turned leaf.
+- The magnifier keeps keyboard control after you drag the image; ↑ ↓ and Shift+← → pan.
+- Space, PageUp, PageDown, Home and End only turn pages when focus is in the book, so the page still scrolls normally.
+- Taps aren't dropped while a leaf is moving. On one-page view, a swipe toward the facing page pans to it.
+- The hover lift clears when the page turns. An edition switch keeps the page you were reading.
+- The `AudioContext` is created inside a user gesture and closed on leave. There's now a soft settle tick when a leaf lands.
+- The cover textures are kept rather than re-uploaded. The 2048 px swap loads only the page shown on phones. A drag release honours reduced motion. The magnifier refits on resize.
+- The contents highlights the current section. The stage has `role="region"`, and disabled controls have higher contrast.
+- Authenticity changes:
+  - The gutter is wider and softer (the hard dark band is gone).
+  - The binder boards overhang the leaves.
+  - Ink is a warm near-black.
+  - The camera is lower.
+  - Public placeholder sheets carry only a small folio number.
+  - Ink-heavy pages fall back to a higher paper percentile. In this scan only the colour pages fall below the threshold, and they use the colour path anyway.
+
 ## Not done / known limits
+
+- Show-through of the reverse page (cheap 1975 stock) is not simulated.
+- The binder has square corners, and its lettering uses the site's Michroma face, not the lettering of the manual's own title sheet.
+- In the binder edition, a deep link to page 160 (the paperback's back cover) opens the closed binder at `#/book`.
 
 - The binder's exact lettering, spine and inner pockets are unverified (see above).
 - No deskewing. Pages are levelled and sharpened but not straightened.

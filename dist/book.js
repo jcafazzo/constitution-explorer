@@ -14,7 +14,7 @@ import * as THREE from './vendor/three.module.js';
 const BASE = 'book/pages/';
 const W = 0.7712, H = 1;                 // trim, height = 1 unit
 const T = {paper: 0.00042, card: 0.0013, board: 0.0085};
-const G = {paper: 0.075, card: 0.06, board: 0.03};
+const G = {paper: 0.17, card: 0.12, board: 0.03};
 const SU = 40, SV = 10;                  // grid segments across and down a leaf
 const STORE = 'sftm-book-v1';
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
@@ -42,7 +42,7 @@ export function renderBook(main, path) {
  main.innerHTML = `<div class="folio"><span><a href="#/">COMMAND SECTION</a> / THE MANUAL, 1975</span><span>TM: 379260 · STARDATE 7511.01</span></div>
 <section class="bk" aria-labelledby="bk-title">
  <h1 id="bk-title" class="sr-only">Star Fleet Technical Manual: virtual book</h1>
- <div class="bk-stage" id="bk-stage" tabindex="0" aria-roledescription="book" aria-label="The book. Left and right arrows turn the page; drag a page corner to curl it; Enter magnifies.">
+ <div class="bk-stage" id="bk-stage" tabindex="0" role="region" aria-roledescription="book" aria-label="The book. Left and right arrows turn the page; drag a page corner to curl it; Enter magnifies.">
   <span class="bk-loading" role="status">Opening the manual…</span>
  </div>
  <div class="bk-bar" role="toolbar" aria-label="Book controls">
@@ -191,12 +191,10 @@ export function renderBook(main, path) {
    const n = +k.slice(5);
    f = {map: canvasTex(512, Math.round(512 / W), (g, w, h) => {
     g.fillStyle = n === 2 || n === 158 ? '#c8261f' : '#fbfaf6'; g.fillRect(0, 0, w, h);
-    g.fillStyle = n === 2 || n === 158 ? 'rgba(0,0,0,.55)' : 'rgba(30,30,30,.55)';
-    g.font = '13px "Space Mono", monospace'; g.textAlign = 'center';
-    g.fillText(`PDF PAGE ${n}`, w / 2, h * .48);
-    g.font = '10px "Space Mono", monospace'; g.fillStyle = 'rgba(30,30,30,.35)';
-    g.fillText('rendered locally from the owner’s scan', w / 2, h * .52);
-    const e = titleFor(n); if (e) g.fillText(e.t.toUpperCase(), w / 2, h * .1);
+    noise(g, w, h, 5);
+    g.fillStyle = n === 2 || n === 158 ? 'rgba(0,0,0,.4)' : 'rgba(40,36,30,.42)';
+    g.font = '11px "Space Mono", monospace'; g.textAlign = 'center';
+    g.fillText(String(n), w / 2, h * .955);
    })};
   }
   faceCache.set(k, f);
@@ -224,7 +222,7 @@ export function renderBook(main, path) {
  const hiRes = new Map();
  const wantHi = () => stage.clientHeight * Math.min(devicePixelRatio, 2) > 1150;
  const refreshHi = () => {
-  const want = new Set(manifest && wantHi() ? spreadPages(cur).filter(Boolean) : []);
+  const want = new Set(manifest && wantHi() ? (single ? currentPages() : spreadPages(cur).filter(Boolean)) : []);
   for (const [n, e] of hiRes) if (!want.has(n)) { e.tex.dispose(); hiRes.delete(n); }
   for (const n of want) if (!hiRes.has(n)) {
    const tex = new THREE.Texture(); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = maxAniso;
@@ -235,8 +233,9 @@ export function renderBook(main, path) {
   }
  };
  const prune = () => {
+  const keep = new Set(); for (const i of [0, N - 1, ...Array.from({length: 9}, (_, k) => cur - 4 + k)]) { const l = leaves[i]; if (!l) continue; if (l.front.p) keep.add(l.front.p); if (l.back.p) keep.add(l.back.p); }
+  for (const [k, f] of faceCache) if (k.startsWith('blank') && !keep.has(+k.slice(5))) { f.map.dispose(); faceCache.delete(k); }
   if (pageCache.size < 28) return;
-  const keep = new Set(); for (let i = Math.max(0, cur - 4); i <= Math.min(N - 1, cur + 4); i++) { const l = leaves[i]; if (l.front.p) keep.add(l.front.p); if (l.back.p) keep.add(l.back.p); }
   for (const [n, e] of pageCache) if (!keep.has(n)) { e.tex.dispose(); pageCache.delete(n); }
  };
 
@@ -265,7 +264,8 @@ export function renderBook(main, path) {
      .replace('#include <map_fragment>', `#include <map_fragment>
       { float gu = mix(vMapUv.x, 1.0 - vMapUv.x, uFlip);
         float edge = min(min(gu, 1.0 - gu) * 1.3, min(vMapUv.y, 1.0 - vMapUv.y));
-        diffuseColor.rgb *= mix(0.72, 1.0, smoothstep(0.0, 0.09, gu));
+        diffuseColor.rgb = max(diffuseColor.rgb, vec3(0.085, 0.074, 0.062));
+        diffuseColor.rgb *= mix(0.8, 1.0, smoothstep(0.0, 0.16, gu));
         vec3 aged = diffuseColor.rgb * vec3(1.0, 0.955, 0.86);
         aged *= mix(0.86, 1.0, smoothstep(0.0, 0.06, edge));
         diffuseColor.rgb = mix(diffuseColor.rgb, aged, uAge); }`);
@@ -411,6 +411,7 @@ export function renderBook(main, path) {
   m = new THREE.Mesh(makeLeafGeometry(), [pageMaterial(l.front, false), pageMaterial(l.back, true), edgeMat[l.kind]]);
   m.castShadow = m.receiveShadow = true;
   m.userData.key = '';
+  if (l.kind === 'board') m.scale.set((W + .014) / W, (H + .02) / H, 1);   // boards overhang the leaves
   book.add(m); meshes.set(i, m);
   return m;
  };
@@ -474,11 +475,14 @@ export function renderBook(main, path) {
  let dirty = true, raf = 0, drag = null, single = false, focus = 'right', camX = 0;
  const sound = (() => {
   let ctx = null, buf = null;
-  return (kind) => {
-   if (!prefs.sound || reduceMQ.matches) return;
+  const play = (kind) => {
+   if (!prefs.sound || reduceMQ.matches || !ctx) return;
    try {
-    ctx ??= new AudioContext();
-    if (!buf) { buf = ctx.createBuffer(1, ctx.sampleRate * .6, ctx.sampleRate); const d = buf.getChannelData(0); let b = 0; for (let i = 0; i < d.length; i++) { b = .82 * b + .18 * (Math.random() * 2 - 1); d[i] = b; } }
+    if (kind === 'settle') {
+     const src = ctx.createBufferSource(); src.buffer = buf; const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900;
+     const g = ctx.createGain(), t0 = ctx.currentTime; g.gain.setValueAtTime(.09, t0); g.gain.exponentialRampToValueAtTime(.001, t0 + .09);
+     src.connect(lp).connect(g).connect(ctx.destination); src.start(t0, .2); src.stop(t0 + .1); return;
+    }
     const src = ctx.createBufferSource(); src.buffer = buf;
     const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = .7;
     const g = ctx.createGain(), t0 = ctx.currentTime, len = kind === 'board' ? .22 : .42;
@@ -487,6 +491,16 @@ export function renderBook(main, path) {
     src.connect(bp).connect(g).connect(ctx.destination); src.start(t0, Math.random() * .1); src.stop(t0 + len + .05);
    } catch {}
   };
+  play.unlock = () => {
+   if (!prefs.sound) return;
+   try {
+    ctx ??= new AudioContext();
+    if (ctx.state === 'suspended') ctx.resume();
+    if (!buf) { buf = ctx.createBuffer(1, ctx.sampleRate * .6, ctx.sampleRate); const d = buf.getChannelData(0); let b = 0; for (let i = 0; i < d.length; i++) { b = .82 * b + .18 * (Math.random() * 2 - 1); d[i] = b; } }
+   } catch {}
+  };
+  play.close = () => { try { ctx?.close(); } catch {} };
+  return play;
  })();
  const bendProfile = p => .65 * Math.sin(Math.PI * p) * (1 - p) - .15 * Math.sin(Math.PI * p) * p;
  const animate = (i, to, dur, delay = 0) => {
@@ -503,6 +517,7 @@ export function renderBook(main, path) {
  const goTo = (s, opts = {}) => {
   s = clamp(s, 0, N);
   if (drag) return;
+  clearPeek();
   const from = target; target = s;
   if (s === from) { syncUI(); return; }
   const fwd = s > from, span = Math.abs(s - from);
@@ -527,7 +542,9 @@ export function renderBook(main, path) {
   if (single) focus = target === 0 ? 'right' : 'right';
  };
  // Fetch the destination pages first, so a long jump lands on printed pages.
- const whenReady = (s, fn) => {
+ let jumpSeq = 0;
+ const whenReady = (s, fn0) => {
+  const seq = ++jumpSeq, fn = () => { if (seq === jumpSeq) fn0(); };
   if (!manifest || Math.abs(s - target) < 2) return fn();
   const need = [s - 1, s].filter(i => i >= 0 && i < N).flatMap(i => [leaves[i].front.p, leaves[i].back.p]).filter(Boolean).map(pageTex);
   const t0 = performance.now();
@@ -566,7 +583,7 @@ export function renderBook(main, path) {
   const t = camTarget();
   const fov = THREE.MathUtils.degToRad(camera.fov), tan = Math.tan(fov / 2);
   const dist = Math.max(t.h / 2 / tan, t.w / 2 / (tan * camera.aspect)) * 1.02;
-  const tilt = THREE.MathUtils.degToRad(single ? 5 : 11);
+  const tilt = THREE.MathUtils.degToRad(single ? 6 : 16);
   camX = snap || reduceMQ.matches ? t.x : camX + (t.x - camX) * .14;
   if (Math.abs(camX - t.x) > 1e-4) dirty = true;
   const prevD = camera.userData.d ?? dist;
@@ -589,7 +606,7 @@ export function renderBook(main, path) {
     l.pos = a.from + (a.to - a.from) * ease(p);
     l.bend = a.dir * bendProfile(p) + a.bend0 * (1 - p);
     l.twist = a.twist0 * (1 - ease(p));
-    if (p >= 1) { l.pos = a.to; l.anim = null; l.bend = l.twist = 0; }
+    if (p >= 1) { l.pos = a.to; l.anim = null; l.bend = l.twist = 0; if (l.kind !== 'board') sound('settle'); }
     dirty = true;
    }
    if (Math.abs(l.peek - l.peekTo) > 1e-4) { l.peek += (l.peekTo - l.peek) * .2; dirty = true; } else l.peek = l.peekTo;
@@ -650,7 +667,8 @@ export function renderBook(main, path) {
   $('#bk-prev').disabled = target === 0 && !(single && focus === 'right' && false);
   $('#bk-next').disabled = target === N;
   $('#bk-zoom-btn').disabled = !manifest || !currentPages().length;
-  main.querySelectorAll('.bk-toc button[data-page]').forEach(b => { const n = +b.dataset.page; b.classList.toggle('here', spreadPages(target).includes(n)); });
+  const here = new Set(spreadPages(target).filter(Boolean).map(n => titleFor(n)?.n));
+  main.querySelectorAll('.bk-toc button[data-page]').forEach(b => { const on = here.has(+b.dataset.page); b.classList.toggle('here', on); if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
   if (announce && txt !== lastAnnounce) { live.textContent = txt; lastAnnounce = txt; }
   const n = (single ? (focus === 'right' ? spreadPages(target)[1] : spreadPages(target)[0]) : null) || spreadPages(target)[0] || spreadPages(target)[1];
   const h = n ? `#/book/${n}` : '#/book';
@@ -671,10 +689,11 @@ export function renderBook(main, path) {
  const clearPeek = () => leaves.forEach(l => { l.peekTo = 0; });
  const el = renderer.domElement;
  el.addEventListener('pointerdown', (e) => {
-  if (e.button !== 0 || busyLeaf()) return;
+  if (e.button !== 0 || drag) return;
+  sound.unlock();
   const p = toBook(e); if (!p) return;
-  drag = {id: e.pointerId, x0: e.clientX, y0: e.clientY, p0: p, t0: performance.now(), active: false, leaf: -1, last: [], side: p.x >= 0 ? 'R' : 'L'};
-  el.setPointerCapture(e.pointerId);
+  drag = {id: e.pointerId, x0: e.clientX, y0: e.clientY, p0: p, t0: performance.now(), active: false, leaf: -1, last: [], side: p.x >= 0 ? 'R' : 'L', spread: spreadPages(target), focus};
+  try { el.setPointerCapture(e.pointerId); } catch {}
  });
  el.addEventListener('pointermove', (e) => {
   const p = toBook(e);
@@ -691,7 +710,14 @@ export function renderBook(main, path) {
   }
   if (e.pointerId !== drag.id) return;
   const moved = Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0);
-  if (!drag.active && moved > 8 && p) {
+  if (!drag.active && !drag.pan && moved > 8 && p) {
+   if (busyLeaf()) return;
+   if (single) {
+    // On one-page view the swipe direction decides; a swipe toward the facing page just pans.
+    const fwdSwipe = e.clientX < drag.x0;
+    if ((fwdSwipe && focus === 'left' && target > 0 && target < N) || (!fwdSwipe && focus === 'right' && target > 0 && target < N)) { drag.pan = fwdSwipe ? 'next' : 'prev'; return; }
+    drag.side = fwdSwipe ? 'R' : 'L';
+   }
    const fwd = drag.side === 'R';
    const i = fwd ? target : target - 1;
    if (i < 0 || i >= N) { drag = null; return; }
@@ -715,12 +741,16 @@ export function renderBook(main, path) {
  const endDrag = (e) => {
   if (!drag || e.pointerId !== drag.id) return;
   const d = drag; drag = null;
+  if (d.pan) { if (e.type !== 'pointercancel') (d.pan === 'next' ? next : prev)(); return; }
   if (!d.active) {
    if (e.type === 'pointercancel') return;
    const p = toBook(e); if (!p) return;
-   if (single) { const r = el.getBoundingClientRect(); (e.clientX - r.left > r.width / 2 ? next : prev)(); }
-   else if (target === 0) next(); else if (target === N) prev();
-   else (p.x >= 0 ? next : prev)();
+   clearPeek();
+   const act = single ? ((e.clientX - el.getBoundingClientRect().left > el.clientWidth / 2) ? next : prev)
+    : target === 0 ? next : target === N ? prev : (p.x >= 0 ? next : prev);
+   // Mouse clicks wait briefly so a double-click can magnify instead.
+   if (e.pointerType === 'mouse' && manifest) { clearTimeout(tapT); tapT = setTimeout(act, 230); lastDown = d; }
+   else act();
    return;
   }
   const l = leaves[d.leaf];
@@ -732,19 +762,30 @@ export function renderBook(main, path) {
   const to = done ? (d.fwd ? 1 : 0) : (d.fwd ? 0 : 1);
   l.anim = null;
   const rem = Math.abs(to - l.pos);
-  l.anim = {from: l.pos, to, start: performance.now(), dur: 260 + 520 * rem, dir: to > l.pos ? 1 : -1, twist0: l.twist, bend0: l.bend * .6, played: true};
+  l.anim = {from: l.pos, to, start: performance.now(), dur: reduceMQ.matches ? 1 : 260 + 520 * rem, dir: to > l.pos ? 1 : -1, twist0: l.twist, bend0: l.bend * .6, played: true};
   if (done) { target = d.fwd ? d.leaf + 1 : d.leaf; if (single) focus = target >= N ? 'left' : d.fwd ? 'left' : 'right'; }
   syncUI(true);
  };
  el.addEventListener('pointerup', endDrag);
  el.addEventListener('pointercancel', endDrag);
  el.addEventListener('pointerleave', () => { if (!drag) { clearPeek(); dirty = true; } });
- el.addEventListener('dblclick', (e) => { const p = toBook(e); if (!p || !manifest) return; const [l, r] = spreadPages(target); const n = single ? currentPages()[0] : p.x >= 0 ? r : l; if (n) openLoupe(n); });
+ let tapT = 0, lastDown = null;
+ el.addEventListener('dblclick', (e) => {
+  clearTimeout(tapT);
+  const p = toBook(e); if (!p || !manifest) return;
+  const d = lastDown || {spread: spreadPages(target), focus};
+  const [l, r] = d.spread; const n = single ? (d.focus === 'right' ? r : l) : p.x >= 0 ? r : l;
+  if (n) openLoupe(n);
+ });
 
  const onKey = (e) => {
-  if (!loupe.hidden || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+  if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+  if (!loupe.hidden) return loupeKey(e);
   if (e.target.closest?.('input, select, textarea, .bk-toc') || (e.target.closest?.('button') && (e.key === ' ' || e.key === 'Enter'))) return;
   const k = e.key;
+  // Outside the book only the arrows turn pages; Space, Page and Home/End keep scrolling the document.
+  if (!e.target.closest?.('.bk') && !['ArrowLeft', 'ArrowRight'].includes(k)) return;
+  sound.unlock();
   if (k === 'ArrowRight' || k === 'PageDown' || k === ' ') { e.preventDefault(); next(); }
   else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); prev(); }
   else if (k === 'Home') { e.preventDefault(); whenReady(0, () => goTo(0)); }
@@ -768,11 +809,11 @@ export function renderBook(main, path) {
  const setEdition = (ed) => {
   if (ed === prefs.edition) return;
   if (ed === 'copy' && !manifest) return;
-  const keep = spreadPages(target).find(Boolean);
+  const keep = currentPages()[0] || spreadPages(target).find(Boolean);
   prefs.edition = ed; savePrefs();
   $('#bk-ed-binder').setAttribute('aria-pressed', String(ed === 'binder'));
   $('#bk-ed-copy').setAttribute('aria-pressed', String(ed === 'copy'));
-  rebuild(keep ? stateForPageIn(keep) : target === 0 ? 0 : null);
+  keepPage = keep; rebuild(keep ? stateForPageIn(keep) : target === 0 ? 0 : null); keepPage = null;
  };
  const stateForPageIn = (n) => { buildLeaves(); return stateForPage(n); };
  $('#bk-ed-binder').onclick = () => setEdition('binder');
@@ -818,15 +859,21 @@ export function renderBook(main, path) {
  $('#bk-l-in').onclick = () => lZoom(1.5);
  $('#bk-l-out').onclick = () => lZoom(1 / 1.5);
  $('#bk-l-fit').onclick = lFit;
- loupe.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { e.preventDefault(); closeLoupe(); }
+ const lPan = (dx, dy) => { lz.x += dx; lz.y += dy; lApply(); };
+ function loupeKey(e) {
+  if (e.key === 'ArrowUp') { e.preventDefault(); lPan(0, 60); }
+  else if (e.key === 'ArrowDown') { e.preventDefault(); lPan(0, -60); }
+  else if (lz.s > lz.fit * 1.05 && (e.key === 'ArrowLeft' || e.key === 'ArrowRight') && e.shiftKey) { e.preventDefault(); lPan(e.key === 'ArrowLeft' ? 60 : -60, 0); }
+  else if (e.key === 'Escape') { e.preventDefault(); closeLoupe(); }
   else if (e.key === 'ArrowRight') lShow(lz.n + 1);
   else if (e.key === 'ArrowLeft') lShow(lz.n - 1);
   else if (e.key === '+' || e.key === '=') lZoom(1.5);
   else if (e.key === '-') lZoom(1 / 1.5);
   else if (e.key === '0') lFit();
   else if (e.key === 'Tab') { const f = [...loupe.querySelectorAll('button:not([disabled])')]; const i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f.at(-1).focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } }
- });
+ }
+ const onWinResize = () => { if (!loupe.hidden) lFit(); };
+ window.addEventListener('resize', onWinResize);
  lview.addEventListener('wheel', (e) => { e.preventDefault(); const r = lview.getBoundingClientRect(); lZoom(Math.exp(-e.deltaY * .0022), e.clientX - r.left, e.clientY - r.top); }, {passive: false});
  const pts = new Map(); let pinch = null, lastTap = 0;
  lview.addEventListener('pointerdown', (e) => {
@@ -850,6 +897,7 @@ export function renderBook(main, path) {
  ro.observe(stage);
  const onMotion = () => { dirty = true; };
  reduceMQ.addEventListener('change', onMotion);
+ let keepPage = null;
  const rebuild = (s) => {
   for (const i of [...meshes.keys()]) dropMesh(i);
   ['L', 'R'].forEach(k => { if (blocks[k]) { book.remove(blocks[k]); blocks[k].geometry.dispose(); blocks[k] = null; } });
@@ -858,7 +906,7 @@ export function renderBook(main, path) {
   for (let i = 0; i < s; i++) leaves[i].pos = 1;
   target = s; cur = s;
   focus = s >= N ? 'left' : 'right';
-  if (single && s > 0 && s < N) { const [l] = spreadPages(s); if (l && initialFocusLeft) focus = 'left'; }
+  if (single && s > 0 && s < N && keepPage) { focus = spreadPages(s)[0] === keepPage ? 'left' : 'right'; }
   preload(); syncUI(false); fit(); placeCamera(true); refreshHi(); dirty = true;
  };
  let initialFocusLeft = false;
@@ -883,15 +931,16 @@ export function renderBook(main, path) {
   let s = 0;
   if (Number.isFinite(initial) && initial > 0) { s = stateForPage(initial); initialFocusLeft = spreadPages(s)[0] === initial; }
   fit();
-  rebuild(s);
+  keepPage = initialFocusLeft ? spreadPages(s)[0] : null; rebuild(s); keepPage = null;
   if (Number.isFinite(initial) && initial > 0 && single) focus = initialFocusLeft ? 'left' : 'right';
+  initialFocusLeft = false;
   syncUI(false);
   raf = requestAnimationFrame(loop);
   if (phone) requestAnimationFrame(() => main.querySelector('.bk')?.scrollIntoView({block: 'start'}));
  });
 
  return () => {
-  alive = false; cancelAnimationFrame(raf); document.removeEventListener('keydown', onKey); ro.disconnect(); clearTimeout(scrubT);
+  alive = false; cancelAnimationFrame(raf); sound.close(); clearTimeout(tapT); window.removeEventListener('resize', onWinResize); document.removeEventListener('keydown', onKey); ro.disconnect(); clearTimeout(scrubT);
   reduceMQ.removeEventListener('change', onMotion);
   for (const i of [...meshes.keys()]) dropMesh(i);
   ['L', 'R'].forEach(k => blocks[k]?.geometry.dispose());

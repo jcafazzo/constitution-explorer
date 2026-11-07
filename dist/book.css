@@ -4,7 +4,7 @@ main.book-route{max-width:none;padding:18px 0 0;min-height:0}
 main.book-route>.folio{padding:0 4vw;margin-bottom:14px}
 .bk{position:relative;background:#17120d;color:#efe7d6;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
 .bk:fullscreen{display:flex;flex-direction:column;height:100vh}
-.bk-stage{position:relative;height:min(calc(100svh - 230px),980px);min-height:420px;outline:none;touch-action:none;overflow:hidden}
+.bk-stage{position:relative;height:min(calc(100svh - 230px),980px);min-height:420px;outline:none;touch-action:pan-y;overflow:hidden}
 .bk:fullscreen .bk-stage{height:auto;flex:1}
 .bk-stage canvas{display:block;width:100%;height:100%}
 .bk-stage:focus-visible{box-shadow:inset 0 0 0 2px #d8b25a}
@@ -17,7 +17,7 @@ main.book-route>.folio{padding:0 4vw;margin-bottom:14px}
 .bk-bar{display:flex;align-items:center;gap:10px;padding:10px 4vw 12px;background:#0f0c09;border-top:1px solid #3a2f22;flex-wrap:wrap}
 .bk-btn{background:transparent;color:#efe7d6;border:1px solid #5b4a35;font:10px var(--mono);letter-spacing:.8px;text-transform:uppercase;padding:8px 11px;min-height:36px;min-width:36px;cursor:pointer}
 .bk-btn:hover:not(:disabled){border-color:#d8b25a;color:#fff}
-.bk-btn:disabled{opacity:.35;cursor:default}
+.bk-btn:disabled{opacity:.5;cursor:default}
 .bk-btn:focus-visible,.bk-seg button:focus-visible,.bk-toc button:focus-visible,.bk-scrub input:focus-visible{outline:2px solid #d8b25a;outline-offset:2px}
 .bk-btn[aria-pressed=true]{background:#2a2117;border-color:#a8874a}
 #bk-prev,#bk-next{font-size:20px;line-height:1;padding:4px 12px}
@@ -59,7 +59,7 @@ main.book-route>.folio{padding:0 4vw;margin-bottom:14px}
  #bk-prev,#bk-next{flex:1}
  .bk-tools{flex-basis:100%;justify-content:space-between}
  .bk-tools .bk-btn,.bk-seg button{padding:7px 7px;font-size:9px}
- .bk-stage{height:calc(100svh - 158px);min-height:360px}
+ .bk-stage{height:calc(100svh - 190px);min-height:340px}
  .bk-note{left:10px;right:10px;bottom:10px;max-width:none}
 }
 @media (prefers-reduced-motion:reduce){.bk *{transition:none!important}}

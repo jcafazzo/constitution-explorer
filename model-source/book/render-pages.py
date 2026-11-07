@@ -55,12 +55,14 @@ def fit(img, w, h, fill):
 
 def clean_mono(img):
     a = np.asarray(img.convert('L'), dtype=np.float32)
-    paper = np.percentile(a, 75)          # most of every sheet is paper
+    paper = np.percentile(a, 75)          # most sheets are mostly paper...
+    if paper < 200:                       # ...but charts and dividers can be mostly ink
+        paper = max(paper, np.percentile(a, 97))
     ink = min(np.percentile(a, 0.4), paper - 60)
     lo, hi = ink + 4, paper - 10
     v = np.clip((a - lo) / max(hi - lo, 1), 0, 1)
     v = v ** 1.18                          # firm up hairlines and type
-    v[v > 0.93] = 1.0                      # remove paper grain and specks
+    v[v > 0.95] = 1.0                      # remove paper grain and specks (keep light halftone)
     return Image.fromarray((v * 255 + 0.5).astype(np.uint8))
 
 
