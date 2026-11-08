@@ -59,6 +59,7 @@ export function renderBook(main, path, opts = {}) {
    <div class="bk-seg" role="group" aria-label="Edition"><button id="bk-ed-binder" aria-pressed="true">1975 binder</button><button id="bk-ed-copy" aria-pressed="false">Owner’s copy</button></div>
    <button class="bk-btn" id="bk-age" aria-pressed="false" title="Tone the paper as fifty years of shelf life would">Aged paper</button>
    <button class="bk-btn" id="bk-sound" aria-pressed="true">Sound</button>
+   <button class="bk-btn" id="bk-hist-btn" title="How the manual came to be">History</button>
    <button class="bk-btn" id="bk-full" aria-label="Full screen">⛶</button>
   </div>
  </div>
@@ -72,9 +73,31 @@ export function renderBook(main, path, opts = {}) {
  <p class="sr-only" aria-live="polite" id="bk-live"></p>
 </section>
 <section class="bk-notes" aria-label="About this edition">
- <div><strong>01 / THE OBJECT</strong><p>Ballantine Books published Franz Joseph’s manual in November 1975, stardate 7511.01 on the copyright page. Booksellers describe the first printing as a red softcover inside a removable black vinyl binder stamped in gold, like a real service manual. Later printings were paperbacks with printed covers.</p></div>
+ <div><strong>01 / THE OBJECT</strong><p>Ballantine Books published Franz Joseph’s manual in November 1975, stardate 7511.01 on the copyright page. The first printing was a red book in a removable black binder, with the words <em>Star Trek</em> only on a throwaway over-jacket. Later printings were paperbacks with printed covers.</p></div>
  <div><strong>02 / THIS COPY</strong><p>The pages are the owner’s own copy, a later paperback printing, scanned at 150 dpi. They are cleaned and sharpened on the owner’s computer${SA ? '. This copy is private to the owner’s account' : ' and are not published with this site'}. Choose <em>Owner’s copy</em> to read it in its own printed cover.</p></div>
  <div><strong>03 / THE RECONSTRUCTION</strong><p>The binder is drawn from booksellers’ descriptions, not from a photograph, so its lettering layout is an approximation. Leaves bend by arc length from a glued spine. Paper grain, gutter shading and stack edges are rendered live.</p></div>
+</section>
+<section class="bk-history" id="bk-history" aria-labelledby="bk-hist-title">
+ <header><span class="eyebrow">Technical order 00 · Provenance</span><h2 id="bk-hist-title">How the manual came to be</h2>
+ <p class="bk-lede">Franz Joseph Schnaubelt (1914–1994) was a Chicago-born design engineer who spent about thirty years at Convair, later General Dynamics, in San Diego. During the war he drew enemy aircraft from photographs by working their perspective backwards, and he used the same method on frames of <em>Star Trek</em> film. He said plainly that he was not a fan of the show. He wanted its future to be technically and scientifically correct, to give young fans something better than overpriced mimeographed scripts, and to steer them toward real engineering.</p></header>
+ <ol class="bk-timeline">
+  <li><time>14 Apr 1973</time><p>He takes his daughter Karen, 18, to a meeting of the S.T.A.R. San Diego fan club. He finds the members’ cardboard props poor, says so, and is told to show them how.</p></li>
+  <li><time>15 Apr 1973</time><p>He draws the hand phaser and the communicator from film-clip slides. <button data-page="103">See the phasers ›</button></p></li>
+  <li><time>Spring 1973</time><p>Fans arrive with wish-lists, and he realises they are asking for a technical manual. He writes to Gene Roddenberry, who encourages him.</p></li>
+  <li><time>Sep–Dec 1973</time><p>As a side project he draws the <em>Booklet of General Ship’s Plans</em>, because he needs a full ship layout before he can draw the interiors.</p></li>
+  <li><time>Apr 1974</time><p>Club members hand-assemble 500 blueprint sets in his house, and they are sold at Equicon ’74.</p></li>
+  <li><time>May 1974</time><p>Paramount’s Lou Mindling sends the work to Ballantine Books. The blueprints are published a year later.</p></li>
+  <li><time>Aug 1975</time><p>He ships the manual’s art: about 400 hours of research and 1,000 hours of drawing, all by hand.</p></li>
+  <li><time>Nov 1975</time><p>The manual is published. The first printing is raised from 250,000 to 450,000 copies, against a typical first run of about 20,000. It is reported to reach #1 on the <em>New York Times</em> list that winter.</p></li>
+  <li><time>1979–1984</time><p>Ship names from the manual are heard in <em>The Motion Picture</em>, and its pages appear on bridge displays in <em>Star Trek II</em> and <em>III</em>. <button data-page="74">See the classifications page ›</button></p></li>
+  <li><time>2 Jun 1994</time><p>He dies weeks before his eightieth birthday. Karen carries on his work as Franz Joseph Designs.</p></li>
+ </ol>
+ <div class="bk-asides">
+  <div><h3>Why the book is red</h3><p>His contract kept the words “Star Trek” off his work, so Ballantine put them on a removable over-jacket. He supplied a colour chip for the exact red. He kept the credits minimal so the book would read as a genuine Star Fleet document, and he answered fan mail in character on Star Fleet stationery.</p></div>
+  <div><h3>Never canon, always present</h3><p>Relations with Roddenberry soured over a lost merchandising deal, a dispute over props for his <em>Planet Earth</em> pilot, the size of a credit line, and the copyright staying in Franz Joseph’s name. The manual has never been treated as canon. Even so, it started the genre of technical manuals for fictional spacecraft, and the game <em>Star Fleet Battles</em> was licensed from his estate.</p></div>
+  <div><h3>Look in this copy</h3><p>Memory Alpha reports a printing quirk: the two anabolic protoplaser orders run in reverse order, as if that sheet were bound on the wrong edge. <button data-page="130">Open them ›</button></p></div>
+ </div>
+ <p class="bk-sources">Sources: Karen Dick and Greg Tyler, <a href="http://www.trekplace.com/fj-timeline.html" target="_blank" rel="noopener">Franz Joseph timeline</a> (1999, from his work log); <a href="http://www.trekplace.com/fj-kdint01.html" target="_blank" rel="noopener">interview with Karen Dick</a> (1999); Paul Newitt, <a href="http://www.trekplace.com/fj-fjnewittint01.html" target="_blank" rel="noopener">interview with Franz Joseph</a> (<em>Enterprise Incidents</em>, 1983–84); Williams and Durrans, <a href="http://www.trekplace.com/fj-fjwilliamsint01.html" target="_blank" rel="noopener">1976 interview</a>; Bob Rehak, <a href="https://graphic-engine.swarthmore.edu/franz-joseph-and-star-treks-blueprint-culture/" target="_blank" rel="noopener">Franz Joseph and Star Trek’s blueprint culture</a> (2012); <a href="https://memory-alpha.fandom.com/wiki/Star_Trek_Star_Fleet_Technical_Manual" target="_blank" rel="noopener">Memory Alpha</a>; <a href="https://en.wikipedia.org/wiki/Star_Trek_Star_Fleet_Technical_Manual" target="_blank" rel="noopener">Wikipedia</a>. The print runs and the #1 ranking come from the family’s records and have not been checked against the 1975 archives.</p>
 </section>`;
 
  const $ = s => main.querySelector(s);
@@ -867,6 +890,13 @@ export function renderBook(main, path, opts = {}) {
  const setToc = (open) => { toc.hidden = !open; tocBtn.setAttribute('aria-expanded', String(open)); if (open) (toc.querySelector('button.here') || toc.querySelector('button[data-page]')).focus(); };
  tocBtn.onclick = () => setToc(toc.hidden);
  $('#bk-toc-close').onclick = () => { setToc(false); tocBtn.focus(); };
+ const bkEl = main.querySelector('.bk');
+ $('#bk-hist-btn').onclick = () => { const h = $('#bk-history'); h.scrollIntoView({behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start'}); h.querySelector('h2').setAttribute('tabindex', '-1'); h.querySelector('h2').focus({preventScroll: true}); };
+ $('#bk-history').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-page]'); if (!b) return;
+  bkEl.scrollIntoView({behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start'});
+  jumpToPage(+b.dataset.page); stage.focus({preventScroll: true});
+ });
  toc.addEventListener('click', (e) => { const b = e.target.closest('button[data-page]'); if (!b) return; jumpToPage(+b.dataset.page); if (matchMedia('(max-width: 900px)').matches) setToc(false); stage.focus({preventScroll: true}); });
  toc.addEventListener('keydown', (e) => { if (e.key === 'Escape') { setToc(false); tocBtn.focus(); } });
  $('#bk-zoom-btn').onclick = () => { const n = currentPages().at(-1); if (n) openLoupe(n); };
