@@ -14,8 +14,11 @@ import * as THREE from './vendor/three.module.js';
 const BASE = 'book/pages/';
 const W = 0.7712, H = 1;                 // trim, height = 1 unit
 const T = {paper: 0.00042, card: 0.0013, board: 0.0085};
-const G = {paper: 0.17, card: 0.12, board: 0.03};
-const SU = 40, SV = 10;                  // grid segments across and down a leaf
+// Leaves that can lie on top of one another share one gutter length, so their curves nest and never cross.
+// (Boards only ever sit at the bottom of a stack, flat, or alone on top when closed, so they keep a short hinge.)
+const G = {paper: 0.17, card: 0.17, board: 0.03};
+const SU = 40, SV = 10;
+const DIP = 0.03;                        // deepest gutter dip, for the top of a full stack                  // grid segments across and down a leaf
 const STORE = 'sftm-book-v1';
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
 
@@ -321,9 +324,11 @@ export function renderBook(main, path, opts = {}) {
  };
  const rest = (i, side) => {
   const k = i + side; if (restCache.has(k)) return restCache.get(k);
-  const l = leaves[i], h = (side === 'R' ? hR[i] : hL[i]) + l.t / 2;
-  const g = Math.max(G[l.kind], h * 1.75), A = solveA(h, g);
-  const r = {A, g}; restCache.set(k, r); return r;
+  // A leaf lies at its stack height c, dipping by d into the gutter. d grows with c at a slope
+  // below 1, so a higher leaf stays above a lower one everywhere, right down to the spine.
+  const l = leaves[i], c = (side === 'R' ? hR[i] : hL[i]) + l.st / 2, d = Math.min(DIP, c * .6);
+  const g = Math.max(G[l.kind], d * 1.75), A = solveA(d, g);
+  const r = {A, g, z0: c - d}; restCache.set(k, r); return r;
  };
  const buildLeaves = () => {
   const count = manifest?.count || 160, last = count;
@@ -335,8 +340,11 @@ export function renderBook(main, path, opts = {}) {
   L.forEach(l => { l.t = T[l.kind]; l.pos = 0; l.anim = null; l.bend = 0; l.twist = 0; l.vg = .5; l.peek = 0; l.peekTo = 0; });
   leaves = L; N = L.length;
   hL = []; hR = [];
-  let s = 0; for (let i = 0; i < N; i++) { hL[i] = s; s += L[i].t; }
-  s = 0; for (let i = N - 1; i >= 0; i--) { hR[i] = s; s += L[i].t; }
+  // Boards add no height to the page stack: their thickness lies outside it (below when they lie
+  // underneath, above when the binder is closed), so pages meet the spine without dipping into a board.
+  L.forEach(l => { l.st = l.kind === 'board' ? 0 : l.t; });
+  let s = 0; for (let i = 0; i < N; i++) { hL[i] = s; s += L[i].st; }
+  s = 0; for (let i = N - 1; i >= 0; i--) { hR[i] = s; s += L[i].st; }
   restCache.clear();
   range.max = N;
  };
@@ -355,7 +363,7 @@ export function renderBook(main, path, opts = {}) {
   const l = leaves[i], R = rest(i, 'R'), Lf = rest(i, 'L'), du = W / SU, s = Math.sin(Math.PI * t);
   const rigid = l.kind === 'board' ? 0 : l.kind === 'card' ? .45 : 1;
   for (let r = 0; r <= SV; r++) {
-   const v = r / SV; let x = 0, z = 0;
+   const v = r / SV; let x = 0, z = R.z0 + (Lf.z0 - R.z0) * t;
    for (let c = 0; c <= SU; c++) {
     const o = (r * (SU + 1) + c) * 3;
     out[o] = x; out[o + 1] = (v - .5) * H; out[o + 2] = z;
@@ -409,11 +417,14 @@ export function renderBook(main, path, opts = {}) {
    let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx; const L = Math.hypot(nx, ny, nz) || 1;
    nrm[o] = nx / L; nrm[o + 1] = ny / L; nrm[o + 2] = nz / L;
   }
-  const pos = g.attributes.position.array, nor = g.attributes.normal.array, h = leaves[i].t / 2;
+  const pos = g.attributes.position.array, nor = g.attributes.normal.array, lf = leaves[i];
+  // Front and back faces either side of the centreline. A board's thickness all lies on its outer face.
+  // Paper and card are drawn as thin surfaces (their thickness is far below a pixel); a board's thickness lies on its outer face.
+  const fo = lf.kind !== 'board' ? 0 : i === 0 ? lf.t : 0, bo = lf.kind !== 'board' ? 0 : i === 0 ? 0 : lf.t;
   for (let k = 0; k < NV; k++) {
    const o = k * 3, b = (NV + k) * 3;
-   pos[o] = P[o] + nrm[o] * h; pos[o + 1] = P[o + 1] + nrm[o + 1] * h; pos[o + 2] = P[o + 2] + nrm[o + 2] * h;
-   pos[b] = P[o] - nrm[o] * h; pos[b + 1] = P[o + 1] - nrm[o + 1] * h; pos[b + 2] = P[o + 2] - nrm[o + 2] * h;
+   pos[o] = P[o] + nrm[o] * fo; pos[o + 1] = P[o + 1] + nrm[o + 1] * fo; pos[o + 2] = P[o + 2] + nrm[o + 2] * fo;
+   pos[b] = P[o] - nrm[o] * bo; pos[b + 1] = P[o + 1] - nrm[o + 1] * bo; pos[b + 2] = P[o + 2] - nrm[o + 2] * bo;
    nor[o] = nrm[o]; nor[o + 1] = nrm[o + 1]; nor[o + 2] = nrm[o + 2];
    nor[b] = -nrm[o]; nor[b + 1] = -nrm[o + 1]; nor[b + 2] = -nrm[o + 2];
   }
@@ -454,7 +465,7 @@ export function renderBook(main, path, opts = {}) {
   if (to < from) return;
   const top = side === 'R' ? from : to, bot = side === 'R' ? to : from;
   const prof = (i, off) => { curve(i, side === 'R' ? 0 : 1, 0, 0, .5, centre); const xs = [], zs = []; for (let c = 0; c <= SU; c++) { xs.push(centre[c * 3]); zs.push(centre[c * 3 + 2] + off); } return {xs, zs}; };
-  const pt = prof(top, leaves[top].t / 2), pb = prof(bot, -leaves[bot].t / 2);
+  const pt = prof(top, 0), pb = prof(bot, 0);
   const pos = [], uv = [], idx = [], groups = [];
   const quad = (a, b, c, d, ua, ub, uc, ud) => { const n = pos.length / 3; pos.push(...a, ...b, ...c, ...d); uv.push(...ua, ...ub, ...uc, ...ud); idx.push(n, n + 1, n + 2, n + 1, n + 3, n + 2); };
   const sv = z => z / T.paper / 64;          // one stripe per leaf
@@ -495,7 +506,7 @@ export function renderBook(main, path, opts = {}) {
  }));
  desk.material.map.wrapS = desk.material.map.wrapT = THREE.RepeatWrapping; desk.material.map.repeat.set(2, 1);
  desk.material.map.rotation = Math.PI / 2;
- desk.position.z = -0.0006; desk.receiveShadow = true;
+ desk.position.z = -T.board - 0.0006; desk.receiveShadow = true;
  scene.add(desk);
 
  // ---------- state and animation ----------
