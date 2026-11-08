@@ -17,7 +17,7 @@ The copy is meant for a private, signed-in host that only the owner can open,
 such as a private claude.ai artifact. It is a copyrighted book: never make it
 public.
 """
-import shutil, sys
+import hashlib, shutil, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -26,7 +26,7 @@ THREE = 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js'
 PAGE = """<title>Star Fleet Technical Manual</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="book.css">
+<link rel="stylesheet" href="book.css?v=__V__">
 <style>
 /* One visual world: a dark desk under a lamp, paper-coloured reference panels. */
 :root{
@@ -50,7 +50,7 @@ main.book-route>.folio{margin:0;padding-left:max(16px,env(safe-area-inset-left,0
 </style>
 <main id="main"></main>
 <script type="module">
-import {renderBook} from './book.js';
+import {renderBook} from './book.js?v=__V__';
 const start = location.hash.match(/^#p(\\d+)$/);
 renderBook(document.getElementById('main'), '/book', {standalone: true, initial: start ? start[1] : ''});
 </script>
@@ -72,8 +72,11 @@ def main():
     assert old in js, 'book.js import changed'
     (out / 'book.js').write_text(js.replace(old, f"from '{THREE}';"))
     shutil.copy(ROOT / 'dist' / 'book.css', out / 'book.css')
-    (out / 'index.html').write_text(PAGE)
-    (out / 'preview.html').write_text('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>' + PAGE + '</body></html>')
+    # Version stamp from the content, so a republished copy never runs a cached old script.
+    v = hashlib.sha1((out / 'book.js').read_bytes() + (out / 'book.css').read_bytes()).hexdigest()[:10]
+    page = PAGE.replace('__V__', v)
+    (out / 'index.html').write_text(page)
+    (out / 'preview.html').write_text('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>' + page + '</body></html>')
     dst = out / 'book' / 'pages'
     if dst.exists():
         shutil.rmtree(dst)
