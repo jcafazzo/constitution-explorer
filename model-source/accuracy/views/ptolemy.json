@@ -1,0 +1,82 @@
+{
+ "page_note": "PDF 81 at 300 dpi; 6.01 px/m from the 0-50 m bar (300.5 px); drawn L.O.A. 1334-1343 px = printed 222 m within 0.6 %. pxPerCm holds px per metre / 100 so harness 'mm' = ship millimetres. mask_out: leader arrowheads touching the outline (plan: both warp-unit leaders, primary hull; side: tow pad, main sensor).",
+ "raw_zup": true,
+ "views": [
+  {
+   "name": "plan",
+   "plate": "model-source/fleet/plates/p-081.png",
+   "crop": [
+    595,
+    475,
+    1975,
+    1280
+   ],
+   "pxPerCm": 0.0601,
+   "from": "+Z",
+   "up": "-X",
+   "open": 7,
+   "mask_out": [
+    [
+     1075,
+     181,
+     1105,
+     215
+    ],
+    [
+     1143,
+     587,
+     1177,
+     621
+    ],
+    [
+     545,
+     757,
+     590,
+     807
+    ]
+   ]
+  },
+  {
+   "name": "side",
+   "plate": "model-source/fleet/plates/p-081.png",
+   "crop": [
+    612,
+    1468,
+    1965,
+    1900
+   ],
+   "pxPerCm": 0.0601,
+   "from": "+X",
+   "up": "+Z",
+   "open": 7,
+   "mask_out": [
+    [
+     895,
+     200,
+     936,
+     231
+    ],
+    [
+     300,
+     295,
+     330,
+     324
+    ]
+   ]
+  },
+  {
+   "name": "front",
+   "plate": "model-source/fleet/plates/p-081.png",
+   "crop": [
+    595,
+    2095,
+    1395,
+    2535
+   ],
+   "pxPerCm": 0.0601,
+   "from": "-Y",
+   "up": "+Z",
+   "open": 7
+  }
+ ]
+}

@@ -65,3 +65,37 @@ Two fresh reviewers (weapons/comms; tricorders/medical) judged the models from t
 - Tricorder vent holes sit in the inner frame (PDF 114 section C-C) and are hidden from outside — kept as drawn.
 - Heartbeat BPM/ACTIVATE/AUDIBLE and scanner dial Greek letters are bars, not lettering; scanner 48-mesh grid lines not drawn.
 - Phaser-1 access-plate longitudinal seams; phaser-2 lock release drawn round with a cross (model square); ray-gun faint banding.
+
+## Round 4 — fleet hull accuracy (2026-11-07)
+- **User request:** "do the same thing for the fleet index … the 3D reconstructions are not accurate … that level of accuracy."
+- **Agreed scope:** rebuild the five complete hulls (Constitution PDF 75, Saladin 77, Hermes 79, Ptolemy 81, Federation 88) in Blender from the plates' plan/side/front views; score against plate silhouettes; independent adversarial review; regenerate Compare silhouettes and printable 100 mm STLs from the new hulls (closed single meshes, not test-printed). Out: bridge/hangar/impulse/nacelle sub-studies (next round).
+- **Acceptance:** every reliable view IoU ≥ 0.94 with mean outline error ≤ 0.6 % of length; printed particulars (length/breadth/height) within 1 %; viewer conventions unchanged (GLB raw Z-up, front −Y, metres); check-exports.mjs passes; 5 ship pages + compare + bench load without console errors; independent reviewer pass.
+- **Baseline observation:** current Constitution secondary hull is a fat bottle, nacelle/pylon shapes off vs PDF 75.
+- **Window:** ~5 h; release by push to main when verified.
+
+### Checkpoint — blocked on a system-level Blender hang (2026-11-07 ~18:45)
+Every Blender launch since ~18:04 hangs at start-up in uninterruptible kernel wait (U state); kill -9 and reopening Blender don't clear it. Needs a full Mac restart. Nothing committed or deployed for the fleet.
+
+| Ship | State on disk | Last scores plan / side / front (IoU) | Next |
+|---|---|---|---|
+| Constitution | `blender/constitution.py`, `fleet/constitution_measure.py`; GLB, silhouette, 100 mm STL generated | 0.962 / 0.966 / 0.890 (mean ≤ 0.8 m) | review |
+| Ptolemy | `blender/ptolemy.py`, `ptolemy_measure.py`; GLB from an older script version | 0.974 / 0.951 / 0.901 | rebuild + rescore + renders |
+| Federation | `blender/federation.py`, `fleet/federation_measure.py`; GLB 7.2 MB from first version | 0.990 / 0.976 / 0.922 | rebuild (size cut, H fix) + rescore |
+| Saladin / Hermes | `fleet_destroyer.py` + `saladin.py`/`hermes.py`, `fleet_destroyer_measure.py`; Saladin GLB intermediate, Hermes never built | Saladin 0.987 / 0.955 / 0.922; Hermes baseline only | rebuild both + rescore; Saladin H −1.2 % |
+
+Cross-cutting: every plate's front view disagrees with its own side/plan by 1–2 m (nacelle/sensor heights, saucer thickness), capping front IoU at ~0.90–0.93 — treat front as a reference view, report it, don't distort plan/side to chase it. Constitution side view is drawn ~3 % taller than printed H (74.9 vs 72.6 m).
+After rebuilds: `blender/fleet_outputs.py -- <ids>` (silhouettes + STLs), bump viewer cache strings (detail-viewer `quality5`, silhouette `?v=3`), independent review, local sweep, push.
+
+### Unblocked without a restart (2026-11-07 ~19:05)
+`sample` on a hung process: main thread stuck in `WM_init → ED_file_read_bookmarks → fsmenu_read_system → NSFileManager mountedVolumeURLs… → getattrlist`. `df` on /Volumes/WD My Passport hangs too; M5 external answers. Workaround: an ad-hoc re-signed copy of Blender.app in the scratchpad plus a 10-line dylib (`DYLD_INSERT_LIBRARIES`) that makes the volume listing return only "/". Wrapper: scratchpad `bfix/blender`; `run.sh` honours `$BLENDER`. Old stuck processes remain until the drive is unplugged or the Mac restarts.
+
+### Review and repair (2026-11-07 evening)
+| Check | Candidate | Layer | Provenance | State | Observation |
+|---|---|---|---|---|---|
+| Independent review A (Constitution, Ptolemy, Federation) | pre-commit | geometry/finish/outputs | independent | FAIL → repaired | Constitution: warped dome + flat bridge disc, buried nacelle markings, lumps, missing callouts, tiny hangar, height; Ptolemy: false 21 m impulse needle; Federation: missing B phaser bank, wavy nacelles, clipped silhouette |
+| Independent review B (Saladin, Hermes) | pre-commit | geometry/finish/outputs | independent | FAIL → repaired | STL lost the main dish; faceted STL; vents mirrored; lumpy/asymmetric nacelle; wrong aft end; puck bridge; missing small details |
+| Repairs | working tree | geometry | owner + 3 builders, renders observed | PASS | oval dome mesh + spine; ray-cast markings; clean mirrored nacelles (tapered as drawn); callouts added; stern + clamshell doors; Ptolemy strut ridge; Federation B bank; destroyer vents/deck/dome/tail; silhouettes at printed length; STL thin-plate thickening, 180k tris |
+| Final scores plan / side / front | working tree | geometry | owner rerun | PASS (front = reference) | Constitution 0.958/0.962/0.894; Saladin 0.988/0.943/0.923; Hermes 0.986/0.943/0.920; Ptolemy 0.975/0.957/0.904; Federation 0.981/0.967/0.941 |
+| STLs | working tree | fabrication geometry | owner | PASS (geometry only) | all 100 mm on Y, one closed body, 0 open edges; feed horns and bow ports too fine to print are dropped; not sliced or printed |
+
+Open: Constitution H 75.5 m follows the drawing (printed 72.6); Federation envelope 88.5 m (hull-to-hull 87.4); Saladin nacelle mean dia 16.8 m vs 17.3 printed; no second independent review of the repairs.

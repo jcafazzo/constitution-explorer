@@ -5,7 +5,7 @@ import {GLTFLoader} from './vendor/GLTFLoader.js';
 export function studiesFor(ship){
  const base='assets/detail/';
  const studies=[
- {id:'ship',title:'Complete starship',file:base+ship.id+'.glb',pages:[ship.page,144,143],sources:[`assets/fleet/${ship.id}-plate.webp`,base+'page-144.webp',base+'page-143.webp'],description:'Detailed exterior: saucer panel divisions, registry lettering, rim windows, bridge ports, impulse vents and propulsion assemblies with ribbed chiller banks and raised intercooler loops.',note:`Hull proportions follow plate ${ship.plate}; component arrangements use the later propulsion sheets. Fine spacing, finishes and hidden curvature are reconstructed.`},
+ {id:'ship',title:'Complete starship',file:base+ship.id+'.glb',pages:[ship.page,144,143],sources:[`assets/fleet/${ship.id}-plate.webp`,base+'page-144.webp',base+'page-143.webp'],description:'Built in Blender from the plate itself: every hull, dome and nacelle is lofted or turned from outlines measured on the plan, side and front views at the sheet’s scale bar. Registry lettering, deck grid, windows, grilles, sensors and weapons sit where the plate draws them.',note:(a=>`Outline match to plate ${ship.plate}${a?` (overlap, 1 = exact): plan ${a.plan}, side ${a.side}, front ${a.front}`:''}. ${ship.drawingNote||''} Hidden surfaces and finishes are interpretations.`)(ship.accuracy)},
  {id:'nacelle',title:'Main propulsion / SW40',file:base+'nacelle.glb',pages:[144],description:'Inspect the acquisition dome, three sensor nodes, three power-stage and five main-stage chiller banks, raised constriction housing, aft intercooler loops and asymmetric restoration cowl.',note:'The manual’s external arrangement, TO 03:11:20. Rib spacing and hidden surfaces are interpreted; the standalone unit shows the heavy-cruiser arrangement.'},
  {id:'impulse',title:'Impulse engine / IP186',file:base+'impulse.glb',pages:[143],description:'Twelve circulation tubes surround the twin firing chambers. Explore the recessed throats, fuel-feed chute, five heat-exchanger connections and paired longitudinal constrictions.',note:'Component study from TO 03:10:20, with the stated 5.2 × 4.5 × 2.8 m envelope. Internal recess depths and its installation within each class are not fully specified.'},
  ];
@@ -38,7 +38,7 @@ export function mountViewer(host,ship,onStudy){
   const own=++request;active=studies.find(x=>x.id===id)||studies[0];onStudy(active);loading.hidden=false;loading.textContent='Preparing the detailed study…';
   if(model){scene.remove(model);release(model);model=null;}
   try{
-   const result=await new GLTFLoader().loadAsync(active.file+'?v=quality5');
+   const result=await new GLTFLoader().loadAsync(active.file+'?v=plate2');
    if(disposed||own!==request){release(result.scene);return;}
    model=result.scene;const bounds=new THREE.Box3().setFromObject(model);model.position.sub(bounds.getCenter(new THREE.Vector3()));radius=bounds.getBoundingSphere(new THREE.Sphere()).radius;bounds.getSize(halfSize).multiplyScalar(.5);
    camera.near=Math.max(radius*.0005,.001);camera.far=radius*20;controls.minDistance=radius*.18;controls.maxDistance=radius*15;camera.updateProjectionMatrix();scene.add(model);applyFinish();loading.hidden=true;resize();view();

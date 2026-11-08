@@ -25,8 +25,8 @@ def score(views_path, item, rdir):
     spec = json.load(open(views_path)); res = []
     for v in spec['views']:
         x0, y0, x1, y1 = v['crop']
-        gray = load_gray(v.get('plate', f"dist/assets/equipment/page-{v['page']}.webp"))[y0:y1, x0:x1]
-        plate = silhouette(gray, keep=v.get('keep', 1), open_=v.get('open', 4))
+        gray = load_gray(v['plate'] if 'plate' in v else f"dist/assets/equipment/page-{v['page']}.webp")[y0:y1, x0:x1]
+        plate = silhouette(gray, keep=v.get('keep', 1), open_=v.get('open', 4), holes=[tuple(h) for h in v.get('holes', [])])
         if 'mask_out' in v:  # rectangles (crop coords) to exclude, e.g. overlapping labels
             for a, b, c, d in v['mask_out']: plate[b:d, a:c] = False
         m = np.asarray(Image.open(os.path.join(rdir, f"{v['name']}-mask.png")).convert('L')) > 127

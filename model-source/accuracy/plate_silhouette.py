@@ -7,9 +7,13 @@ from scipy import ndimage as ndi
 def load_gray(path):
     return np.asarray(Image.open(path).convert('L'), dtype=np.float32) / 255.0
 
-def silhouette(gray, ink=0.55, close=3, open_=4, keep=1, min_frac=0.02):
+def silhouette(gray, ink=0.55, close=3, open_=4, keep=1, min_frac=0.02, holes=()):
+    """holes: (x, y) seed points (crop px) inside drawn openings, e.g. the gap between a strut and a hull, that must stay open."""
     m = gray < ink
     m = ndi.binary_closing(m, structure=np.ones((close, close)), iterations=2)
+    if holes:
+        lab0, _ = ndi.label(~m)
+        open_bg = np.isin(lab0, [lab0[y, x] for x, y in holes if lab0[y, x] > 0])
     m = ndi.binary_fill_holes(m)
     if open_:
         m = ndi.binary_opening(m, structure=np.ones((open_, open_)))
@@ -22,7 +26,10 @@ def silhouette(gray, ink=0.55, close=3, open_=4, keep=1, min_frac=0.02):
     for i in order[:keep]:
         if sizes[i] >= min_frac * m.size or i == order[0]:
             out |= lab == (i + 1)
-    return ndi.binary_fill_holes(out)
+    out = ndi.binary_fill_holes(out)
+    if holes:
+        out &= ~open_bg
+    return out
 
 def ink_mask(gray, ink=0.55):
     return gray < ink

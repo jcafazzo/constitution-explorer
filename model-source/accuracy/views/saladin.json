@@ -1,0 +1,62 @@
+{
+ "page_note": "PDF 77 at 300 dpi; 6.02 px/m (0-50 m bar 1951->2252 px = 301 px; drawn L.O.A. 1461 px = 242.7 m vs printed 242.5). pxPerCm holds px per metre / 100 so harness 'mm' = ship millimetres. mask_out: IMPULSE POWER and SPACE/WARP leader tips touching the plan outline.",
+ "raw_zup": true,
+ "views": [
+  {
+   "name": "plan",
+   "plate": "model-source/fleet/plates/p-077.png",
+   "crop": [
+    540,
+    470,
+    2100,
+    1300
+   ],
+   "pxPerCm": 0.0602,
+   "from": "+Z",
+   "up": "-X",
+   "open": 7,
+   "mask_out": [
+    [
+     818,
+     342,
+     850,
+     368
+    ],
+    [
+     1098,
+     474,
+     1130,
+     498
+    ]
+   ]
+  },
+  {
+   "name": "side",
+   "plate": "model-source/fleet/plates/p-077.png",
+   "crop": [
+    480,
+    1440,
+    2100,
+    1900
+   ],
+   "pxPerCm": 0.0602,
+   "from": "+X",
+   "up": "+Z",
+   "open": 7
+  },
+  {
+   "name": "front",
+   "plate": "model-source/fleet/plates/p-077.png",
+   "crop": [
+    500,
+    2020,
+    1400,
+    2560
+   ],
+   "pxPerCm": 0.0602,
+   "from": "-Y",
+   "up": "+Z",
+   "open": 7
+  }
+ ]
+}
