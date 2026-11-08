@@ -1,0 +1,58 @@
+{
+ "page_note": "PDF 75 at 300 dpi; 6.0049 px/m (drawn 1733 px = printed L.O.A. 288.6 m; 0-50 m bar 301 px). pxPerCm holds px per metre / 100 so harness 'mm' = ship millimetres.",
+ "raw_zup": true,
+ "views": [
+  {
+   "name": "plan",
+   "plate": "model-source/fleet/plates/p-075.png",
+   "crop": [
+    420,
+    470,
+    2215,
+    1265
+   ],
+   "pxPerCm": 0.06004851004851004,
+   "from": "+Z",
+   "up": "-X",
+   "open": 7
+  },
+  {
+   "name": "side",
+   "plate": "model-source/fleet/plates/p-075.png",
+   "crop": [
+    380,
+    1440,
+    2200,
+    1945
+   ],
+   "pxPerCm": 0.06004851004851004,
+   "from": "+X",
+   "up": "+Z",
+   "open": 7
+  },
+  {
+   "name": "front",
+   "plate": "model-source/fleet/plates/p-075.png",
+   "crop": [
+    400,
+    2040,
+    1220,
+    2575
+   ],
+   "pxPerCm": 0.06004851004851004,
+   "from": "-Y",
+   "up": "+Z",
+   "open": 7,
+   "holes": [
+    [
+     340,
+     305
+    ],
+    [
+     500,
+     310
+    ]
+   ]
+  }
+ ]
+}

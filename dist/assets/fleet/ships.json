@@ -12,8 +12,14 @@
     "nacelles": 1,
     "crew": 200,
     "description": "A single warp nacelle beneath a familiar saucer. The compact destroyer reduces the heavy cruiser to its essential silhouette.",
-    "status": "Geometry checked \u00b7 unsliced",
-    "model": "assets/fleet/saladin.stl"
+    "status": "Plate-scored · unsliced",
+    "model": "assets/fleet/saladin.stl",
+    "accuracy": {
+      "plan": 0.988,
+      "side": 0.943,
+      "front": 0.923
+    },
+    "drawingNote": "The plate’s front view draws the nacelle about 20 % larger than its plan and side views; the model follows plan and side, and its nacelle tapers as drawn."
   },
   {
     "id": "hermes",
@@ -27,9 +33,15 @@
     "height": 60,
     "nacelles": 1,
     "crew": 195,
-    "description": "The scout shares the destroyer\u2019s basic hull arrangement. Its lighter armament marks a different mission within the same family.",
-    "status": "Geometry checked \u00b7 unsliced",
-    "model": "assets/fleet/hermes.stl"
+    "description": "The scout shares the destroyer’s basic hull arrangement. Its lighter armament marks a different mission within the same family.",
+    "status": "Plate-scored · unsliced",
+    "model": "assets/fleet/hermes.stl",
+    "accuracy": {
+      "plan": 0.986,
+      "side": 0.943,
+      "front": 0.92
+    },
+    "drawingNote": "The plate’s front view draws the nacelle about 20 % larger than its plan and side views; the model follows plan and side, and its nacelle tapers as drawn."
   },
   {
     "id": "ptolemy",
@@ -43,9 +55,15 @@
     "height": 66,
     "nacelles": 2,
     "crew": 220,
-    "description": "Two low-mounted nacelles and an aft tow pad define the fleet\u2019s transport platform. This study depicts the tug without a cargo container.",
-    "status": "Geometry checked \u00b7 unsliced",
-    "model": "assets/fleet/ptolemy.stl"
+    "description": "Two low-mounted nacelles and an aft tow pad define the fleet’s transport platform. This study depicts the tug without a cargo container.",
+    "status": "Plate-scored · unsliced",
+    "model": "assets/fleet/ptolemy.stl",
+    "accuracy": {
+      "plan": 0.975,
+      "side": 0.957,
+      "front": 0.904
+    },
+    "drawingNote": "The plate’s front view draws the saucer about 1 m thinner than its side view; the model follows plan and side."
   },
   {
     "id": "federation",
@@ -59,8 +77,14 @@
     "height": 87,
     "nacelles": 3,
     "crew": 500,
-    "description": "A larger saucer, a deep secondary hull and a third dorsal nacelle create the manual\u2019s most imposing starship profile.",
-    "status": "Geometry checked \u00b7 unsliced",
-    "model": "assets/fleet/federation.stl"
+    "description": "A larger saucer, a deep secondary hull and a third dorsal nacelle create the manual’s most imposing starship profile.",
+    "status": "Plate-scored · unsliced",
+    "model": "assets/fleet/federation.stl",
+    "accuracy": {
+      "plan": 0.981,
+      "side": 0.967,
+      "front": 0.941
+    },
+    "drawingNote": "Hull to hull matches the printed 87 m within 0.5 %; the drawn aft nacelle fairings bring the overall height to 88.5 m. The front view draws the dorsal unit about 2 m lower than the side view; the model follows plan and side."
   }
 ]

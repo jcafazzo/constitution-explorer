@@ -249,3 +249,20 @@ def export(item_id, out_dir=None):
     size = [round(mx[i] - mn[i], 3) for i in range(3)]
     print('EXPORTED', item_id, 'size_cm', size, os.path.getsize(path), 'bytes')
     return size
+
+def export_ship(ship_id, out_dir=None):
+    """Fleet display GLB: metres, the viewer's raw Z-up / front -Y frame (no Y-up conversion), in dist/assets/detail/."""
+    out_dir = out_dir or os.path.join(ROOT, 'dist', 'assets', 'detail')
+    scene = bpy.context.scene
+    root = bpy.data.objects.new(ship_id, None); scene.collection.objects.link(root)
+    for o in list(scene.objects):
+        if o is not root and o.parent is None: o.parent = root
+    bpy.context.view_layer.update()
+    for o in scene.objects: o.select_set(o.type in ('MESH', 'EMPTY'))
+    path = os.path.join(out_dir, ship_id + '.glb')
+    bpy.ops.export_scene.gltf(filepath=path, export_format='GLB', use_selection=True, export_apply=True, export_yup=False,
+                              export_materials='EXPORT', export_extras=False)
+    pts = [o.matrix_world @ v.co for o in scene.objects if o.type == 'MESH' for v in o.data.vertices]
+    size = [round(max(p[i] for p in pts) - min(p[i] for p in pts), 2) for i in range(3)]
+    print('EXPORTED', ship_id, 'size_m', size, os.path.getsize(path), 'bytes')
+    return size
