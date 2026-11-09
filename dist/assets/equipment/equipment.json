@@ -1344,5 +1344,203 @@
   "thumb": "assets/equipment/thumb-vulcan-lyrette.webp",
   "printedSize": "Not dimensioned · ≈ 117 cm tall as drawn",
   "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)"
+ },
+ {
+  "size": [
+   53.19,
+   30.75,
+   75.03
+  ],
+  "id": "tridimensional-chess",
+  "title": "Tridimensional Chess",
+  "pages": [
+   152,
+   153
+  ],
+  "category": "recreation",
+  "subtitle": "Regulation tournament board",
+  "model": "Tridimensional Chess — Regulation tournament board",
+  "codes": {
+   "152": "03:98:30",
+   "153": "03:98:31"
+  },
+  "summary": "Three 4 × 4 boards of red and white translucent squares step down a gold C-shaped support frame on a turned base: Black’s defending board at the top, the neutral field board in the middle and White’s defending board at the bottom. Four movable 2 × 2 attack boards stand on transparent posts over the outer pins. All 32 chessmen are set up in the starting arrangement.",
+  "description": "The sheet calls it the most complex form of the ancient game of chess yet devised, normally studied and attempted only by players with master’s skills in the ordinary game. Sixteen of the 64 squares, the four attack boards, can be moved to an adjacent pin position as a move, provided they are vacant or carry only one of the player’s pawns. An occupied attack board cannot be moved to an inverted pin position.",
+  "specs": [
+   {
+    "label": "Boards",
+    "value": "Black’s defending (B), neutral field (N), White’s defending (W)",
+    "page": 152
+   },
+   {
+    "label": "Movable attack boards (A)",
+    "value": "4 (24 possible positions)",
+    "page": 152
+   },
+   {
+    "label": "Pins",
+    "value": "4 per board (B, N, W)",
+    "page": 152
+   },
+   {
+    "label": "Squares",
+    "value": "64, of which 16 are movable in 4 groups of 4",
+    "page": 153
+   },
+   {
+    "label": "Pieces per side",
+    "value": "16, worth 39 points",
+    "page": 153
+   },
+   {
+    "label": "Posts",
+    "value": "Transparent natural plastic",
+    "page": 152
+   }
+  ],
+  "derived": [
+   {
+    "label": "Board heights above the table (B / N / W)",
+    "value": "≈ 56 / 36 / 16 cm"
+   },
+   {
+    "label": "Attack boards above their board",
+    "value": "≈ 9.9 cm"
+   },
+   {
+    "label": "Square",
+    "value": "≈ 5.6 cm (attack boards ≈ 5.5 cm)"
+   },
+   {
+    "label": "Overall, boards and base",
+    "value": "≈ 53 × 31 × 66 cm"
+   },
+   {
+    "label": "Base diameter",
+    "value": "≈ 25.7 cm"
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "White",
+    "name": "Translucent plastic"
+   },
+   {
+    "code": "Natural",
+    "name": "Translucent plastic"
+   },
+   {
+    "code": "Red",
+    "name": "Translucent plastic"
+   },
+   {
+    "code": "SF03UC",
+    "name": "Gold"
+   }
+  ],
+  "components": [
+   "Movable attack boards (A)",
+   "Transparent natural plastic posts",
+   "Black’s defending board (B)",
+   "Pins (4 per board)",
+   "Neutral field board (N)",
+   "Support frame",
+   "White’s defending board (W)",
+   "Base",
+   "Normal starting position"
+  ],
+  "interpretation": "The sheet prints no dimensions, so everything is measured at its 0–20 cm bar. The gold frame is the elevation’s outline extruded through the 1.1 cm strip the plan shows, and the base is turned from its elevation (front IoU 0.86 with 1.1 mm mean outline error, where boards and posts seen edge-on are only a few pixels thick; plan IoU 0.97). The plan’s squares measure 5.6 cm along the boards and 5.4 cm across, so they are modelled square at 5.6 cm. The squares alternate red and white as the plan’s overlapping hatches show, and natural plastic is used for the posts and pins. The starting diagram on PDF 153 lays the attack boards out flat beside the main boards; here they sit on the outer pins as the plan shows, so their inner file stands over the back rank. Knights face the opponent. The dash-dot attack board drawn over the neutral board is an alternative position and is left off.",
+  "thumb": "assets/equipment/thumb-tridimensional-chess.webp",
+  "printedSize": "Not dimensioned · ≈ 66 cm tall, 45 cm along the boards as drawn",
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)"
+ },
+ {
+  "size": [
+   24.86,
+   4.45,
+   9.07
+  ],
+  "id": "chess-pieces",
+  "title": "Tridimensional Chess Pieces",
+  "pages": [
+   153
+  ],
+  "category": "recreation",
+  "subtitle": "Regulation tournament playing pieces",
+  "model": "Tridimensional Chess — Regulation tournament playing pieces",
+  "codes": {
+   "153": "03:98:31"
+  },
+  "summary": "The six chessmen in the sheet’s order: a king with a flat cross, a queen with a scalloped coronet, a bishop with a slit mitre, a knight’s head, a crenellated rook and a pawn, each on a broad turned foot.",
+  "description": "The sheet stresses that each piece’s size, shape and appearance matter for recognising the power pattern on the board at a glance. The black set is identical to the white except for its colour, and each piece moves as in conventional chess, with three-dimensional freedom over consecutive squares.",
+  "specs": [
+   {
+    "label": "King",
+    "value": "0 points, 1 per side",
+    "page": 153
+   },
+   {
+    "label": "Queen",
+    "value": "9 points, 1 per side",
+    "page": 153
+   },
+   {
+    "label": "Bishop",
+    "value": "3 points, 2 per side",
+    "page": 153
+   },
+   {
+    "label": "Knight",
+    "value": "3 points, 2 per side",
+    "page": 153
+   },
+   {
+    "label": "Rook",
+    "value": "5 points, 2 per side",
+    "page": 153
+   },
+   {
+    "label": "Pawn",
+    "value": "1 point, 8 per side",
+    "page": 153
+   },
+   {
+    "label": "A starting side",
+    "value": "16 pieces, 39 points",
+    "page": 153
+   }
+  ],
+  "derived": [
+   {
+    "label": "Heights (K / Q / B / Kt / R / P)",
+    "value": "≈ 9.1 / 8.2 / 7.2 / 6.3 / 5.4 / 4.6 cm"
+   },
+   {
+    "label": "Foot diameters (K / Q / B / Kt / R / P)",
+    "value": "≈ 4.5 / 4.3 / 3.6 / 3.6 / 3.6 / 3.0 cm"
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "White",
+    "name": "White set"
+   },
+   {
+    "code": "Black",
+    "name": "Black set, identical except for its colour"
+   }
+  ],
+  "components": [
+   "King",
+   "Queen",
+   "Bishop",
+   "Knight",
+   "Rook",
+   "Pawn"
+  ],
+  "interpretation": "The sheet prints no dimensions, so each piece is turned from its own elevation at the 0–6 cm bar (IoU 0.97 for the row of six, 0.2 mm mean outline error). The king’s cross is the drawn cross cut flat, as its plan shows it as a thin bar. The rook has the eight crenels its plan shows. The bishop’s slit is cut straight down as drawn. The knight is the intersection of its side outline with the face-on view below it, then rounded, so its mane and carving are simplified. The queen’s scalloped coronet is turned smooth.",
+  "thumb": "assets/equipment/thumb-chess-pieces.webp",
+  "printedSize": "Not dimensioned · king ≈ 9.1 cm tall as drawn",
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)"
  }
 ]

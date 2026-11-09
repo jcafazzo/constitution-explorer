@@ -1,0 +1,6 @@
+{
+ "page_note": "PDF 153 at 44.0 px/cm on the 1400 px plate (0-6 cm bar, 932-1196 px). The six chessmen in elevation, seen from -Y, in the sheet's order and spacing.",
+ "views": [
+  {"name": "front", "page": 153, "crop": [95, 315, 1210, 727], "pxPerCm": 44.0, "from": "-Y", "up": "+Z", "try_mirror": false, "keep": 6, "open": 3}
+ ]
+}
