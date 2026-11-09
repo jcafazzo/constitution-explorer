@@ -1,0 +1,7 @@
+{
+ "page_note": "PDF 152 at 14.6 px/cm on the 1400 px plate (0-20 cm bar, 178-470 px). Scored without chessmen (CHESS_NO_PIECES=1), as the sheet draws the empty board. Front elevation from -Y; plan from +Z with Black's end on the left. The plan's label is masked out.",
+ "views": [
+  {"name": "front", "page": 152, "crop": [440, 790, 1260, 1800], "pxPerCm": 14.6, "from": "-Y", "up": "+Z", "try_mirror": false},
+  {"name": "plan", "page": 152, "crop": [455, 310, 1255, 775], "pxPerCm": 14.6, "from": "+Z", "up": "+Y", "try_mirror": false, "mask_out": [[215, 432, 525, 465]]}
+ ]
+}
