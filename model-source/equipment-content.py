@@ -101,8 +101,16 @@ dict(id='surgical-scalpels',category='medical',subtitle='Star Fleet College of M
  colourKey=[C('SF02UC','Antimony (all housings)')],
  components=['Prime focus','Cutting tip','Intensity scale','Trigger','Range scale lock','Body','Surgeon’s grip'],
  interpretation='The sheet prints no dimensions; all sizes are measured at its 0–4 cm bar.'),
+dict(id='vulcan-lyrette',title='Vulcan Lyrette',pages=[151],category='recreation',subtitle='Orchestral model musical instrument',model='Vulcan Lyrette — Orchestral model',codes={'151':'03:98:10'},
+ summary='A harp-like board instrument: a dark Li’pon neck rises to a scroll and carries the fret bar and its eridanite pins, the strings fan down over a mother-of-pearl bridge to an anchor above the tension boss, and a pale Sher Skah voice box carries a nacre control box with four knobs.',
+ description='The sheet calls it an instrument of Vulcan antiquity that combines the tones of harp, lute, sitar and, to some extent, violin. Its tonal pattern is modal diatonic rather than chromatic. Played with the fingers of the right hand, or with a plectrum.',
+ specs=[S('Pitch range, lowest','60','cps',151),S('Pitch range, highest','3180','cps',151),S('Famous makers','Sarpk (some 300 survive, about 5 Vulcan centuries old); Sajek of Vulcan; Separ of Trilan',None,151),S('Tonal pattern','Modal diatonic',None,151)],
+ derived=[dict(label='Height, foot to scroll',value='≈ 117 cm'),dict(label='Width across the voice box',value='≈ 49 cm'),dict(label='Board thickness (side view)',value='≈ 4.2 cm'),dict(label='Eridanite pins / strings',value='about 30, as drawn')],
+ colourKey=[C('Bahun’ahb','Mother-of-pearl, an organic nacre'),C('Sher Skah','Philippine luan, mountain-grown grade'),C('Li’pon','Ceylonese teak, dark fine-grain variety')],
+ components=['Fret bar','Neck','Eridanite pins','Strings','Voicer','Decay','Brilliance','Resonance','Control box','Back','Bridge','Glide','Tension','Voice box','Stop','Foot'],
+ interpretation='The sheet prints no dimensions, so everything is measured at its 0–40 cm bar: the drawn instrument stands about 117 cm, an orchestral size. The side view is a board of constant 4.2 cm thickness, so the measured front outline is extruded and its materials are traced from the key’s stipples (front IoU 0.94, where the densely inked string field beside the neck accounts for most of the mismatch; side IoU 0.91, 1.6 mm mean). Pin, knob, boss and glide heights are read off the side view. The inside of the boss, the back face (plain wood here), the string count and the bridge’s rope binding are interpretations.'),
 ]
-PS={'phaser-1': '107.2 × 49.4 × 27 mm', 'phaser-2': '221 × 49.4 × 157.5 mm', 'ray-gun': '23.5 cm long · ⌀ 8.4 cm', 'communicator': '113.5 × 63.5 × 28 mm', 'ear-receiver': '6.55 × 3.15 cm · ⌀ 2.6 cm', 'universal-translator': '28 cm long · ⌀ 4.8 cm', 'sciences-tricorder': '177.8 × 114.3 × 48.3 mm closed', 'medical-tricorder': '177.8 × 114.3 × 48.3 mm closed', 'heartbeat-reader': '17.75 cm long · ⌀ 5.2 cm', 'spray-applicator': '6.5 cm long · ⌀ 1.9 cm', 'medical-scanner': '6.05 cm long · ⌀ 3.5 cm', 'anabolic-protoplaser': '25 cm (size 0) · 35 cm (size 2)', 'surgical-scalpels': 'Not dimensioned on the sheet'}
+PS={'phaser-1': '107.2 × 49.4 × 27 mm', 'phaser-2': '221 × 49.4 × 157.5 mm', 'ray-gun': '23.5 cm long · ⌀ 8.4 cm', 'communicator': '113.5 × 63.5 × 28 mm', 'ear-receiver': '6.55 × 3.15 cm · ⌀ 2.6 cm', 'universal-translator': '28 cm long · ⌀ 4.8 cm', 'sciences-tricorder': '177.8 × 114.3 × 48.3 mm closed', 'medical-tricorder': '177.8 × 114.3 × 48.3 mm closed', 'heartbeat-reader': '17.75 cm long · ⌀ 5.2 cm', 'spray-applicator': '6.5 cm long · ⌀ 1.9 cm', 'medical-scanner': '6.05 cm long · ⌀ 3.5 cm', 'anabolic-protoplaser': '25 cm (size 0) · 35 cm (size 2)', 'surgical-scalpels': 'Not dimensioned on the sheet', 'vulcan-lyrette': 'Not dimensioned · ≈ 117 cm tall as drawn'}
 
 # Blender rebuild (model-source/blender/*.py): text that describes the current models.
 OVERRIDES={
@@ -130,7 +138,7 @@ OVERRIDES={
 order=[c['id'] for c in content]
 out=[]
 for c in content:
-  b=base[c['id']];m={**b,**c};m['size']=b['size'];
+  b=base.get(c['id'],{'size':[0,0,0]});m={**b,**c};m['size']=b['size'];
   if c['id']=='communicator': m['checkAxes']=[1,1,1]; m['sizeBasis']='printed W.O.A × L.O.A × H.O.A, checked on the closed pose'
   m['specs']=[{k:v for k,v in s.items() if v is not None} for s in c['specs']]
   m['colourKey']=c['colourKey'];m.setdefault('derived',[]);m['thumb']=f"assets/equipment/thumb-{c['id']}.webp";m['printedSize']=PS[c['id']]
