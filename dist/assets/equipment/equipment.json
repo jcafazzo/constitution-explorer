@@ -1246,5 +1246,103 @@
   "interpretation": "The sheet prints no dimensions. Each body is turned from its own elevation, measured at the 0–4 cm bar (IoU ≥ 0.96). The end views are drawn 2–3% smaller than the elevations, so grip radii split the difference. The triggers are the drawn ellipses projected onto the grip.",
   "thumb": "assets/equipment/thumb-surgical-scalpels.webp",
   "printedSize": "Not dimensioned on the sheet"
+ },
+ {
+  "size": [
+   49.1,
+   8.46,
+   116.91
+  ],
+  "id": "vulcan-lyrette",
+  "title": "Vulcan Lyrette",
+  "pages": [
+   151
+  ],
+  "category": "recreation",
+  "subtitle": "Orchestral model musical instrument",
+  "model": "Vulcan Lyrette — Orchestral model",
+  "codes": {
+   "151": "03:98:10"
+  },
+  "summary": "A harp-like board instrument: a dark Li’pon neck rises to a scroll and carries the fret bar and its eridanite pins, the strings fan down over a mother-of-pearl bridge to an anchor above the tension boss, and a pale Sher Skah voice box carries a nacre control box with four knobs.",
+  "description": "The sheet calls it an instrument of Vulcan antiquity that combines the tones of harp, lute, sitar and, to some extent, violin. Its tonal pattern is modal diatonic rather than chromatic. Played with the fingers of the right hand, or with a plectrum.",
+  "specs": [
+   {
+    "label": "Pitch range, lowest",
+    "value": "60",
+    "unit": "cps",
+    "page": 151
+   },
+   {
+    "label": "Pitch range, highest",
+    "value": "3180",
+    "unit": "cps",
+    "page": 151
+   },
+   {
+    "label": "Famous makers",
+    "value": "Sarpk (some 300 survive, about 5 Vulcan centuries old); Sajek of Vulcan; Separ of Trilan",
+    "page": 151
+   },
+   {
+    "label": "Tonal pattern",
+    "value": "Modal diatonic",
+    "page": 151
+   }
+  ],
+  "derived": [
+   {
+    "label": "Height, foot to scroll",
+    "value": "≈ 117 cm"
+   },
+   {
+    "label": "Width across the voice box",
+    "value": "≈ 49 cm"
+   },
+   {
+    "label": "Board thickness (side view)",
+    "value": "≈ 4.2 cm"
+   },
+   {
+    "label": "Eridanite pins / strings",
+    "value": "about 30, as drawn"
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "Bahun’ahb",
+    "name": "Mother-of-pearl, an organic nacre"
+   },
+   {
+    "code": "Sher Skah",
+    "name": "Philippine luan, mountain-grown grade"
+   },
+   {
+    "code": "Li’pon",
+    "name": "Ceylonese teak, dark fine-grain variety"
+   }
+  ],
+  "components": [
+   "Fret bar",
+   "Neck",
+   "Eridanite pins",
+   "Strings",
+   "Voicer",
+   "Decay",
+   "Brilliance",
+   "Resonance",
+   "Control box",
+   "Back",
+   "Bridge",
+   "Glide",
+   "Tension",
+   "Voice box",
+   "Stop",
+   "Foot"
+  ],
+  "interpretation": "The sheet prints no dimensions, so everything is measured at its 0–40 cm bar: the drawn instrument stands about 117 cm, an orchestral size. The side view is a board of constant 4.2 cm thickness, so the measured front outline is extruded and its materials are traced from the key’s stipples (front IoU 0.94, where the densely inked string field beside the neck accounts for most of the mismatch; side IoU 0.91, 1.6 mm mean). Pin, knob, boss and glide heights are read off the side view. The inside of the boss, the back face (plain wood here), the string count and the bridge’s rope binding are interpretations.",
+  "thumb": "assets/equipment/thumb-vulcan-lyrette.webp",
+  "printedSize": "Not dimensioned · ≈ 117 cm tall as drawn",
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)"
  }
 ]

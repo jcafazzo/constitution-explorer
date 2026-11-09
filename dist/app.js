@@ -1,5 +1,5 @@
 import {renderColours} from './colour-plates.js?v=r3';
-import {renderEquipment} from './equipment.js?v=eq5';
+import {renderEquipment} from './equipment.js?v=eq6';
 import {renderBook} from './book.js?v=b9';
 import {mountViewer,studiesFor} from './detail-viewer.js?v=plate2';
 import {scaleBinarySTL} from './stl-export.js';

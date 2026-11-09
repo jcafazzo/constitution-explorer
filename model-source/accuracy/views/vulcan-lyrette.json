@@ -1,0 +1,7 @@
+{
+ "page_note": "PDF 151 at 11.65 px/cm on the 1400 px plate (0-40 cm bar, 822.5-1288.5 px). Front elevation from -Y, upright. The side elevation (front face on its left) is seen from +X. In the front view the open string field beside the neck is inked so densely that the silhouette fills part of it; holes keep the air open where they can.",
+ "views": [
+  {"name": "front", "page": 151, "crop": [570, 310, 1170, 1700], "pxPerCm": 11.65, "from": "-Y", "up": "+Z", "try_mirror": false, "holes": [[230, 490], [190, 310]]},
+  {"name": "side", "page": 151, "crop": [1170, 310, 1310, 1700], "pxPerCm": 11.65, "from": "+X", "up": "+Z", "try_mirror": false}
+ ]
+}
