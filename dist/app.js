@@ -1,6 +1,6 @@
 import {renderColours} from './colour-plates.js?v=r3';
 import {renderEquipment} from './equipment.js?v=eq5';
-import {renderBook} from './book.js?v=b5';
+import {renderBook} from './book.js?v=b7';
 import {mountViewer,studiesFor} from './detail-viewer.js?v=plate2';
 import {scaleBinarySTL} from './stl-export.js';
 const main=document.querySelector('#main');
@@ -8,7 +8,7 @@ const first={id:'constitution',name:'Constitution',registry:'NCC-1700',role:'Hea
 let ships=[],queue=[],cleanup=()=>{},viewer=null,routeSerial=0,toastTimer;
 const $=s=>document.querySelector(s);
 const plate=s=>`assets/fleet/${s.id}-plate.webp`;
-const plan=s=>`assets/fleet/${s.id}-plan.webp`;
+const plan=s=>`assets/fleet/${s.id}-plan.webp?v=2`;
 const link=s=>`#/ship/${s.id}`;
 const folio=(name,code='01:04')=>`<div class="folio"><span><a href="#/">COMMAND SECTION</a> / ${name}</span><span>TECHNICAL ORDER ${code}</span></div>`;
 const note=()=>`<div class="archive-note"><span class="eyebrow">A living companion to the manual</span><p>Selected sheets from your copy, brought into three dimensions. Source dimensions are transcribed from the drawings; hidden surfaces and small details are interpretations. New entries can join the same collection as it grows.</p></div>`;

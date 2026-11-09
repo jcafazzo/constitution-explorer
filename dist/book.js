@@ -500,22 +500,46 @@ export function renderBook(main, path, opts = {}) {
 
  // ---------- state and animation ----------
  let dirty = true, raf = 0, drag = null, single = false, focus = 'right', camX = 0;
+ // Page sounds, synthesised so nothing is downloaded. A real turn is mostly air and paper fibre, not a "swish":
+ // a soft low whoosh that follows the leaf across (panned right to left), a few dry crackles as the sheet lifts
+ // off the stack and as it lands, then a muffled flap. Everything is quiet and varies a little from turn to turn.
  const sound = (() => {
-  let ctx = null, buf = null;
-  const play = (kind) => {
-   if (!prefs.sound || reduceMQ.matches || !ctx) return;
+  let ctx = null, out = null, pink = null, grit = null;
+  const R = (a, b) => a + Math.random() * (b - a);
+  const src = (buf, rate = 1) => { const s = ctx.createBufferSource(); s.buffer = buf; s.playbackRate.value = rate; return s; };
+  const filt = (type, f, q = .7) => { const b = ctx.createBiquadFilter(); b.type = type; b.frequency.value = f; b.Q.value = q; return b; };
+  const env = (t0, pts) => { const g = ctx.createGain(); g.gain.setValueAtTime(0, t0); for (const [t, v] of pts) g.gain.linearRampToValueAtTime(v, t0 + t); return g; };
+  const run = (s, t0, len) => { s.start(t0, R(0, s.buffer.duration - len - .05)); s.stop(t0 + len + .05); };
+  const air = (t0, len, gain, f0, f1, pan0, pan1) => {          // the whoosh of the leaf moving through air
+   const s = src(pink, R(.92, 1.08)), lp = filt('lowpass', f0, .5), p = ctx.createStereoPanner();
+   lp.frequency.setValueAtTime(f0, t0); lp.frequency.linearRampToValueAtTime(f1, t0 + len * .45); lp.frequency.linearRampToValueAtTime(f0 * .7, t0 + len);
+   p.pan.setValueAtTime(pan0, t0); p.pan.linearRampToValueAtTime(pan1, t0 + len);
+   const g = env(t0, [[len * .15, gain * .35], [len * .45, gain], [len * .85, gain * .3], [len, 0]]);
+   s.connect(lp).connect(g).connect(p).connect(out); run(s, t0, len);
+  };
+  const crackle = (t0, len, gain, pan = 0, hp = 2200) => {      // dry paper fibre
+   const s = src(grit, R(.85, 1.15)), f = filt('highpass', hp), b = filt('peaking', R(3200, 4800), 1.2), p = ctx.createStereoPanner();
+   b.gain.value = 4; p.pan.value = pan;
+   const g = env(t0, [[.006, gain], [len * .6, gain * .5], [len, 0]]);
+   s.connect(f).connect(b).connect(g).connect(p).connect(out); run(s, t0, len);
+  };
+  const flap = (t0, gain, f = 320, len = .08, pan = 0) => {     // the sheet landing: a muffled, padded thump
+   const s = src(pink), lp = filt('lowpass', f, .9), p = ctx.createStereoPanner(); p.pan.value = pan;
+   const g = env(t0, [[.004, gain], [len, 0]]);
+   s.connect(lp).connect(g).connect(p).connect(out); run(s, t0, len);
+  };
+  const play = (kind, dur = 750, dir = 1) => {
+   if (!prefs.sound || reduceMQ.matches || !ctx || !pink) return;
    try {
-    if (kind === 'settle') {
-     const src = ctx.createBufferSource(); src.buffer = buf; const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900;
-     const g = ctx.createGain(), t0 = ctx.currentTime; g.gain.setValueAtTime(.09, t0); g.gain.exponentialRampToValueAtTime(.001, t0 + .09);
-     src.connect(lp).connect(g).connect(ctx.destination); src.start(t0, .2); src.stop(t0 + .1); return;
+    const t0 = ctx.currentTime + .005, T = Math.min(Math.max(dur / 1000, .3), 1.1), side = dir >= 0 ? 1 : -1;
+    if (kind === 'settle') { flap(t0, R(.05, .07), R(260, 380), .07, -.3 * side); crackle(t0, .045, .008, -.3 * side, 3000); return; }
+    if (kind === 'board') {                                   // the vinyl binder cover: heavier, lower, no paper crackle
+     air(t0, T, .045, 380, 700, .35 * side, -.35 * side);
+     flap(t0 + T * .96, .11, 170, .14, -.35 * side); return;
     }
-    const src = ctx.createBufferSource(); src.buffer = buf;
-    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = .7;
-    const g = ctx.createGain(), t0 = ctx.currentTime, len = kind === 'board' ? .22 : .42;
-    bp.frequency.setValueAtTime(kind === 'board' ? 500 : 2600, t0); bp.frequency.exponentialRampToValueAtTime(kind === 'board' ? 180 : 900, t0 + len);
-    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(kind === 'board' ? .5 : .16, t0 + .03); g.gain.exponentialRampToValueAtTime(.001, t0 + len);
-    src.connect(bp).connect(g).connect(ctx.destination); src.start(t0, Math.random() * .1); src.stop(t0 + len + .05);
+    air(t0, T, R(.022, .03), R(650, 800), R(1400, 1900), .3 * side, -.3 * side);
+    crackle(t0, R(.07, .11), R(.012, .018), .3 * side);              // lifting off the stack
+    if (Math.random() < .6) crackle(t0 + T * R(.35, .55), .05, .006, 0, 2800); // a flex mid-turn, sometimes
    } catch {}
   };
   play.unlock = () => {
@@ -523,7 +547,20 @@ export function renderBook(main, path, opts = {}) {
    try {
     ctx ??= new AudioContext();
     if (ctx.state === 'suspended') ctx.resume();
-    if (!buf) { buf = ctx.createBuffer(1, ctx.sampleRate * .6, ctx.sampleRate); const d = buf.getChannelData(0); let b = 0; for (let i = 0; i < d.length; i++) { b = .82 * b + .18 * (Math.random() * 2 - 1); d[i] = b; } }
+    if (!pink) {
+     const n = ctx.sampleRate * 2;
+     pink = ctx.createBuffer(1, n, ctx.sampleRate); let d = pink.getChannelData(0), b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0;
+     for (let i = 0; i < n; i++) { const w = Math.random() * 2 - 1;      // Paul Kellet's pink-noise filter
+      b0 = .99886 * b0 + w * .0555179; b1 = .99332 * b1 + w * .0750759; b2 = .969 * b2 + w * .153852;
+      b3 = .8665 * b3 + w * .3104856; b4 = .55 * b4 + w * .5329522; b5 = -.7616 * b5 - w * .016898;
+      d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + w * .5362) * .11; }
+     grit = ctx.createBuffer(1, n, ctx.sampleRate); d = grit.getChannelData(0); let e = 0, s = 1;
+     for (let i = 0; i < n; i++) {                                  // sparse clicks with short decaying tails
+      if (Math.random() < .0016 * (.4 + Math.abs(Math.sin(i / 2400)))) { e = R(.3, 1); s = Math.random() < .5 ? -1 : 1; }
+      d[i] = e * s * (Math.random() * .6 + .4); e *= .93;
+     }
+     out = ctx.createDynamicsCompressor(); out.threshold.value = -24; out.ratio.value = 3; out.connect(ctx.destination);
+    }
    } catch {}
   };
   play.close = () => { try { ctx?.close(); } catch {} };
@@ -662,11 +699,11 @@ export function renderBook(main, path, opts = {}) {
    if (a) {
     if (now < a.start) continue;
     const p = clamp((now - a.start) / a.dur, 0, 1);
-    if (!a.played && p > 0) { a.played = true; sound(l.kind === 'board' ? 'board' : 'leaf'); }
+    if (!a.played && p > 0) { a.played = true; sound(l.kind === 'board' ? 'board' : 'leaf', a.dur, a.dir); }
     l.pos = a.from + (a.to - a.from) * ease(p);
     l.bend = a.dir * bendProfile(p) + a.bend0 * (1 - p);
     l.twist = a.twist0 * (1 - ease(p));
-    if (p >= 1) { l.pos = a.to; l.anim = null; l.bend = l.twist = 0; if (l.kind !== 'board') sound('settle'); }
+    if (p >= 1) { l.pos = a.to; l.anim = null; l.bend = l.twist = 0; if (l.kind !== 'board') sound('settle', 0, a.dir); }
     dirty = true;
    }
    if (Math.abs(l.peek - l.peekTo) > 1e-4) { l.peek += (l.peekTo - l.peek) * .2; dirty = true; } else l.peek = l.peekTo;
@@ -797,7 +834,7 @@ export function renderBook(main, path, opts = {}) {
    drag.active = true; drag.leaf = i; drag.fwd = fwd;
    drag.u = clamp(Math.abs(drag.p0.x), W * .35, W);
    drag.vg = clamp(drag.p0.y / H + .5, 0, 1);
-   sound(leaves[i].kind === 'board' ? 'board' : 'leaf');
+   sound(leaves[i].kind === 'board' ? 'board' : 'leaf', 700, fwd ? 1 : -1);
   }
   if (drag.active && p) {
    const l = leaves[drag.leaf];
@@ -882,8 +919,10 @@ export function renderBook(main, path, opts = {}) {
  document.addEventListener('keydown', onKey);
 
  // ---------- toolbar ----------
- $('#bk-prev').onclick = prev;
- $('#bk-next').onclick = next;
+ $('#bk-prev').onclick = () => { sound.unlock(); prev(); };
+ $('#bk-next').onclick = () => { sound.unlock(); next(); };
+ $('#bk-l-prev') && $('#bk-l-prev').addEventListener('click', () => sound.unlock());
+ $('#bk-l-next') && $('#bk-l-next').addEventListener('click', () => sound.unlock());
  let scrubT = 0;
  range.addEventListener('input', () => { clearTimeout(scrubT); const s = +range.value; where.textContent = label(s); scrubT = setTimeout(() => whenReady(s, () => goTo(s)), 120); });
  const toc = $('#bk-toc'), tocBtn = $('#bk-toc-btn');
@@ -916,7 +955,7 @@ export function renderBook(main, path, opts = {}) {
  const setAge = () => { ageBtn.setAttribute('aria-pressed', String(prefs.aged)); ageU.value = prefs.aged ? 1 : 0; dirty = true; };
  ageBtn.onclick = () => { prefs.aged = !prefs.aged; savePrefs(); setAge(); };
  const soundBtn = $('#bk-sound');
- soundBtn.onclick = () => { prefs.sound = !prefs.sound; savePrefs(); soundBtn.setAttribute('aria-pressed', String(prefs.sound)); };
+ soundBtn.onclick = () => { prefs.sound = !prefs.sound; sound.unlock(); savePrefs(); soundBtn.setAttribute('aria-pressed', String(prefs.sound)); };
  soundBtn.setAttribute('aria-pressed', String(prefs.sound));
  setAge();
  const full = $('#bk-full');
