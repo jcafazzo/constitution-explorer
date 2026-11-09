@@ -1,0 +1,35 @@
+{
+ "page_note": "PDF 140 at 2.987 px/cm on the 1400 px plate (0-80 cm bar). Scored on the unbent build (STATION_STRAIGHT=1), as both views draw the station: the front elevation from -Y, View A-A (a section on the centre line) from -X. The crops stop inside the bay's frame lines and before the bridge railing.",
+ "views": [
+  {
+   "name": "front",
+   "page": 140,
+   "crop": [
+    230,
+    322,
+    1290,
+    995
+   ],
+   "pxPerCm": 2.987,
+   "from": "-Y",
+   "up": "+Z",
+   "try_mirror": false,
+   "keep": 1
+  },
+  {
+   "name": "section",
+   "page": 140,
+   "crop": [
+    205,
+    1085,
+    900,
+    1776
+   ],
+   "pxPerCm": 2.987,
+   "from": "-X",
+   "up": "+Z",
+   "try_mirror": false,
+   "keep": 2
+  }
+ ]
+}
