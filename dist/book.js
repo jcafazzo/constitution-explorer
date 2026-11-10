@@ -12,7 +12,7 @@
 // owner's scan by model-source/book/render-pages.py. They are never published,
 // and without them the book still opens on blank, numbered sheets.
 import * as THREE from './vendor/three.module.js';
-import {MANUAL} from './library/volumes.js?v=lv1';
+import {MANUAL} from './library/volumes.js?v=lv3';
 const H = 1;                              // page height = 1 unit; the width (trim) comes from the volume
 const T = {paper: 0.00042, card: 0.0013, board: 0.0085};
 // Leaves that can lie on top of one another share one gutter length, so their curves nest and never cross.

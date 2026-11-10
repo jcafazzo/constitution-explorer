@@ -3,9 +3,9 @@
    site's paper. Spines are original typographic drawings in the site's palette. */
 main.lib-route{min-height:60vh}
 .lib-wait{padding:80px 4vw;font:11px var(--mono);letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-align:center}
-.lib{background:#17120d;color:#efe7d6;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:0 48px;padding:34px 4vw 40px;align-items:end}
+.lib{background:#17120d;color:#efe7d6;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:0 48px;padding:34px 4vw 40px;align-items:start}
 .lib-case{--u:1.55px;position:relative;min-width:0;display:flex;flex-direction:column;align-items:center}
-.lib-hint{margin:0 0 26px;font:10px/1.7 var(--mono);letter-spacing:1px;text-transform:uppercase;color:#bda98a;text-align:center}
+.lib-hint{margin:0 0 6px;font:10px/1.7 var(--mono);letter-spacing:1px;text-transform:uppercase;color:#bda98a;text-align:center}
 .lib-shelf{list-style:none;margin:0;padding:calc(34 * var(--u)) 0 0;display:flex;align-items:flex-end;justify-content:center;gap:calc(3 * var(--u));height:calc(334 * var(--u))}
 .lib-shelf li{position:relative;width:calc(var(--w) * var(--u));height:calc(var(--h) * 300 * var(--u));flex:none}
 .lib-spine{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:calc(9 * var(--u)) 0;border:0;border-radius:1px;background:var(--bg);color:var(--fg);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:space-between;overflow:hidden;
@@ -16,7 +16,16 @@ main.lib-route{min-height:60vh}
 .lib-sp-no{font:calc(7 * var(--u))/1 var(--mono);letter-spacing:.5px;color:var(--ac);flex:none}
 .lib-sp-title{writing-mode:vertical-rl;text-orientation:sideways;display:flex;flex-direction:column;justify-content:center;gap:calc(4 * var(--u));font:calc(8.5 * var(--u))/1.15 var(--display);letter-spacing:calc(1.4 * var(--u));text-transform:uppercase;white-space:nowrap;flex:1;min-height:0;align-items:center}
 .lib-sp-foot{writing-mode:vertical-rl;font:calc(5.2 * var(--u))/1 var(--mono);letter-spacing:.8px;color:var(--ac);white-space:nowrap;flex:none}
-/* The five drawings. */
+.lib-shelf-name{align-self:stretch;display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:22px auto 0;width:min(100%,calc(290 * var(--u)));padding-bottom:5px;border-bottom:1px solid #5b4a35;font:400 10px/1.4 var(--mono);letter-spacing:1.2px;text-transform:uppercase;color:#efe7d6}
+.lib-shelf-name i{font-style:normal;color:#bda98a}
+.lib-plank{margin-bottom:calc(16 * var(--u))}
+/* The drawings. */
+.lib-zine{box-shadow:inset 1px 0 0 rgba(255,255,255,.5),inset -2px 0 3px rgba(0,0,0,.25),0 0 0 1px rgba(0,0,0,.5)}
+.lib-zine::before,.lib-zine::after{content:"";position:absolute;left:calc(50% - 1px);width:2px;height:calc(9 * var(--u));background:#8d8f8a;top:calc(60 * var(--u))}
+.lib-zine::after{top:auto;bottom:calc(70 * var(--u))}
+.lib-zine .lib-sp-title{font-size:calc(6.4 * var(--u));letter-spacing:calc(1 * var(--u))}
+.lib-zine .lib-sp-foot{font-size:calc(4.4 * var(--u))}
+.lib-zine .lib-sp-no{color:var(--fg)}
 .lib-binder{border-radius:calc(5 * var(--u)) calc(5 * var(--u)) 1px 1px;box-shadow:inset 3px 0 0 rgba(255,255,255,.06),inset -4px 0 7px rgba(0,0,0,.6),0 0 0 1px #000}
 .lib-binder::before{content:"";position:absolute;inset:calc(5 * var(--u));border:1px solid rgba(255,255,255,.07);pointer-events:none}
 .lib-binder .lib-sp-title{font-size:calc(9.5 * var(--u))}
@@ -40,7 +49,7 @@ main.lib-route{min-height:60vh}
 .lib-tag i{font-style:normal;color:#a8957a;font-size:calc(4.2 * var(--u))}
 .has-scan .lib-tag i{color:#f2c76e}
 /* The card. */
-.lib-card{min-width:0;align-self:center;max-width:560px;padding:22px 24px 24px;border:1px solid #5b4a35;background:rgba(14,11,8,.6);outline:none}
+.lib-card{min-width:0;align-self:start;position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto;max-width:560px;padding:22px 24px 24px;border:1px solid #5b4a35;background:rgba(14,11,8,.6);outline:none}
 .lib-card:focus-visible{border-color:#d8b25a}
 .lib-card .eyebrow{color:#f2c76e}
 .lib-card h2{font:400 clamp(17px,1.9vw,24px)/1.25 var(--display);letter-spacing:1px;text-transform:uppercase;margin:6px 0 14px;text-wrap:balance}
@@ -48,7 +57,7 @@ main.lib-route{min-height:60vh}
 .lib-card dl{margin:0 0 14px;border-top:1px solid #5b4a35}
 .lib-card dl div{display:grid;grid-template-columns:104px minmax(0,1fr);gap:14px;padding:8px 0;border-bottom:1px dotted #5b4a35}
 .lib-card dt{font:10px/1.9 var(--mono);letter-spacing:.8px;text-transform:uppercase;color:#bda98a}
-.lib-card dd{margin:0;font-size:13.5px;line-height:1.55}
+.lib-card dd{margin:0;font:13.5px/1.55 Arial,sans-serif;text-align:left}
 .lib-status strong{display:block;font:400 11px/1.6 var(--mono);letter-spacing:.5px;color:#f2c76e;margin-bottom:4px}
 .lib-actions{display:flex;flex-wrap:wrap;gap:8px;margin:0!important}
 .lib-btn{display:inline-flex;align-items:center;background:transparent;color:#efe7d6;border:1px solid #5b4a35;font:10px var(--mono);letter-spacing:.8px;text-transform:uppercase;padding:8px 12px;min-height:36px;cursor:pointer;text-decoration:none}
@@ -60,6 +69,8 @@ a.lib-btn{background:#2a2117;border-color:#a8874a}
 .lib-list a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:#7a6547}
 .lib-list a:hover{text-decoration-color:#d8b25a}
 .lib-list span{font:10px/2 var(--mono);color:#bda98a;font-variant-numeric:tabular-nums}
+.lib-list-name{font:400 10px/1.6 var(--mono);letter-spacing:1px;text-transform:uppercase;color:#bda98a;margin:14px 0 6px}
+.lib-card dl.lib-credits dd{font-size:12.5px;color:#e0d5bf}
 .lib-link{font:10px var(--mono);letter-spacing:.6px;text-transform:uppercase;color:var(--red);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
 .lib-card .lib-link{color:#f2c76e}
 .lib-link:focus-visible,.lib-vol:focus-visible,.lib-cite a:focus-visible{outline:2px solid var(--red);outline-offset:2px}
@@ -78,7 +89,7 @@ a.lib-btn{background:#2a2117;border-color:#a8874a}
 @media(max-width:900px){
  .lib{grid-template-columns:1fr;gap:34px;padding:26px 18px 30px;align-items:start}
  .lib-case{--u:1.3px}
- .lib-card{max-width:none;align-self:stretch;padding:18px 16px 20px}
+ .lib-card{max-width:none;align-self:stretch;padding:18px 16px 20px;position:static;max-height:none;overflow:visible}
  .lib-notes{grid-template-columns:1fr;gap:18px;padding:22px 18px 30px}
 }
 @media(max-width:420px){.lib-case{--u:1.12px}.lib-card dl div{grid-template-columns:86px minmax(0,1fr);gap:10px}}
