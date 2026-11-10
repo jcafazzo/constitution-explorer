@@ -10,6 +10,7 @@ page images):
   index.html      the page body (no doctype; the private host wraps it)
   preview.html    the same page with a doctype, for a local check
   book.js         dist/book.js, loading three.js r180 from the jsDelivr CDN
+  library/volumes.js  dist/library/volumes.js, the volume settings book.js reads
   book.css        dist/book.css
   book/pages/     manifest.json, sm/, lg/
 
@@ -72,8 +73,12 @@ def main():
     assert old in js, 'book.js import changed'
     (out / 'book.js').write_text(js.replace(old, f"from '{THREE}';"))
     shutil.copy(ROOT / 'dist' / 'book.css', out / 'book.css')
+    # book.js reads the manual's settings from library/volumes.js, so that goes along too.
+    assert "from './library/volumes.js" in js, 'book.js no longer imports library/volumes.js'
+    (out / 'library').mkdir(exist_ok=True)
+    shutil.copy(ROOT / 'dist' / 'library' / 'volumes.js', out / 'library' / 'volumes.js')
     # Version stamp from the content, so a republished copy never runs a cached old script.
-    v = hashlib.sha1((out / 'book.js').read_bytes() + (out / 'book.css').read_bytes()).hexdigest()[:10]
+    v = hashlib.sha1((out / 'book.js').read_bytes() + (out / 'book.css').read_bytes() + (out / 'library' / 'volumes.js').read_bytes()).hexdigest()[:10]
     page = PAGE.replace('__V__', v)
     (out / 'index.html').write_text(page)
     (out / 'preview.html').write_text('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>' + page + '</body></html>')

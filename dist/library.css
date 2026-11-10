@@ -1,0 +1,85 @@
+/* #/library: the Technical Library shelf, volume cards and lineage. Scoped to .lib-route / .lib*.
+   The shelf sits on the same dark panel as the book stage (book.css); the page around it is the
+   site's paper. Spines are original typographic drawings in the site's palette. */
+main.lib-route{min-height:60vh}
+.lib-wait{padding:80px 4vw;font:11px var(--mono);letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-align:center}
+.lib{background:#17120d;color:#efe7d6;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:0 48px;padding:34px 4vw 40px;align-items:end}
+.lib-case{--u:1.55px;position:relative;min-width:0;display:flex;flex-direction:column;align-items:center}
+.lib-hint{margin:0 0 26px;font:10px/1.7 var(--mono);letter-spacing:1px;text-transform:uppercase;color:#bda98a;text-align:center}
+.lib-shelf{list-style:none;margin:0;padding:calc(34 * var(--u)) 0 0;display:flex;align-items:flex-end;justify-content:center;gap:calc(3 * var(--u));height:calc(334 * var(--u))}
+.lib-shelf li{position:relative;width:calc(var(--w) * var(--u));height:calc(var(--h) * 300 * var(--u));flex:none}
+.lib-spine{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:calc(9 * var(--u)) 0;border:0;border-radius:1px;background:var(--bg);color:var(--fg);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:space-between;overflow:hidden;
+ box-shadow:inset 2px 0 0 rgba(255,255,255,.09),inset -3px 0 5px rgba(0,0,0,.38),0 0 0 1px rgba(0,0,0,.5);transition:transform .34s cubic-bezier(.2,.7,.2,1),box-shadow .34s}
+.lib-spine:hover{transform:translateY(calc(-5 * var(--u)))}
+.lib-spine.out{transform:translateY(calc(-26 * var(--u)));box-shadow:inset 2px 0 0 rgba(255,255,255,.09),inset -3px 0 5px rgba(0,0,0,.38),0 0 0 1px rgba(0,0,0,.5),0 14px 22px rgba(0,0,0,.55)}
+.lib-spine:focus-visible{outline:2px solid #d8b25a;outline-offset:3px;z-index:2}
+.lib-sp-no{font:calc(7 * var(--u))/1 var(--mono);letter-spacing:.5px;color:var(--ac);flex:none}
+.lib-sp-title{writing-mode:vertical-rl;text-orientation:sideways;display:flex;flex-direction:column;justify-content:center;gap:calc(4 * var(--u));font:calc(8.5 * var(--u))/1.15 var(--display);letter-spacing:calc(1.4 * var(--u));text-transform:uppercase;white-space:nowrap;flex:1;min-height:0;align-items:center}
+.lib-sp-foot{writing-mode:vertical-rl;font:calc(5.2 * var(--u))/1 var(--mono);letter-spacing:.8px;color:var(--ac);white-space:nowrap;flex:none}
+/* The five drawings. */
+.lib-binder{border-radius:calc(5 * var(--u)) calc(5 * var(--u)) 1px 1px;box-shadow:inset 3px 0 0 rgba(255,255,255,.06),inset -4px 0 7px rgba(0,0,0,.6),0 0 0 1px #000}
+.lib-binder::before{content:"";position:absolute;inset:calc(5 * var(--u));border:1px solid rgba(255,255,255,.07);pointer-events:none}
+.lib-binder .lib-sp-title{font-size:calc(9.5 * var(--u))}
+.lib-binder .lib-sp-title span:first-child{font-size:calc(6.5 * var(--u))}
+.lib-pouch{background:linear-gradient(90deg,rgba(255,255,255,.2),rgba(255,255,255,0) 30%,rgba(255,255,255,.13) 72%,rgba(255,255,255,0)),var(--bg)}
+.lib-pouch::before{content:"";position:absolute;left:0;right:0;top:calc(22 * var(--u));border-top:1px dashed var(--ac);opacity:.7}
+.lib-pouch .lib-sp-title{font-size:calc(7.5 * var(--u))}
+.lib-box{box-shadow:inset 0 0 0 calc(3 * var(--u)) var(--bg),inset 0 0 0 calc(3 * var(--u) + 1px) var(--fg),0 0 0 1px rgba(0,0,0,.5)}
+.lib-box .lib-sp-title{writing-mode:horizontal-tb;font-size:calc(13 * var(--u));letter-spacing:calc(3 * var(--u))}
+.lib-box .lib-sp-title::after{content:"";width:calc(46 * var(--u));border-top:calc(2 * var(--u)) solid var(--ac)}
+.lib-box .lib-sp-foot{writing-mode:horizontal-tb;color:var(--fg);font-size:calc(4.6 * var(--u))}
+.lib-box .lib-sp-no{color:var(--ac)}
+.lib-paperback::before{content:"";position:absolute;left:0;right:0;top:calc(24 * var(--u));border-top:calc(1.5 * var(--u)) solid var(--ac)}
+.lib-paperback::after{content:"";position:absolute;left:0;right:0;bottom:calc(46 * var(--u));border-top:1px solid var(--ac);opacity:.6}
+.lib-paperback .lib-sp-title{font-size:calc(7.2 * var(--u))}
+.lib-paperback .lib-sp-foot{font-size:calc(4.6 * var(--u))}
+/* Shelf plank and the labels on its lip. */
+.lib-plank{width:min(100%,calc(290 * var(--u)));height:calc(30 * var(--u));background:linear-gradient(#5a3a24,#3a2416 22%,#2a1a10);border-top:1px solid #7a5334;box-shadow:0 12px 20px rgba(0,0,0,.5)}
+.lib-tag{position:absolute;left:50%;top:calc(100% + 5px);transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:1px;font:calc(5 * var(--u))/1.2 var(--mono);letter-spacing:.4px;text-transform:uppercase;color:#e9dfcb;white-space:nowrap;pointer-events:none;z-index:1}
+.lib-tag b{font-weight:400}
+.lib-tag i{font-style:normal;color:#a8957a;font-size:calc(4.2 * var(--u))}
+.has-scan .lib-tag i{color:#f2c76e}
+/* The card. */
+.lib-card{min-width:0;align-self:center;max-width:560px;padding:22px 24px 24px;border:1px solid #5b4a35;background:rgba(14,11,8,.6);outline:none}
+.lib-card:focus-visible{border-color:#d8b25a}
+.lib-card .eyebrow{color:#f2c76e}
+.lib-card h2{font:400 clamp(17px,1.9vw,24px)/1.25 var(--display);letter-spacing:1px;text-transform:uppercase;margin:6px 0 14px;text-wrap:balance}
+.lib-card p{margin:0 0 12px;font-size:13.5px;line-height:1.6;color:#e9dfcb}
+.lib-card dl{margin:0 0 14px;border-top:1px solid #5b4a35}
+.lib-card dl div{display:grid;grid-template-columns:104px minmax(0,1fr);gap:14px;padding:8px 0;border-bottom:1px dotted #5b4a35}
+.lib-card dt{font:10px/1.9 var(--mono);letter-spacing:.8px;text-transform:uppercase;color:#bda98a}
+.lib-card dd{margin:0;font-size:13.5px;line-height:1.55}
+.lib-status strong{display:block;font:400 11px/1.6 var(--mono);letter-spacing:.5px;color:#f2c76e;margin-bottom:4px}
+.lib-actions{display:flex;flex-wrap:wrap;gap:8px;margin:0!important}
+.lib-btn{display:inline-flex;align-items:center;background:transparent;color:#efe7d6;border:1px solid #5b4a35;font:10px var(--mono);letter-spacing:.8px;text-transform:uppercase;padding:8px 12px;min-height:36px;cursor:pointer;text-decoration:none}
+a.lib-btn{background:#2a2117;border-color:#a8874a}
+.lib-btn:hover{border-color:#d8b25a;color:#fff}
+.lib-btn:focus-visible,.lib-card a:focus-visible{outline:2px solid #d8b25a;outline-offset:2px}
+.lib-list{list-style:none;margin:0 0 14px;padding:0;border-top:1px solid #5b4a35}
+.lib-list li{display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px dotted #5b4a35;font-size:13.5px}
+.lib-list a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:#7a6547}
+.lib-list a:hover{text-decoration-color:#d8b25a}
+.lib-list span{font:10px/2 var(--mono);color:#bda98a;font-variant-numeric:tabular-nums}
+.lib-link{font:10px var(--mono);letter-spacing:.6px;text-transform:uppercase;color:var(--red);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.lib-card .lib-link{color:#f2c76e}
+.lib-link:focus-visible,.lib-vol:focus-visible,.lib-cite a:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.lib-notes{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:26px 4vw 40px;max-width:1760px;margin:auto}
+.lib-notes strong{font:10px var(--mono);letter-spacing:1px;color:var(--red);font-weight:400}
+.lib-notes p{margin:8px 0 0;font-size:13px;line-height:1.6}
+/* Lineage: reuses the book's history layout (.bk-history, .bk-timeline, .bk-asides, .bk-sources). */
+.lib-lineage{border-top:0;padding-top:20px}
+.lib-lineage h1{font:400 clamp(20px,2.4vw,30px)/1.2 var(--display);letter-spacing:1px;text-transform:uppercase;margin:0 0 16px;text-wrap:balance}
+.lib-back{margin:18px 0 0}
+.lib-cite{display:block;margin-top:4px;font:9.5px/1.7 var(--mono);letter-spacing:.3px;color:var(--muted)}
+.lib-cite a{text-decoration:underline;text-underline-offset:2px}
+.lib-vol{font:10px var(--mono);letter-spacing:.6px;text-transform:uppercase;color:var(--red);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.lib-lineage .bk-sources code{word-break:break-all}
+@media(min-width:1500px){.lib-case{--u:1.8px}}
+@media(max-width:900px){
+ .lib{grid-template-columns:1fr;gap:34px;padding:26px 18px 30px;align-items:start}
+ .lib-case{--u:1.3px}
+ .lib-card{max-width:none;align-self:stretch;padding:18px 16px 20px}
+ .lib-notes{grid-template-columns:1fr;gap:18px;padding:22px 18px 30px}
+}
+@media(max-width:420px){.lib-case{--u:1.12px}.lib-card dl div{grid-template-columns:86px minmax(0,1fr);gap:10px}}
+@media(prefers-reduced-motion:reduce){.lib-spine{transition:none}.lib-spine:hover{transform:none}}

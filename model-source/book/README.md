@@ -7,6 +7,37 @@ A tribute to Franz Joseph's *Star Fleet Technical Manual* (Ballantine, November 
 - `model-source/book/render-pages.py`: renders and cleans the owner's scan into `dist/book/pages/`.
 - Minimal hooks: one import and one route branch in `dist/app.js`, plus a nav link and a stylesheet link in `dist/index.html`.
 
+## The Technical Library (`#/library`)
+
+The book is now one volume on a shelf of five (plan: `model-source/library/PLAN.md`). Files:
+
+- `dist/library/volumes.js`: one config object per volume, in shelf order. Everything that was specific to the 1975 manual in `book.js` lives here under the volume's `book` key: trim ratio, editions (cover treatment, card leaves, closed-book labels), cover title lines, tinted blank sides, contents, folio text, the notes and history under the stage, and the saved-settings key. The header comment lists every field. `loadManifest(vol)` fetches `<pages>manifest.json`; a volume has a scan when that loads with a page count.
+- `dist/book.js`: the same engine, now reading a volume. `renderBook(main, path, {volume, base, crumb, manifest})`; with no options it shows the manual at `#/book`, as before.
+- `dist/library.js`, `dist/library.css`: the shelf, the volume card and the lineage page. The shelf is plain HTML buttons (no WebGL), so it works by keyboard and without a graphics context. The spines are original typographic designs; they do not copy any cover.
+
+Routes:
+
+- `#/library`: the shelf.
+- `#/library/<slug>`: a volume. If it is a book and can open (it has a scan, or it is the manual, which opens on blank sheets without one), the book engine shows it; `#/library/<slug>/<page>` is a deep link. Otherwise the shelf shows with that volume pulled out and its card: what it is, how it will be shown, and that no scan has been added.
+- `#/library/lineage`: the timeline from the 1973 drawings to the 1991 manual. Every entry comes from `origins.md` or the plan's table and carries its source.
+- `#/book`, `#/book/<page>`: unchanged; an alias for the manual.
+
+Slugs: `blueprints`, `manual`, `maps`, `mr-scotts-guide`, `tng-technical-manual`. The manual's pages stay in `dist/book/pages/`. Every other volume's pages go in `dist/library/<slug>/pages/`, which is gitignored (`dist/library/*/pages/`).
+
+To add a scan of another volume:
+
+```
+python3 model-source/book/render-pages.py scan.pdf --slug mr-scotts-guide --colour 1,2,128 --dark 1,128 --title "Mr. Scott's Guide to the Enterprise"
+```
+
+Renderer options: `--slug` (default `manual`), `--out DIR`, `--colour LIST`, `--dark LIST` (colour pages whose paper is not white), `--aspect X` (default: the median of the PDF's page boxes), `--title TEXT`. Lists take `1,2,49` or ranges `1-4,128`. With no options the output paths, names and manifest are the manual's, as before.
+
+Not built yet:
+
+- **Deep-zoom tiles** (TODO). The Blueprints sheets and the wall maps need a tile pyramid. The plan chest and map table that would read the tiles do not exist, so there is no tile layout to write to; `render-pages.py` carries the TODO.
+- The plan chest and map table presenters, and every explorer layer. Blueprints and Maps show a card even if a scan is present.
+- The two paperbacks have a minimal book config (one edition, the scan's own cover, no contents list). Check trim, colour pages and contents against the scan when one arrives.
+
 ## Copyright and publication
 
 The manual is a copyrighted work, and this repository and its GitHub Pages site are public. The owner owns a physical copy and wants it preserved digitally. So:
@@ -28,7 +59,7 @@ Requirements: poppler (`pdftoppm`, `pdfinfo`), `cwebp`, Python 3 with Pillow and
 
 ## Owner's private copy
 
-`model-source/book/build-private.py OUT_DIR` assembles a standalone copy outside the repo: a wrapper page, `book.js` (loading three.js r180 from jsDelivr), the CSS and the rendered pages. It is published as a **private** claude.ai artifact that only the owner's account can open. Don't share it or make it public. Deep links there use `#p75`.
+`model-source/book/build-private.py OUT_DIR` assembles a standalone copy outside the repo: a wrapper page, `book.js` (loading three.js r180 from jsDelivr), `library/volumes.js` (the manual's config), the CSS and the rendered pages. It is published as a **private** claude.ai artifact that only the owner's account can open. Don't share it or make it public. Deep links there use `#p75`.
 
 ## Research: the physical book
 
