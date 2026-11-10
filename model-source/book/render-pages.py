@@ -25,6 +25,12 @@ Options:
   --aspect X      trim, width / height (default for the manual: 0.7712; otherwise the
                   median of the PDF's page boxes)
   --title TEXT    name of the book, recorded in the manifest's `source` line
+  --raw           for a file that was made on a computer, not scanned from paper: keep every
+                  page in colour, do no cleaning, fit each whole page inside the trim (padding
+                  with the page's own edge colour, never cropping), and add a blank last sheet
+                  if the page count is odd (the book engine binds pages in pairs)
+  --split LIST    with --raw: wide sheets to cut into a left and a right page, so that a
+                  drawing reads across an open spread
 
 TODO (not built): deep-zoom tiles for very large sheets. The Blueprints and the
 wall maps of Star Trek Maps need a tile pyramid (see model-source/library/PLAN.md,
@@ -134,6 +140,68 @@ def clean_colour(img, n):
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 
 
+def page_sizes(pdf, count):
+    """[(width, height)] in points, as displayed (rotation applied)."""
+    info = subprocess.run(['pdfinfo', '-f', '1', '-l', str(count), pdf], capture_output=True, text=True, check=True).stdout
+    size, rot = {}, {}
+    for line in info.splitlines():
+        if line.startswith('Page') and 'size:' in line:
+            n = int(line.split()[1]); w, _, h = line.split('size:')[1].split()[:3]; size[n] = (float(w), float(h))
+        elif line.startswith('Page') and 'rot:' in line:
+            rot[int(line.split()[1])] = int(line.split('rot:')[1].split()[0])
+    return [(size[n][1], size[n][0]) if rot.get(n, 0) in (90, 270) else size[n] for n in range(1, count + 1)]
+
+
+def contain(img, w, h):
+    """The whole page inside w x h, padded with the colour of its own edge."""
+    s = min(w / img.width, h / img.height)
+    r = img.resize((max(1, min(w, round(img.width * s))), max(1, min(h, round(img.height * s)))), Image.LANCZOS)
+    a = np.asarray(img.convert('RGB'))
+    edge = np.concatenate([a[:3].reshape(-1, 3), a[-3:].reshape(-1, 3), a[:, :3].reshape(-1, 3), a[:, -3:].reshape(-1, 3)])
+    out = Image.new('RGB', (w, h), tuple(int(v) for v in np.median(edge, axis=0)))
+    out.paste(r, ((w - r.width) // 2, (h - r.height) // 2))
+    return out
+
+
+def render_raw(pdf, count, OUT, ASPECT, split, only, title):
+    """A computer-made file: no cleaning. Returns the manifest's page list."""
+    sizes = page_sizes(pdf, count)
+    lw = round(LG_H * ASPECT)
+    tmpd = Path(tempfile.mkdtemp())
+    pages, k = [], 0
+    try:
+        for n in range(1, count + 1):
+            halves = 2 if n in split else 1
+            first = k + 1; k += halves
+            for j in range(halves):
+                pages.append({'n': first + j, 'colour': True, 'from': n, **({'half': 'LR'[j]} if halves == 2 else {})})
+            if only and n not in only:
+                continue
+            pw, ph = sizes[n - 1]
+            dpi = min(72 * min(lw * halves / pw, LG_H / ph) * 1.02, 600)
+            base = tmpd / f'p{n}'
+            run('pdftoppm', '-r', f'{dpi:.2f}', '-f', str(n), '-l', str(n), '-singlefile', '-png', pdf, str(base))
+            img = Image.open(f'{base}.png').convert('RGB')
+            parts = [img] if halves == 1 else [img.crop((0, 0, img.width // 2, img.height)), img.crop((img.width // 2, 0, img.width, img.height))]
+            for j, part in enumerate(parts):
+                for size, h, q in (('lg', LG_H, 80), ('sm', SM_H, 80)):
+                    webp(contain(part, round(h * ASPECT), h), OUT / size / f'p{first + j:03d}.webp', q)
+            print(f'page {n}/{count}', flush=True)
+        if k % 2:
+            k += 1
+            pages.append({'n': k, 'colour': True, 'blank': True})
+            for size, h in (('lg', LG_H), ('sm', SM_H)):
+                webp(Image.new('RGB', (round(h * ASPECT), h), (250, 249, 245)), OUT / size / f'p{k:03d}.webp', 80)
+    finally:
+        shutil.rmtree(tmpd, ignore_errors=True)
+    (OUT / 'manifest.json').write_text(json.dumps({
+        'source': f'Owner-supplied file of {title}. Private copy; not for publication.',
+        'count': k, 'aspect': ASPECT,
+        'sm': [round(SM_H * ASPECT), SM_H], 'lg': [lw, LG_H],
+        'pages': pages}, indent=1))
+    print('wrote', OUT)
+
+
 def webp(img, path, q):
     tmp = path.with_suffix('.png')
     img.save(tmp, optimize=False, compress_level=1)
@@ -154,6 +222,8 @@ def main():
     ap.add_argument('--dark', type=page_list)
     ap.add_argument('--aspect', type=float)
     ap.add_argument('--title')
+    ap.add_argument('--raw', action='store_true')
+    ap.add_argument('--split', type=page_list, default=set())
     args = ap.parse_args()
     manual = args.slug == 'manual'
     if not manual and not all(c.isalnum() or c == '-' for c in args.slug):
@@ -170,6 +240,8 @@ def main():
     title = args.title or (MANUAL['title'] if manual else args.slug)
     (OUT / 'sm').mkdir(parents=True, exist_ok=True)
     (OUT / 'lg').mkdir(parents=True, exist_ok=True)
+    if args.raw:
+        return render_raw(pdf, count, OUT, ASPECT, args.split, only, title)
     tmpd = Path(tempfile.mkdtemp())
     pages = []
     try:

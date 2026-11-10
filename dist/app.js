@@ -1,7 +1,7 @@
 import {renderColours} from './colour-plates.js?v=r3';
 import {renderEquipment} from './equipment.js?v=eq9';
-import {renderBook} from './book.js?v=b10';
-import {renderLibrary} from './library.js?v=lib1';
+import {renderBook} from './book.js?v=b12';
+import {renderLibrary} from './library.js?v=lib3';
 import {mountViewer,studiesFor} from './detail-viewer.js?v=plate2';
 import {scaleBinarySTL} from './stl-export.js';
 const main=document.querySelector('#main');
