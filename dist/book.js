@@ -1,4 +1,6 @@
-// #/book: a virtual copy of the 1975 Star Fleet Technical Manual.
+// The book engine: a virtual copy of one volume of the Technical Library (#/library/<slug>).
+// #/book is the 1975 Star Fleet Technical Manual, the first volume built. What is particular to a
+// volume (trim, editions, cover lettering, contents, wording, page folder) is in library/volumes.js.
 //
 // Each leaf is a thin slab bent along a curve: rooted at the spine, it rises
 // through the glued gutter, and its bend is integrated by arc length so the
@@ -10,103 +12,76 @@
 // owner's scan by model-source/book/render-pages.py. They are never published,
 // and without them the book still opens on blank, numbered sheets.
 import * as THREE from './vendor/three.module.js';
-
-const BASE = 'book/pages/';
-const W = 0.7712, H = 1;                 // trim, height = 1 unit
+import {MANUAL} from './library/volumes.js?v=lv1';
+const H = 1;                              // page height = 1 unit; the width (trim) comes from the volume
 const T = {paper: 0.00042, card: 0.0013, board: 0.0085};
 // Leaves that can lie on top of one another share one gutter length, so their curves nest and never cross.
 // (Boards only ever sit at the bottom of a stack, flat, or alone on top when closed, so they keep a short hinge.)
 const G = {paper: 0.17, card: 0.17, board: 0.03};
 const SU = 40, SV = 10;
 const DIP = 0.03;                        // deepest gutter dip, for the top of a full stack                  // grid segments across and down a leaf
-const STORE = 'sftm-book-v1';
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
-
-// Contents, by PDF page of the owner's scan (page headings, abbreviated).
-const TOC = [
- ['Front matter', [[2, 'Title sheet'], [3, 'Title page'], [4, 'Authorisation'], [5, 'Foreword I'], [7, 'Foreword II'], [8, 'Contents']]],
- ['General section', [[10, 'Section divider'], [13, 'Articles of Federation'], [33, 'Treaty of Peace'], [35, 'United Federation: banner and seal'], [37, 'United Nations'], [39, 'Planetary Confederation'], [41, 'United Planets'], [43, 'Star Empire'], [45, 'Alpha Centauri'], [47, 'Official type style'], [49, 'Uniform colour code']]],
- ['Command section', [[50, 'Section divider'], [53, 'Star Fleet Armed Forces'], [57, 'Star Fleet Academy'], [58, 'Fleet Headquarters'], [65, 'Insignia and rank'], [66, 'Duty uniforms and patterns'], [74, 'Fleet ship classifications'], [75, 'Heavy cruiser class'], [77, 'Destroyer class'], [79, 'Scout class'], [81, 'Transport/tug class'], [83, 'Transport containers'], [86, 'Mk IV starliner'], [88, 'Dreadnought class'], [90, 'Shuttlecraft'], [92, 'Staterooms'], [94, 'Main bridge'], [96, 'Command module and stations'], [102, 'Security section'], [103, 'Hand phasers'], [106, 'Ray gun']]],
- ['Sciences section', [[107, 'Section divider'], [110, 'Command intelligence'], [112, 'Sciences tricorder'], [115, 'Galactic coordinate system'], [119, 'Standard orbits'], [120, 'Milky Way galaxy'], [122, 'United Federation chart'], [123, 'Medical section'], [124, 'Medical instruments']]],
- ['Support services', [[133, 'Section divider'], [135, 'Communications'], [137, 'Communicator'], [139, 'Universal translator'], [140, 'Engineering'], [143, 'Impulse power unit'], [144, 'Main propulsion'], [145, 'Transporter'], [149, 'Hangar deck']]],
- ['Miscellaneous section', [[151, 'Vulcan lyrette'], [152, 'Tri-dimensional chess'], [154, 'Section divider'], [155, 'Star Fleet Command'], [156, 'Record forms']]],
-];
-const FLAT = TOC.flatMap(([s, e]) => e.map(([n, t]) => ({n, t, s}))).sort((a, b) => a.n - b.n);
-const titleFor = n => { let r = null; for (const e of FLAT) if (e.n <= n) r = e; return r; };
 
 const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
 const ease = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
 const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 
+// opts.volume: an entry from library/volumes.js (default: the manual). opts.base: the hash this
+// book lives at ('#/book' or '#/library/<slug>'). opts.crumb: HTML for the left of the folio.
 // opts.standalone: running as its own page (the owner's private copy), not inside the site.
 export function renderBook(main, path, opts = {}) {
  let alive = true;
- const SA = !!opts.standalone, HASH = SA ? '#p' : '#/book/';
- const initial = SA ? parseInt(String(opts.initial ?? ''), 10) : parseInt(path.split('/')[2], 10);
+ const vol = opts.volume || MANUAL, B = vol.book;
+ // The trim comes from the scan when the caller already has its manifest, otherwise from the volume.
+ const BASE = vol.pages, W = opts.manifest?.aspect || B.trim, STORE = B.store;
+ const TOC = B.toc || [];
+ const FLAT = TOC.flatMap(([s, e]) => e.map(([n, t]) => ({n, t, s}))).sort((a, b) => a.n - b.n);
+ const titleFor = n => { let r = null; for (const e of FLAT) if (e.n <= n) r = e; return r; };
+ const EDS = B.editions, edById = id => EDS.find(e => e.id === id) || EDS[0];
+ const SA = !!opts.standalone, ROOT = opts.base || '#/book', HASH = SA ? '#p' : ROOT + '/';
+ const initial = SA ? parseInt(String(opts.initial ?? ''), 10) : parseInt(path.split('/')[ROOT.split('/').length], 10);
+ const ctx = {standalone: SA};
+ const historyHTML = B.history ? B.history(ctx) : '';
  main.classList.add('book-route');
- main.innerHTML = `<div class="folio"><span>${SA ? 'PRIVATE READING COPY' : '<a href="#/">COMMAND SECTION</a>'} / THE MANUAL, 1975</span><span>TM: 379260 · STARDATE 7511.01</span></div>
+ main.innerHTML = `<div class="folio"><span>${SA ? 'PRIVATE READING COPY' : opts.crumb || '<a href="#/">COMMAND SECTION</a>'} / ${esc(B.folio)}</span><span>${esc(B.folioRight)}</span></div>
 <section class="bk" aria-labelledby="bk-title">
- <h1 id="bk-title" class="sr-only">Star Fleet Technical Manual: virtual book</h1>
+ <h1 id="bk-title" class="sr-only">${esc(B.heading)}</h1>
  <div class="bk-stage" id="bk-stage" tabindex="0" role="region" aria-roledescription="book" aria-label="The book. Left and right arrows turn the page; drag a page corner to curl it. Scroll, pinch, double-click or plus and minus zoom in place; drag to pan while zoomed; zero or Escape resets.">
   <div class="bk-zhint" id="bk-zhint" hidden><span id="bk-zhint-t">Drag to pan · double-${matchMedia('(pointer: coarse)').matches ? 'tap' : 'click'} to return</span><button class="bk-btn" id="bk-zreset">Whole book</button></div>
-  <span class="bk-loading" role="status">Opening the manual…</span>
+  <span class="bk-loading" role="status">${esc(B.loading)}</span>
  </div>
  <div class="bk-bar" role="toolbar" aria-label="Book controls">
   <button class="bk-btn" id="bk-prev" aria-label="Previous page">‹</button>
   <div class="bk-scrub"><input id="bk-range" type="range" min="0" max="1" value="0" aria-label="Position in the book"><output id="bk-where" for="bk-range">Closed</output></div>
   <button class="bk-btn" id="bk-next" aria-label="Next page">›</button>
   <div class="bk-tools">
-   <button class="bk-btn" id="bk-toc-btn" aria-expanded="false" aria-controls="bk-toc">Contents</button>
+   <button class="bk-btn" id="bk-toc-btn" aria-expanded="false" aria-controls="bk-toc"${TOC.length ? '' : ' hidden'}>Contents</button>
    <div class="bk-zoom" role="group" aria-label="Zoom"><button class="bk-btn" id="bk-zout" aria-label="Zoom out">−</button><output id="bk-zval" aria-live="off">100%</output><button class="bk-btn" id="bk-zin" aria-label="Zoom in">+</button></div>
    <button class="bk-btn" id="bk-zoom-btn" title="Open the page flat, on its own">Page view</button>
-   <div class="bk-seg" role="group" aria-label="Edition"><button id="bk-ed-binder" aria-pressed="true">1975 binder</button><button id="bk-ed-copy" aria-pressed="false">Owner’s copy</button></div>
+   <div class="bk-seg" role="group" aria-label="Edition"${EDS.length < 2 ? ' hidden' : ''}>${EDS.map((e, i) => `<button id="bk-ed-${e.id}" aria-pressed="${i === 0}">${esc(e.label)}</button>`).join('')}</div>
    <button class="bk-btn" id="bk-age" aria-pressed="false" title="Tone the paper as fifty years of shelf life would">Aged paper</button>
    <button class="bk-btn" id="bk-sound" aria-pressed="true">Sound</button>
-   <button class="bk-btn" id="bk-hist-btn" title="How the manual came to be">History</button>
+   <button class="bk-btn" id="bk-hist-btn" title="${esc(B.histTitle || '')}"${historyHTML ? '' : ' hidden'}>History</button>
    <button class="bk-btn" id="bk-full" aria-label="Full screen">⛶</button>
   </div>
  </div>
- <aside class="bk-toc" id="bk-toc" hidden aria-label="Contents"><div class="bk-toc-head"><span class="eyebrow">Technical orders</span><button class="bk-btn" id="bk-toc-close" aria-label="Close contents">×</button></div>
+ <aside class="bk-toc" id="bk-toc" hidden aria-label="Contents"><div class="bk-toc-head"><span class="eyebrow">${esc(B.tocEyebrow || 'Contents')}</span><button class="bk-btn" id="bk-toc-close" aria-label="Close contents">×</button></div>
   ${TOC.map(([s, e]) => `<h3>${esc(s)}</h3><ol>${e.map(([n, t]) => `<li><button data-page="${n}"><span>${esc(t)}</span><b>${n}</b></button></li>`).join('')}</ol>`).join('')}
-  <p class="bk-small">Numbers are pages of the scanned copy; the manual itself is not paginated.</p></aside>
+  <p class="bk-small">${esc(B.tocNote || '')}</p></aside>
  <div class="bk-loupe" id="bk-loupe" hidden role="dialog" aria-modal="true" aria-label="Magnified page">
   <div class="bk-loupe-view" id="bk-loupe-view"><img id="bk-loupe-img" alt="" draggable="false"></div>
   <div class="bk-loupe-bar"><button class="bk-btn" id="bk-l-prev" aria-label="Previous page">‹</button><span id="bk-l-label"></span><button class="bk-btn" id="bk-l-next" aria-label="Next page">›</button><button class="bk-btn" id="bk-l-out" aria-label="Zoom out">−</button><button class="bk-btn" id="bk-l-in" aria-label="Zoom in">+</button><button class="bk-btn" id="bk-l-fit">Fit</button><button class="bk-btn" id="bk-l-close" aria-label="Close magnifier">Close</button></div>
  </div>
  <p class="sr-only" aria-live="polite" id="bk-live"></p>
 </section>
-<section class="bk-notes" aria-label="About this edition">
- <div><strong>01 / THE OBJECT</strong><p>Ballantine Books published Franz Joseph’s manual in November 1975, stardate 7511.01 on the copyright page. The first printing was a red book in a removable black binder, with the words <em>Star Trek</em> only on a throwaway over-jacket. Later printings were paperbacks with printed covers.</p></div>
- <div><strong>02 / THIS COPY</strong><p>The pages are the owner’s own copy, a later paperback printing, scanned at 150 dpi. They are cleaned and sharpened on the owner’s computer${SA ? '. This copy is private to the owner’s account' : ' and are not published with this site'}. Choose <em>Owner’s copy</em> to read it in its own printed cover.</p></div>
- <div><strong>03 / THE RECONSTRUCTION</strong><p>The binder is drawn from booksellers’ descriptions, not from a photograph, so its lettering layout is an approximation. Leaves bend by arc length from a glued spine. Paper grain, gutter shading and stack edges are rendered live.</p></div>
-</section>
-<section class="bk-history" id="bk-history" aria-labelledby="bk-hist-title">
- <header><span class="eyebrow">Technical order 00 · Provenance</span><h2 id="bk-hist-title">How the manual came to be</h2>
- <p class="bk-lede">Franz Joseph Schnaubelt (1914–1994) was a Chicago-born design engineer who spent about thirty years at Convair, later General Dynamics, in San Diego. During the war he drew enemy aircraft from photographs by working their perspective backwards, and he used the same method on frames of <em>Star Trek</em> film. He said plainly that he was not a fan of the show. He wanted its future to be technically and scientifically correct, to give young fans something better than overpriced mimeographed scripts, and to steer them toward real engineering.</p></header>
- <ol class="bk-timeline">
-  <li><time>14 Apr 1973</time><p>He takes his daughter Karen, 18, to a meeting of the S.T.A.R. San Diego fan club. He finds the members’ cardboard props poor, says so, and is told to show them how.</p></li>
-  <li><time>15 Apr 1973</time><p>He draws the hand phaser and the communicator from film-clip slides. <button data-page="103">See the phasers ›</button></p></li>
-  <li><time>Spring 1973</time><p>Fans arrive with wish-lists, and he realises they are asking for a technical manual. He writes to Gene Roddenberry, who encourages him.</p></li>
-  <li><time>Sep–Dec 1973</time><p>As a side project he draws the <em>Booklet of General Ship’s Plans</em>, because he needs a full ship layout before he can draw the interiors.</p></li>
-  <li><time>Apr 1974</time><p>Club members hand-assemble 500 blueprint sets in his house, and they are sold at Equicon ’74.</p></li>
-  <li><time>May 1974</time><p>Paramount’s Lou Mindling sends the work to Ballantine Books. The blueprints are published a year later.</p></li>
-  <li><time>Aug 1975</time><p>He ships the manual’s art: about 400 hours of research and 1,000 hours of drawing, all by hand.</p></li>
-  <li><time>Nov 1975</time><p>The manual is published. The first printing is raised from 250,000 to 450,000 copies, against a typical first run of about 20,000. It is reported to reach #1 on the <em>New York Times</em> list that winter.</p></li>
-  <li><time>1979–1984</time><p>Ship names from the manual are heard in <em>The Motion Picture</em>, and its pages appear on bridge displays in <em>Star Trek II</em> and <em>III</em>. <button data-page="74">See the classifications page ›</button></p></li>
-  <li><time>2 Jun 1994</time><p>He dies weeks before his eightieth birthday. Karen carries on his work as Franz Joseph Designs.</p></li>
- </ol>
- <div class="bk-asides">
-  <div><h3>Why the book is red</h3><p>His contract kept the words “Star Trek” off his work, so Ballantine put them on a removable over-jacket. He supplied a colour chip for the exact red. He kept the credits minimal so the book would read as a genuine Star Fleet document, and he answered fan mail in character on Star Fleet stationery.</p></div>
-  <div><h3>Never canon, always present</h3><p>Relations with Roddenberry soured over a lost merchandising deal, a dispute over props for his <em>Planet Earth</em> pilot, the size of a credit line, and the copyright staying in Franz Joseph’s name. The manual has never been treated as canon. Even so, it started the genre of technical manuals for fictional spacecraft, and the game <em>Star Fleet Battles</em> was licensed from his estate.</p></div>
-  <div><h3>Look in this copy</h3><p>Memory Alpha reports a printing quirk: the two anabolic protoplaser orders run in reverse order, as if that sheet were bound on the wrong edge. <button data-page="130">Open them ›</button></p></div>
- </div>
- <p class="bk-sources">Sources: Karen Dick and Greg Tyler, <a href="http://www.trekplace.com/fj-timeline.html" target="_blank" rel="noopener">Franz Joseph timeline</a> (1999, from his work log); <a href="http://www.trekplace.com/fj-kdint01.html" target="_blank" rel="noopener">interview with Karen Dick</a> (1999); Paul Newitt, <a href="http://www.trekplace.com/fj-fjnewittint01.html" target="_blank" rel="noopener">interview with Franz Joseph</a> (<em>Enterprise Incidents</em>, 1983–84); Williams and Durrans, <a href="http://www.trekplace.com/fj-fjwilliamsint01.html" target="_blank" rel="noopener">1976 interview</a>; Bob Rehak, <a href="https://graphic-engine.swarthmore.edu/franz-joseph-and-star-treks-blueprint-culture/" target="_blank" rel="noopener">Franz Joseph and Star Trek’s blueprint culture</a> (2012); <a href="https://memory-alpha.fandom.com/wiki/Star_Trek_Star_Fleet_Technical_Manual" target="_blank" rel="noopener">Memory Alpha</a>; <a href="https://en.wikipedia.org/wiki/Star_Trek_Star_Fleet_Technical_Manual" target="_blank" rel="noopener">Wikipedia</a>. The print runs and the #1 ranking come from the family’s records and have not been checked against the 1975 archives.</p>
-</section>`;
+${B.about(ctx)}
+${historyHTML}`;
 
  const $ = s => main.querySelector(s);
  const stage = $('#bk-stage'), live = $('#bk-live'), range = $('#bk-range'), where = $('#bk-where');
- let prefs = {edition: 'binder', sound: true, aged: false};
+ let prefs = {edition: EDS[0].id, sound: true, aged: false};
  try { Object.assign(prefs, JSON.parse(localStorage.getItem(STORE) || '{}')); } catch {}
+ if (!EDS.some(e => e.id === prefs.edition)) prefs.edition = EDS[0].id;
  const savePrefs = () => { try { localStorage.setItem(STORE, JSON.stringify(prefs)); } catch {} };
 
  // ---------- renderer and scene ----------
@@ -195,13 +170,10 @@ export function renderBook(main, path, opts = {}) {
  const TW = 1024, TH = Math.round(TW / W);
  const seam = (g, w, h, inset, col = 'rgba(255,255,255,.07)') => { g.strokeStyle = col; g.lineWidth = 3; g.setLineDash([]); g.strokeRect(inset, inset, w - inset * 2, h - inset * 2); g.strokeStyle = 'rgba(0,0,0,.6)'; g.lineWidth = 2; g.strokeRect(inset + 3, inset + 3, w - inset * 2 - 6, h - inset * 2 - 6); };
  const drawTitle = (g, w, h, fill) => {
+  const lines = B.coverTitle || [];
   g.fillStyle = fill; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
-  g.font = `${Math.round(w * .052)}px Michroma, Arial, sans-serif`;
-  g.fillText('STAR FLEET', w / 2, h * .215);
-  g.font = `${Math.round(w * .074)}px Michroma, Arial, sans-serif`;
-  g.fillText('TECHNICAL', w / 2, h * .305);
-  g.fillText('MANUAL', w / 2, h * .39);
-  g.fillRect(w * .3, h * .43, w * .4, Math.max(2, w * .003));
+  for (const [text, size, y] of lines) { g.font = `${Math.round(w * size)}px Michroma, Arial, sans-serif`; g.fillText(text, w / 2, h * y); }
+  if (lines.length) g.fillRect(w * .3, h * (lines.at(-1)[2] + .04), w * .4, Math.max(2, w * .003));
  };
  let faceCache = new Map();
  const procFace = (k) => {
@@ -218,11 +190,11 @@ export function renderBook(main, path, opts = {}) {
   } else if (k === 'cardInside') {
    f = {map: canvasTex(256, Math.round(256 / W), (g, w, h) => { g.fillStyle = '#f3efe4'; g.fillRect(0, 0, w, h); noise(g, w, h, 6); })};
   } else if (k.startsWith('blank')) {
-   const n = +k.slice(5);
+   const n = +k.slice(5), tint = B.blankTints?.[n];
    f = {map: canvasTex(512, Math.round(512 / W), (g, w, h) => {
-    g.fillStyle = n === 2 || n === 158 ? '#c8261f' : '#fbfaf6'; g.fillRect(0, 0, w, h);
+    g.fillStyle = tint || '#fbfaf6'; g.fillRect(0, 0, w, h);
     noise(g, w, h, 5);
-    g.fillStyle = n === 2 || n === 158 ? 'rgba(0,0,0,.4)' : 'rgba(40,36,30,.42)';
+    g.fillStyle = tint ? 'rgba(0,0,0,.4)' : 'rgba(40,36,30,.42)';
     g.font = '11px "Space Mono", monospace'; g.textAlign = 'center';
     g.fillText(String(n), w / 2, h * .955);
    })};
@@ -331,11 +303,11 @@ export function renderBook(main, path, opts = {}) {
   const r = {A, g, z0: c - d}; restCache.set(k, r); return r;
  };
  const buildLeaves = () => {
-  const count = manifest?.count || 160, last = count;
+  const count = manifest?.count || B.fallbackCount, last = count;
   const L = [];
-  const copy = prefs.edition === 'copy';
+  const ed = edById(prefs.edition), copy = ed.cover === 'self', cards = ed.cardLeaves || [];
   L.push(copy ? {kind: 'card', front: {p: 1}, back: {c: 'cardInside'}} : {kind: 'board', front: {c: 'vinylFront'}, back: {c: 'vinylInside'}});
-  for (let n = 2; n + 1 < last; n += 2) L.push({kind: !copy && n === 2 ? 'card' : 'paper', front: {p: n}, back: {p: n + 1}});
+  for (let n = 2; n + 1 < last; n += 2) L.push({kind: cards.includes(n) ? 'card' : 'paper', front: {p: n}, back: {p: n + 1}});
   L.push(copy ? {kind: 'card', front: {c: 'cardInside'}, back: {p: last}} : {kind: 'board', front: {c: 'vinylInside'}, back: {c: 'vinylBack'}});
   L.forEach(l => { l.t = T[l.kind]; l.pos = 0; l.anim = null; l.bend = 0; l.twist = 0; l.vg = .5; l.peek = 0; l.peekTo = 0; });
   leaves = L; N = L.length;
@@ -355,7 +327,7 @@ export function renderBook(main, path, opts = {}) {
  };
  const stateForPage = (n) => {
   for (let i = 0; i < N; i++) { if (leaves[i].front.p === n) return i; if (leaves[i].back.p === n) return i + 1; }
-  return n <= 1 ? 0 : n >= (manifest?.count || 160) ? N : clamp(Math.floor(n / 2), 0, N);
+  return n <= 1 ? 0 : n >= (manifest?.count || B.fallbackCount) ? N : clamp(Math.floor(n / 2), 0, N);
  };
 
  // Centreline of leaf i at turn position t (0 right .. 1 left).
@@ -759,8 +731,8 @@ export function renderBook(main, path, opts = {}) {
  // ---------- UI sync ----------
  const label = (s) => {
   const [l, r] = spreadPages(s);
-  if (s === 0) return prefs.edition === 'copy' ? 'Front cover' : 'Binder, closed';
-  if (s === N) return prefs.edition === 'copy' ? 'Back cover' : 'Binder, closed (back)';
+  if (s === 0) return edById(prefs.edition).closed;
+  if (s === N) return edById(prefs.edition).closedBack;
   const shown = single ? (focus === 'right' ? r : l) : null;
   const pages = single ? (shown ? `Page ${shown}` : 'Inside cover') : [l, r].filter(Boolean).length ? `Pages ${[l, r].filter(Boolean).join('–')}` : 'Inside cover';
   const e = titleFor(shown || r || l || 0);
@@ -779,7 +751,7 @@ export function renderBook(main, path, opts = {}) {
   main.querySelectorAll('.bk-toc button[data-page]').forEach(b => { const on = here.has(+b.dataset.page); b.classList.toggle('here', on); if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
   if (announce && txt !== lastAnnounce) { live.textContent = txt; lastAnnounce = txt; }
   const n = (single ? (focus === 'right' ? spreadPages(target)[1] : spreadPages(target)[0]) : null) || spreadPages(target)[0] || spreadPages(target)[1];
-  const h = n ? `${HASH}${n}` : SA ? '' : '#/book';
+  const h = n ? `${HASH}${n}` : SA ? '' : ROOT;
   try { if (location.hash !== h && (h || location.hash)) history.replaceState(null, '', h || location.pathname + location.search); } catch {}
   dirty = true;
  };
@@ -942,7 +914,7 @@ export function renderBook(main, path, opts = {}) {
  $('#bk-toc-close').onclick = () => { setToc(false); tocBtn.focus(); };
  const bkEl = main.querySelector('.bk');
  $('#bk-hist-btn').onclick = () => { const h = $('#bk-history'); h.scrollIntoView({behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start'}); h.querySelector('h2').setAttribute('tabindex', '-1'); h.querySelector('h2').focus({preventScroll: true}); };
- $('#bk-history').addEventListener('click', (e) => {
+ $('#bk-history')?.addEventListener('click', (e) => {
   const b = e.target.closest('button[data-page]'); if (!b) return;
   bkEl.scrollIntoView({behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start'});
   jumpToPage(+b.dataset.page); stage.focus({preventScroll: true});
@@ -952,16 +924,15 @@ export function renderBook(main, path, opts = {}) {
  $('#bk-zoom-btn').onclick = () => { const n = currentPages().at(-1); if (n) openLoupe(n); };
  const setEdition = (ed) => {
   if (ed === prefs.edition) return;
-  if (ed === 'copy' && !manifest) return;
+  if (edById(ed).needsScan && !manifest) return;
   const keep = currentPages()[0] || spreadPages(target).find(Boolean);
   prefs.edition = ed; savePrefs();
-  $('#bk-ed-binder').setAttribute('aria-pressed', String(ed === 'binder'));
-  $('#bk-ed-copy').setAttribute('aria-pressed', String(ed === 'copy'));
+  syncEditions();
   keepPage = keep; rebuild(keep ? stateForPageIn(keep) : target === 0 ? 0 : null); keepPage = null;
  };
  const stateForPageIn = (n) => { buildLeaves(); return stateForPage(n); };
- $('#bk-ed-binder').onclick = () => setEdition('binder');
- $('#bk-ed-copy').onclick = () => setEdition('copy');
+ const syncEditions = () => EDS.forEach(e => $('#bk-ed-' + e.id).setAttribute('aria-pressed', String(e.id === prefs.edition)));
+ EDS.forEach(e => { $('#bk-ed-' + e.id).onclick = () => setEdition(e.id); });
  const ageBtn = $('#bk-age');
  const setAge = () => { ageBtn.setAttribute('aria-pressed', String(prefs.aged)); ageU.value = prefs.aged ? 1 : 0; dirty = true; };
  ageBtn.onclick = () => { prefs.aged = !prefs.aged; savePrefs(); setAge(); };
@@ -989,7 +960,7 @@ export function renderBook(main, path, opts = {}) {
  const lShow = (n) => {
   n = clamp(n, 1, manifest.count); lz.n = n;
   limg.src = `${BASE}lg/p${String(n).padStart(3, '0')}.webp`;
-  limg.alt = `Scanned page ${n} of the manual${titleFor(n) ? ', ' + titleFor(n).t : ''}`;
+  limg.alt = `Scanned page ${n} of ${B.name}${titleFor(n) ? ', ' + titleFor(n).t : ''}`;
   limg.width = manifest.lg[0]; limg.height = manifest.lg[1];
   $('#bk-l-label').textContent = `Page ${n}${titleFor(n) ? ' · ' + titleFor(n).t : ''}`;
   $('#bk-l-prev').disabled = n <= 1; $('#bk-l-next').disabled = n >= manifest.count;
@@ -1055,21 +1026,21 @@ export function renderBook(main, path, opts = {}) {
  };
  let initialFocusLeft = false;
  Promise.all([
-  fetch(BASE + 'manifest.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null),
+  opts.manifest !== undefined ? opts.manifest : fetch(BASE + 'manifest.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null),
   document.fonts?.load('40px Michroma').catch(() => {}),
  ]).then(([m]) => {
   if (!alive) return;
   manifest = m && m.count ? m : null;
   if (!manifest) {
-   prefs.edition = 'binder';
-   $('#bk-ed-copy').disabled = true;
-   $('#bk-ed-copy').title = 'Needs the owner’s scan on this computer';
+   prefs.edition = (EDS.find(e => !e.needsScan) || EDS[0]).id;
+   EDS.filter(e => e.needsScan).forEach(e => { const b = $('#bk-ed-' + e.id); b.disabled = true; b.title = 'Needs the owner’s scan on this computer'; });
    $('#bk-age').hidden = false;
-   stage.insertAdjacentHTML('beforeend', `<div class="bk-note" role="note"><strong>The pages are not published here.</strong> The manual is a copyrighted book, so this public site shows the binder and blank, numbered sheets. On the owner’s computer the pages come from their own scan: run <code>python3 model-source/book/render-pages.py &lt;scan.pdf&gt;</code> and serve <code>dist/</code> locally.<button class="bk-btn" aria-label="Dismiss note">×</button></div>`);
-   stage.querySelector('.bk-note button').onclick = (e) => e.target.parentElement.remove();
+   if (B.noScan) {
+    stage.insertAdjacentHTML('beforeend', `<div class="bk-note" role="note">${B.noScan}<button class="bk-btn" aria-label="Dismiss note">×</button></div>`);
+    stage.querySelector('.bk-note button').onclick = (e) => e.target.parentElement.remove();
+   }
   }
-  $('#bk-ed-binder').setAttribute('aria-pressed', String(prefs.edition === 'binder'));
-  $('#bk-ed-copy').setAttribute('aria-pressed', String(prefs.edition === 'copy'));
+  syncEditions();
   stage.querySelector('.bk-loading')?.remove();
   buildLeaves();
   let s = 0;

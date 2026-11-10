@@ -3,3 +3,6 @@ __pycache__/
 
 # Owner-generated page images of the scanned manual (copyrighted; never commit or publish)
 dist/book/pages/
+
+# Page scans of other library volumes: copyrighted, generated locally, never published.
+dist/library/*/pages/

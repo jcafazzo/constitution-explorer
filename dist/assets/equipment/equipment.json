@@ -1900,5 +1900,123 @@
   "thumb": "assets/equipment/thumb-engineering.webp",
   "printedSize": "Not dimensioned · ≈ 2.3 m tall, 3.2 m wide as drawn",
   "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)"
+ },
+ {
+  "size": [
+   197.5,
+   100.25,
+   118.3
+  ],
+  "id": "transporter-console",
+  "title": "Transporter Controls Console",
+  "pages": [
+   145
+  ],
+  "category": "transporter",
+  "subtitle": "Transporter room, Class I starships",
+  "model": "Transporter controls console",
+  "codes": {
+   "145": "03:16:32"
+  },
+  "summary": "The transporter operator’s console: a platinum wedge on a pedestal with a raised black centre block carrying the half-round coordinate selector grid under a viewing hood, the three energizing sliders on the left wing, and the power beam level meter and channel selectors on the right.",
+  "description": "Drawn in top plan and side profile. The rear face tilts toward the operator and carries six systems status displays, three for the carrier beam and three for the power beam; the transport warning lights and the intercom stand on the ledge behind them.",
+  "specs": [
+   {
+    "label": "Length overall (L.O.A.)",
+    "value": "197.5",
+    "unit": "cm",
+    "page": 145
+   },
+   {
+    "label": "Width overall (W.O.A.)",
+    "value": "97",
+    "unit": "cm",
+    "page": 145
+   },
+   {
+    "label": "Height overall (H.O.A.)",
+    "value": "181.3",
+    "unit": "cm",
+    "page": 145
+   },
+   {
+    "label": "Energizing controls",
+    "value": "photon ionization · neural paralyzer · magnetic field",
+    "page": 145
+   },
+   {
+    "label": "Systems status displays",
+    "value": "3 carrier beam · 3 power beam",
+    "page": 145
+   },
+   {
+    "label": "Transport warning lights",
+    "value": "red · yellow",
+    "page": 145
+   }
+  ],
+  "derived": [
+   {
+    "label": "Height as built",
+    "value": "118.3 cm (see notes)"
+   },
+   {
+    "label": "Control surface above the deck",
+    "value": "≈ 86–95 cm as built"
+   },
+   {
+    "label": "Body alone, lowest point to intercom top",
+    "value": "≈ 71.5 cm"
+   },
+   {
+    "label": "Depth as drawn",
+    "value": "≈ 98.3 cm plan · 99.4 cm profile"
+   },
+   {
+    "label": "Coordinate selector grid radius",
+    "value": "≈ 27 cm"
+   },
+   {
+    "label": "Centre block width",
+    "value": "≈ 77 cm"
+   }
+  ],
+  "colourKey": [
+   {
+    "code": "SF29UC",
+    "name": "Platinum"
+   },
+   {
+    "code": "SF16UC",
+    "name": "Sky blue"
+   },
+   {
+    "code": "SF10UC",
+    "name": "Red"
+   },
+   {
+    "code": "SF32UC",
+    "name": "Black"
+   }
+  ],
+  "components": [
+   "Carrier beam systems status displays",
+   "Power beam systems status displays",
+   "Transport warning light (red)",
+   "Transport warning light (yellow)",
+   "Intercom",
+   "Computer readout board",
+   "Main power panel",
+   "Energizing controls (C)",
+   "Coordinate selector grid",
+   "Power beam level indicator",
+   "Channel selector controls",
+   "Field equipment shelf (A)",
+   "Hood (B)"
+  ],
+  "interpretation": "Built from the plan and profile at 4.405 px/cm, the scale at which the plan’s width equals the printed 197.5 cm (IoU 0.98 plan, 0.97 profile; mean edge error about 5 mm). Height is an interpretation. The sheet prints H.O.A. 181.3 cm but draws the pedestal with a break line, so its length isn’t drawn; at 181.3 cm the controls would stand about 1.5 m off the deck, so the model reads the figure as a transposed 118.3 cm. The pedestal appears only in profile, and its width is assumed to match the centre block. Which printed colour goes where is inferred from the plan’s stipple and solid black. The status display lamps are a stand-in pattern, and the meter face and screen contents aren’t modelled.",
+  "thumb": "assets/equipment/thumb-transporter-console.webp",
+  "printedSize": "197.5 × 97 × 181.3 cm printed · built 118.3 cm tall",
+  "sizeBasis": "model envelope in cm (Blender, see model-source/accuracy/envelopes.json)"
  }
 ]
