@@ -1,0 +1,7 @@
+{
+ "page_note": "PDF 145 at 4.405 px/cm on the 1400 px plate (plan width 325-1195 px = the printed L.O.A. 197.5 cm; the 0-50 cm bar reads 4.38-4.44). Top plan from +Z with the operator's edge at the bottom; side profile from +X, front at the left. The profile is scored on the body alone (CONSOLE_NO_BASE=1) and its crop stops above the pedestal, which the sheet draws broken.",
+ "views": [
+  {"name": "plan", "page": 145, "crop": [305, 620, 1215, 1095], "pxPerCm": 4.405, "from": "+Z", "up": "+Y", "try_mirror": false},
+  {"name": "side", "page": 145, "crop": [725, 1240, 1200, 1574], "pxPerCm": 4.405, "from": "+X", "up": "+Z", "try_mirror": false}
+ ]
+}
