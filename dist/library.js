@@ -10,8 +10,8 @@
 // not reproduce the real covers. A volume opens when its page manifest loads (see loadManifest);
 // the scans themselves are private and never published. The lower shelf holds fan works and one
 // scholarly chapter; each card and each book repeats the credits printed in the document itself.
-import {renderBook} from './book.js?v=b12';
-import {VOLUMES, SHELVES, volumeBySlug, loadManifest} from './library/volumes.js?v=lv3';
+import {renderBook} from './book.js?v=b13';
+import {VOLUMES, SHELVES, volumeBySlug, loadManifest} from './library/volumes.js?v=lv4';
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
 const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');

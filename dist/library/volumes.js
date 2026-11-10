@@ -66,6 +66,19 @@ const manualHistory = () => `<section class="bk-history" id="bk-history" aria-la
  <p class="bk-sources">Sources: Karen Dick and Greg Tyler, <a href="http://www.trekplace.com/fj-timeline.html" target="_blank" rel="noopener">Franz Joseph timeline</a> (1999, from his work log); <a href="http://www.trekplace.com/fj-kdint01.html" target="_blank" rel="noopener">interview with Karen Dick</a> (1999); Paul Newitt, <a href="http://www.trekplace.com/fj-fjnewittint01.html" target="_blank" rel="noopener">interview with Franz Joseph</a> (<em>Enterprise Incidents</em>, 1983–84); Williams and Durrans, <a href="http://www.trekplace.com/fj-fjwilliamsint01.html" target="_blank" rel="noopener">1976 interview</a>; Bob Rehak, <a href="https://graphic-engine.swarthmore.edu/franz-joseph-and-star-treks-blueprint-culture/" target="_blank" rel="noopener">Franz Joseph and Star Trek’s blueprint culture</a> (2012); <a href="https://memory-alpha.fandom.com/wiki/Star_Trek_Star_Fleet_Technical_Manual" target="_blank" rel="noopener">Memory Alpha</a>; <a href="https://en.wikipedia.org/wiki/Star_Trek_Star_Fleet_Technical_Manual" target="_blank" rel="noopener">Wikipedia</a>. The print runs and the #1 ranking come from the family’s records and have not been checked against the 1975 archives.</p>
 </section>`;
 
+const SCOTT_TOC = [
+ ['Front matter', [[4, 'Title page'], [5, 'Copyright page'], [6, 'Acknowledgements'], [8, 'Contents'], [11, 'Introduction']]],
+ ['History of refit', [[12, 'Section divider'], [16, 'Exterior views'], [22, 'Contractors’ sketches']]],
+ ['General information', [[24, 'Section divider'], [25, 'Duty uniforms'], [31, 'Rank pins'], [33, 'Typefaces'], [36, 'Door insignia'], [37, 'Departmental logos'], [40, 'Shipboard symbols']]],
+ ['Ship’s layout', [[42, 'Section divider'], [44, 'Main bridge'], [47, 'Docking port'], [50, 'V.I.P. lounge'], [52, 'Food processor unit'], [54, 'V.I.P. stateroom'], [55, 'Junior officers’ quarters'], [56, 'Senior officers’ quarters'], [58, 'Crew’s quarters'], [59, 'Turbolift car'], [60, 'Personnel hatch airlock'], [61, 'Main gangway hatch'], [63, 'Auxiliary control room'], [65, 'Concentric corridor'], [67, 'Briefing room'], [68, 'Sickbay'], [70, 'Transporter room'], [73, 'Communicator'], [74, 'Tricorder'], [76, 'Hand phasers'], [80, 'Rec deck'], [82, 'Docking port complex'], [85, 'Photon torpedo room'], [88, 'Warp engine room'], [94, 'Landing bay'], [96, 'Shuttlecraft'], [97, 'Travel pod'], [101, 'Workbee'], [104, 'Lifeboat'], [108, 'Cargo transporter complex'], [110, 'Botanical garden']]],
+ ['Appendix: Enterprise NCC-1701-A', [[112, 'Section divider'], [114, 'Main bridge'], [117, 'Dedication plaque'], [119, 'Bridge display graphics'], [127, 'Ships directory'], [128, 'Index']]],
+];
+
+const MAPS_TOC = [
+ ['Introduction to Navigation (the manual)', [[2, 'Cover'], [3, 'Dedication and copyright'], [4, 'Contents'], [5, 'Preface'], [6, '1.0 Introduction'], [8, '2.0 The charts'], [12, '3.0 Navigation'], [20, '4.0 Regulations'], [22, '5.0 Voyages of the Enterprise'], [23, 'Appendix: star system data']]],
+ ['The four wall maps', [[33, 'Chart A: United Federation of Planets'], [35, 'Chart B: the Federation in side view, vessels, buoys'], [37, 'Chart C: Enterprise zone of patrol, Klingon and Romulan space'], [39, 'Chart D: zone of patrol, interesting worlds, the Rigel system']]],
+];
+
 export const VOLUMES = [
  {
   slug: 'blueprints', title: 'Star Trek Blueprints', short: 'Blueprints', year: 1975, date: 'Spring 1975',
@@ -104,10 +117,32 @@ export const VOLUMES = [
   slug: 'maps', title: 'Star Trek Maps', short: 'Maps', year: 1980, date: 'August 1980',
   publisher: 'Bantam Books', credits: 'Jeffrey Maynard (design and coordination); Geoffrey Mandel (astronomical art)',
   form: 'A box holding four four-colour wall maps and an instruction booklet.',
-  presenter: 'map-table', presenterName: 'map table',
+  presenter: 'book', presenterName: 'book',
   explorer: 'An interactive chart of the United Federation, tied to the manual’s galactic coordinate system (page 115), standard orbits (page 119) and Federation chart (page 122).',
   pages: 'library/maps/pages/',
   spine: {w: 84, h: .74, bg: '#e9e4d2', fg: '#202321', accent: '#a72c25', kind: 'box', lines: ['MAPS'], foot: '4 CHARTS · BOOKLET'},
+  blurb: 'Four wall maps of the United Federation of Planets and its neighbours, with a 32-page manual, “Introduction to Navigation”, issued by Star Fleet Command. Here each map is shown as two facing pages, after the manual.',
+  attribution: [
+   ['Design and co-ordination', 'Jeffrey Maynard.'],
+   ['Technical direction', 'Michael McMaster.'],
+   ['Astronomical art', 'Geoffrey Mandel.'],
+   ['Technical graphics', 'Lee Cole.'],
+   ['Air brush art', 'Michael Nicastre and Rick Sternbach.'],
+   ['Mechanical production', 'Barbara White.'],
+   ['Manual', 'John Upton.'],
+   ['Technical assistance', 'Sara Hillman.'],
+   ['From an idea suggested by', 'Rena Wolner.'],
+   ['Editor for Bantam', 'Sydny Weinberg.'],
+   ['Publisher', 'Bantam Books, Inc., 666 Fifth Avenue, New York, under exclusive license from Paramount Pictures Corporation, the trademark owner.'],
+   ['Edition', 'A Bantam Book, August 1980. ISBN 0-553-01202-9. Published simultaneously in the United States and Canada; printed in the United States of America.'],
+   ['Copyright', '© 1980 Paramount Pictures Corporation. All rights reserved.'],
+   ['Trademarks', 'STAR TREK is a registered trademark of Paramount Pictures Corporation.'],
+   ['Where the credits come from', 'The credits panel printed on Chart A (page 34 of this copy) and the manual’s dedication and copyright page (page 3).'],
+  ],
+  notice: 'This book may not be reproduced in whole or in part, by mimeograph or any other means, without permission.',
+  copy: 'the owner’s scan of a printed copy',
+  copyNote: 'The set is in copyright and is not published with the public site. The manual’s pages are cleaned to white paper; each map is one scan cut down the middle into a left and a right page, with nothing redrawn. The manual’s page 32 is not in this scan.',
+  book: {...paperback('Star Trek Maps', 'STAR TREK MAPS, 1980', 'sftm-lib-maps-v1'), trim: 0.70, name: 'the set', toc: MAPS_TOC},
  },
  {
   slug: 'mr-scotts-guide', title: 'Mr. Scott’s Guide to the Enterprise', short: 'Mr. Scott’s Guide', year: 1987, date: '1987',
@@ -117,7 +152,19 @@ export const VOLUMES = [
   explorer: 'The refit Enterprise of the first four films, as a new 3D study to set beside the original Constitution class.',
   pages: 'library/mr-scotts-guide/pages/',
   spine: {w: 34, h: .86, bg: '#a72c25', fg: '#fffefa', accent: '#f4f2e9', kind: 'paperback', lines: ['MR. SCOTT’S GUIDE'], foot: 'NCC-1701 REFIT'},
-  book: paperback('Mr. Scott’s Guide to the Enterprise', 'MR. SCOTT’S GUIDE, 1987', 'sftm-lib-mr-scotts-guide-v1'),
+  blurb: 'A deck-by-deck guide to the refit U.S.S. Enterprise of the first four films, with an appendix on the NCC-1701-A, presented as a Star Fleet databank hardcopy.',
+  attribution: [
+   ['Written and illustrated by', 'Shane Johnson, “based upon the engineering logs of Chief Engineer Montgomery Scott” (title page).'],
+   ['Publisher', 'Pocket Books, a division of Simon & Schuster, Inc., 1230 Avenue of the Americas, New York, under exclusive license from Paramount Pictures Corporation, the trademark owner.'],
+   ['Edition', 'First Pocket Books trade paperback printing, July 1987. ISBN 0-671-63576-X. Printed in the U.S.A.'],
+   ['Copyright', '© 1987 Paramount Pictures Corporation. Artwork and photographs © 1979, 1982, 1984, 1986, 1987 Paramount Pictures Corporation. All rights reserved.'],
+   ['Trademarks', 'STAR TREK is a registered trademark, and U.S.S. ENTERPRISE a trademark, of Paramount Pictures Corporation. POCKET and colophon are registered trademarks of Simon & Schuster, Inc.'],
+   ['Further credits', 'The people Shane Johnson thanks are named on the book’s own acknowledgements page (page 6 of this copy).'],
+  ],
+  notice: 'All rights reserved, including the right to reproduce this book or portions thereof in any form whatsoever.',
+  copy: 'the owner’s scan of a printed copy',
+  copyNote: 'The book is in copyright and is not published with the public site. Each page is straightened to one trim size and its paper white-balanced; nothing is redrawn, and marks in this copy are left as they are.',
+  book: {...paperback('Mr. Scott’s Guide to the Enterprise', 'MR. SCOTT’S GUIDE, 1987', 'sftm-lib-mr-scotts-guide-v1'), trim: 0.7727, toc: SCOTT_TOC},
  },
  {
   slug: 'tng-technical-manual', title: 'Star Trek: The Next Generation Technical Manual', short: 'TNG Technical Manual', year: 1991, date: '1991',
@@ -291,6 +338,11 @@ function paperback(title, folio, store) {
 // A fan work or paper read from the owner's copy of its file: the first and last pages are its covers.
 // Its credits panel is built from the volume's own `attribution` and `notice`.
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const credits = v => ({standalone: SA}) => `<section class="bk-notes bk-credits" aria-label="Credits for this document">
+ <div><strong>01 / THE DOCUMENT</strong><p>${esc(v.blurb)}</p><p>${esc(v.publisher)}, ${esc(v.date)}. ${esc(v.form)}</p></div>
+ <div><strong>02 / CREDITS</strong>${v.attribution.map(([k, t]) => `<p><b>${esc(k)}.</b> ${esc(t)}</p>`).join('')}</div>
+ <div><strong>03 / RIGHTS AND THIS COPY</strong><p>The document’s own notice: “${esc(v.notice)}”</p><p>All of it is the work of the people credited here. It is shown from ${v.copy || 'the owner’s copy of the file'}${SA ? ', which is private to the owner’s account' : '; the pages are not published with this site'}. ${v.copyNote || 'Nothing in it has been altered. Pages are only resized to fit the book, and a blank page is added where a volume needs an even number.'}</p>${v.link ? `<p><a href="${v.link[1]}" target="_blank" rel="noopener">${esc(v.link[0])} ›</a></p>` : ''}</div>
+</section>`;
 function fanbook(v) {
  return {
   trim: 0.7727, fallbackCount: 0, opensWithoutScan: false, store: `sftm-lib-${v.slug}-v1`,
@@ -298,15 +350,11 @@ function fanbook(v) {
   heading: `${v.title}: virtual book`, loading: 'Opening the volume…', name: 'the volume', tocEyebrow: 'Contents',
   editions: [{id: 'copy', label: 'Owner’s file', cover: 'self', needsScan: true, closed: 'First page', closedBack: 'Last page'}],
   toc: [], tocNote: 'Numbers are pages as shown here.',
-  about: ({standalone: SA}) => `<section class="bk-notes bk-credits" aria-label="Credits for this document">
- <div><strong>01 / THE DOCUMENT</strong><p>${esc(v.blurb)}</p><p>${esc(v.publisher)}, ${esc(v.date)}. ${esc(v.form)}</p></div>
- <div><strong>02 / CREDITS</strong>${v.attribution.map(([k, t]) => `<p><b>${esc(k)}.</b> ${esc(t)}</p>`).join('')}</div>
- <div><strong>03 / RIGHTS AND THIS COPY</strong><p>The document’s own notice: “${esc(v.notice)}”</p><p>All of it is the work of the people credited here. It is shown from the owner’s copy of the file${SA ? ', which is private to the owner’s account' : '; the pages are not published with this site'}. Nothing in it has been altered. Pages are only resized to fit the book, and a blank page is added where a volume needs an even number.</p>${v.link ? `<p><a href="${v.link[1]}" target="_blank" rel="noopener">${esc(v.link[0])} ›</a></p>` : ''}</div>
-</section>`,
+  about: credits(v),
   history: null, noScan: '',
  };
 }
-VOLUMES.forEach(v => { if (v.shelf === 'fan') v.book = fanbook(v); else v.shelf = 'published'; });
+VOLUMES.forEach(v => { if (v.shelf === 'fan') v.book = fanbook(v); else { v.shelf = 'published'; if (v.book && v.attribution) v.book.about = credits(v); } });
 export const SHELVES = [
  {id: 'published', name: 'Published volumes', note: '1975–1991'},
  {id: 'fan', name: 'Fan works and scholarship', note: '2005–2024'},
